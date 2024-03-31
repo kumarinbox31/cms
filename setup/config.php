@@ -40,31 +40,29 @@
     $api = new Web_api(
     						[
     							'ENVIRONMENT'		=>	isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development',
-    							'HOST'				=>	'sdb-w.hosting.stackcp.net',
-    							'HOST_USER'			=>	'webfire_main',
-    				            'DB_PASSWORD'       =>  '_l/RwI_0]ZeJ',
-    							'DB_NAME'			=>	'webfire_main-323133ec33',
+    							'HOST'				=>	'localhost',
+    							'HOST_USER'			=>	'root',
+    				            'DB_PASSWORD'       =>  '',
+    							'DB_NAME'			=>	'main',
     							'DB_PREFIX'			=>	'w999_',
     							'MAIN_SITE'			=>	'https://webfire.in/',
-    							'domain_name'		=>	$_SERVER['HTTP_HOST'],
+    							// 'domain_name'		=>	$_SERVER['HTTP_HOST'],
+								'domain_name'		=>	'localhost/tool',
     							'EDB_NAME'			=>	'website9_ecommerce_001',
     							'PREFIX'			=>	'ab',
     							'reseller'			=>	true,
     							'RESELLER_PREFIX'	=>	'ab_',
-    							'RESELLER_DB'       =>  'webfire_super-313834a166',
+    							'RESELLER_DB'       =>  'super',
     						]
     				);
     
-    // print_r($api);
 	$api->setDomain();
-    
-// 	$anOtherData = [ 
+	// 	$anOtherData = [ 
 // 						'OLD_MAIN' 				=> 		'sndparas_master', 
 // 						'OLD_DB_PASSWORD' 		=> 		'q;V0#*Vi%&H3' , 
 // 						'OLD_DB_ADMIN' 			=> 		'sndparas_admin', 
 // 						'OLD_DB_CLIENT' 		=> 		'sndparas_clients' 
 // 				];
-
 	if($api->isDomainSet){
 	    
 	    $api->client();
@@ -93,6 +91,7 @@
 	    ///  $api->setOldDB($anOtherData);
 	}
 	else{
+		die('hi');
 	    $api->setOldDB($anOtherData);
 	    
 	}

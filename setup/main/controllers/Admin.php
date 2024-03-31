@@ -96,6 +96,7 @@ class Admin extends CI_Controller{
         $data['beforeend'] = AfterFooterContent(true);
         $data['headContent'] = $headContent;
         
+        $content = '';
         if(isset($_GET['type'])){
             $pagetype = $_GET['type'];
             if($pagetype == 'page'){
