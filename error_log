@@ -1,0 +1,374 @@
+[08-Jan-2024 20:24:22 ASIA/KOLKATA] PHP Fatal error:  Cannot declare class MenuModel, because the name is already in use in /home/webfire1/public_html/tool/setup/main/models/MenuItemModel.php on line 3
+[09-Jan-2024 20:41:54 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare Admin::ajax() in /home/webfire1/public_html/tool/setup/main/controllers/Admin.php on line 192
+[18-Jan-2024 13:28:31 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon() (previously declared in /home/webfire1/public_html/tool/setup/main/views/includes/bizland/functions.php:7) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 12
+[23-Jan-2024 05:05:33 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare registerBeforeHeadContent() (previously declared in /home/webfire1/public_html/tool/setup/main/views/includes/boxer/functions.php:6) in /home/webfire1/public_html/tool/setup/main/views/includes/bizland/functions.php on line 20
+[23-Jan-2024 05:06:42 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare registerBeforeHeadContent() (previously declared in /home/webfire1/public_html/tool/setup/main/views/includes/boxer/functions.php:6) in /home/webfire1/public_html/tool/setup/main/views/includes/bizland/functions.php on line 20
+[01-Feb-2024 04:26:50 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare ab_form_styles() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-form/hooks.php:28) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-slider/hooks.php on line 23
+[01-Feb-2024 21:51:42 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare ab_slider_style() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-slider/hooks.php:38) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-gallery/hooks.php on line 38
+[02-Feb-2024 04:23:32 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[02-Feb-2024 04:23:32 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[02-Feb-2024 04:23:32 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[02-Feb-2024 04:23:32 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[02-Feb-2024 04:23:32 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[02-Feb-2024 04:23:33 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[02-Feb-2024 04:23:56 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[02-Feb-2024 04:23:56 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[02-Feb-2024 04:23:56 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[02-Feb-2024 04:23:56 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[02-Feb-2024 04:23:56 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(4): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[05-Feb-2024 19:33:24 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'webfire1_main'@'localhost' to database 'website9_ab' in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'website9_ab')
+#1 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[05-Feb-2024 19:37:13 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'webfire1_main'@'localhost' to database 'ab_ab' in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'ab_ab')
+#1 /home/webfire1/public_html/tool/setup/config.php(53): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[05-Feb-2024 19:38:18 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'webfire1_main'@'localhost' to database 'webfire1_superab' in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_supera...')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[05-Feb-2024 19:38:28 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'domain_name' in 'where clause' in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:63
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(63): mysqli->query('SELECT * FROM  ...')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 63
+[05-Feb-2024 19:39:23 ASIA/KOLKATA] PHP Warning:  Undefined property: stdClass::$type in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 69
+[05-Feb-2024 19:39:23 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 85
+[05-Feb-2024 19:39:23 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[05-Feb-2024 19:40:09 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 85
+[05-Feb-2024 19:40:09 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[06-Feb-2024 04:28:04 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[06-Feb-2024 04:28:04 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[06-Feb-2024 04:28:05 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[06-Feb-2024 04:28:05 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[06-Feb-2024 04:28:09 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[06-Feb-2024 04:28:09 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[06-Feb-2024 04:29:20 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[06-Feb-2024 04:29:20 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[06-Feb-2024 04:29:46 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[06-Feb-2024 04:29:46 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[06-Feb-2024 04:50:18 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 04:53:35 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 04:54:11 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 04:54:24 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 04:54:59 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 04:57:02 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 10:09:38 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 16:02:21 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 16:02:29 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 16:02:30 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 16:02:31 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 16:03:35 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 16:03:49 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 16:14:08 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 16:16:01 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 16:16:29 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[06-Feb-2024 16:16:47 ASIA/KOLKATA] PHP Fatal error:  Cannot redeclare whatsapp_icon_footer() (previously declared in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php:16) in /home/webfire1/public_html/tool/setup/main/views/plugins/ab-whatsapp/hooks.php on line 19
+[09-Feb-2024 18:50:13 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[09-Feb-2024 19:31:25 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[09-Feb-2024 19:32:21 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[09-Feb-2024 19:32:21 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[09-Feb-2024 19:32:23 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[09-Feb-2024 19:32:26 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[09-Feb-2024 19:32:44 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[09-Feb-2024 19:52:59 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[09-Feb-2024 19:52:59 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[09-Feb-2024 19:52:59 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[09-Feb-2024 19:52:59 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[09-Feb-2024 19:53:24 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[10-Feb-2024 01:22:57 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[10-Feb-2024 02:15:13 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[10-Feb-2024 02:15:13 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[10-Feb-2024 03:50:41 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[10-Feb-2024 04:31:20 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[10-Feb-2024 06:42:44 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[10-Feb-2024 06:42:44 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[10-Feb-2024 08:54:57 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[12-Feb-2024 11:02:19 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[12-Feb-2024 11:02:19 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[13-Feb-2024 19:10:35 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[13-Feb-2024 19:10:39 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: No such file or directory in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[14-Feb-2024 13:10:42 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[17-Feb-2024 01:28:10 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[17-Feb-2024 18:14:06 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[17-Feb-2024 18:15:53 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[17-Feb-2024 18:15:58 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:89
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(89): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#1 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(28): Web_api->connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_main')
+#2 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#3 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#4 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 89
+[17-Feb-2024 18:15:59 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[17-Feb-2024 21:09:51 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[17-Feb-2024 21:09:51 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[20-Feb-2024 03:17:08 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[20-Feb-2024 03:17:08 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[20-Feb-2024 05:47:51 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[20-Feb-2024 05:47:51 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[20-Feb-2024 11:56:32 ASIA/KOLKATA] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php:61
+Stack trace:
+#0 /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php(61): mysqli_connect('localhost', 'webfire1_main', 'ptKhv2~$m6#2', 'webfire1_super')
+#1 /home/webfire1/public_html/tool/setup/config.php(54): Web_api->__construct(Array)
+#2 /home/webfire1/public_html/tool/index.php(3): require_once('/home/webfire1/...')
+#3 {main}
+  thrown in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 61
+[20-Feb-2024 15:45:21 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[20-Feb-2024 15:45:21 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[20-Feb-2024 15:45:29 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[20-Feb-2024 15:45:29 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[20-Feb-2024 15:46:22 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[20-Feb-2024 15:46:22 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
+[20-Feb-2024 15:46:31 ASIA/KOLKATA] PHP Warning:  Undefined variable $anOtherData in /home/webfire1/public_html/tool/setup/config.php on line 96
+[20-Feb-2024 15:46:31 ASIA/KOLKATA] PHP Warning:  foreach() argument must be of type array|object, null given in /home/webfire1/public_html/tool/setup/system/libraries/Web_api.php on line 198
