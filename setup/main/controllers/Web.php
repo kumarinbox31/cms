@@ -38,6 +38,7 @@ class Web extends CI_Controller{
             if($wd->num_rows()){
                 $wd = $wd->row();
                 define('LOGO',$wd->logo);
+                define('TITLE',$wd->title);
             }
             view($data);
         }

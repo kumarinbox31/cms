@@ -66,11 +66,14 @@ function beforeHeadContent($flag=false){
                 <link rel="sitemap" type="application/xml" href="'.current_url().'sitemap.xml">
                 <link rel="canonical" href="'.base_url().'"/ >
                 <link rel="stylesheet" href="'.base_url('public/style.css').'">
+                <script src="https://cdn.tailwindcss.com"></script>
                 ';
     }
     $get .= do_action('ab_head');
     $get .= '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-            <script>var base_url = "'.base_url().'";</script>';
+            <script>var base_url = "'.base_url().'";</script>
+            <script src="https://cdn.tailwindcss.com"></script>
+                ';
     if($flag){
         return $get;
     }else{
