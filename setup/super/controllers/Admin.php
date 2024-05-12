@@ -78,6 +78,7 @@ class Admin extends CI_Controller{
                 'domain' => $domain,
                 'start_time' => $start_time,
                 'end_time' => $end_time,
+                'rid'=>RID
             ];
             $this->website->create($data,$wid);
             $this->session->set_flashdata('success_msg','Website Created successfully.');

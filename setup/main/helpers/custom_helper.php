@@ -1,4 +1,15 @@
 <?php
+function getVisitorCounter(){
+    $ci = &get_instance();
+    $cnt = $ci->WebsiteData->getVisitors();
+    $digitsArray = str_split((string)$cnt);
+    $html = '';
+    foreach($digitsArray as $digit){
+        $path = base_url().'public/counter/gold/';
+        $html .= '<li><img src="'.$path.$digit.'.png" style="width:30px;height:30px;" /></li>';
+    }
+    return $html;    
+}
 function checkDefaultPage(){
     $ci = &get_instance();
 }
@@ -20,8 +31,11 @@ function back_url() {
 function theme_path($path=''){
     return base_url("public/theme/".THEMEPATH."/$path");
 }
-function checkAdminLogin(){
+function checkAdminLogin($flag=false){
     $session = isset($_SESSION['customer-session']) ? $_SESSION['customer-session'] : null;
+    if($flag == true && $session != CUSTOMER_SESSION){
+        return ['status'=>false,'msg'=>'Admin Login Failed.','code'=>11];
+    }
     if ($session != CUSTOMER_SESSION) {
         redirect(base_url('customer-login.html'));
     } 
@@ -76,4 +90,7 @@ function AB_DECODE($encoded) {
 function getVal($key,$val=''){
     $ci = &get_instance();
     return $ci->other->getVal($key,$val);
+}
+function checkPermission($id){
+    
 }

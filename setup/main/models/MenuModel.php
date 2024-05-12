@@ -15,7 +15,7 @@ class MenuModel extends MY_Model{
             $thisRef['parent'] = $data->parent;
             $thisRef['type'] = $data->type;
             $thisRef['label'] = @$page->page_name;
-            $thisRef['link'] = @$page->link;
+            $thisRef['link'] = @$page->url;
             $thisRef['id'] = $data->id;
             $thisRef['page_id'] = $data->page_id;
             $thisRef['uri'] = @$page->uri;
@@ -38,6 +38,7 @@ class MenuModel extends MY_Model{
           foreach($items as $key=>$value) {
               $page_id = $value['page_id'];
               $_page_url = DEFAULTPAGE==$value['page_id']?'/':(base_url().'page/'.$value['uri']);
+              $_page_url = $value['link'] == '' ? $_page_url : $value['link'];
             $iconWithTExt =  $value['label'];
               
             if(array_key_exists('child',$value)){

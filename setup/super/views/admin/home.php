@@ -1,7 +1,7 @@
 <?php 
-$all = $this->website->get()->num_rows();
-$active = $this->website->get(['status'=>'1'])->num_rows();
-$inactive = $this->website->get(['status'=>'0'])->num_rows();
+$all = $this->website->get(['rid'=>RID])->num_rows();
+$active = $this->website->get(['status'=>'1','rid'=>RID])->num_rows();
+$inactive = $this->website->get(['status'=>'0','rid'=>RID])->num_rows();
 $activePer = $active/$all*100;
 $inactivePer = $inactive/$all*100;
 ?>

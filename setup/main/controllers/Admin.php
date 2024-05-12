@@ -4,12 +4,58 @@ class Admin extends CI_Controller{
     function __construct(){
         parent::__construct();
         $this->load->helper(['page','media','custom']);
-        $this->load->model(['block','PageModel','website','MenuModel','MenuItemModel','PluginModel','BlockCategory']);
+        $this->load->model(['block','PageModel','website','MenuModel','MenuItemModel',
+        'PluginModel','BlockCategory']);
         checkAdminLogin();
         $this->load->model("MediaModel");
                     
     }
-    
+    public function downloadFormData($formId){
+        require FCPATH.'/vendor/autoload.php';
+        // Load the PhpSpreadsheet library
+        $this->load->library('PhpSpreadsheet');
+        
+        // Load the database library
+        $this->load->database();
+        
+        // Fetch data from the database
+        $query = $this->db->get('ab_form_data');
+        $data = $query->result_array();
+        
+        // Create a new PhpSpreadsheet object
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        
+        // Add headers
+        $sheet->setCellValue('A1', 'Data');
+        
+        // Initialize row counter
+        $row = 2;
+        
+        // Loop through the database results
+        foreach ($data as $row_data) {
+            // Decode JSON data
+            $json_data = json_decode($row_data['data'], true);
+            
+            // Add data to Excel
+            $sheet->setCellValue('A'.$row, json_encode($json_data)); // Adjust this line based on your JSON structure
+            
+            // Increment row counter
+            $row++;
+        }
+        
+        // Set headers for download
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="form_data.xlsx"');
+        header('Cache-Control: max-age=0');
+        
+        // Write Excel file to PHP output
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+    }
+    function downloadProductQuery($productGalleryId){
+        
+    }
     function index(){
         $this->load->view('admin/header');
         $this->load->view('admin/home');
@@ -96,7 +142,6 @@ class Admin extends CI_Controller{
         $data['beforeend'] = AfterFooterContent(true);
         $data['headContent'] = $headContent;
         
-        $content = '';
         if(isset($_GET['type'])){
             $pagetype = $_GET['type'];
             if($pagetype == 'page'){
@@ -114,21 +159,34 @@ class Admin extends CI_Controller{
     }
     function page($page='index'){
         if($post = $this->input->post()){
-            $data = [];
-            $data['page_name'] = filter_var($post['page_name'], FILTER_SANITIZE_STRING);
-            $data['uri'] = filter_var($post['uri'], FILTER_SANITIZE_STRING);
-            if($post['page_type'] == 'custom'){
-                $data['url'] = filter_var($post['url'], FILTER_SANITIZE_STRING);
-                $data['same_domain'] = filter_var($post['same_domain'], FILTER_SANITIZE_STRING);
-                $data['redirect'] = filter_var($post['redirect'], FILTER_SANITIZE_STRING);
+            if(isset($post['action']) && $post['action'] == 'update-page-details'){
+                unset($post['action']);
+                $ins = $this->PageModel->update(['admin_id'=>CLIENT_ID,'id'=>$post['id']],$post);
+                if($ins){
+                    $this->session->set_flashdata('success_msg','Page Data updated');
+                    redirect(current_url());
+                }else{
+                    $this->session->set_flashdata('error_msg',$this->db->error()['message']);
+                    redirect(current_url());
+                }
+            }else{
+                $data = [];
+                $data['page_name'] = filter_var($post['page_name'], FILTER_SANITIZE_STRING);
+                $data['uri'] = filter_var($post['uri'], FILTER_SANITIZE_STRING);
+                if($post['page_type'] == 'custom'){
+                    $data['url'] = filter_var($post['url'], FILTER_SANITIZE_STRING);
+                    $data['same_domain'] = filter_var($post['same_domain'], FILTER_SANITIZE_STRING);
+                    $data['redirect'] = filter_var($post['redirect'], FILTER_SANITIZE_STRING);
+                }
+                $data['admin_id'] = CLIENT_ID;
+                $this->PageModel->add($data);
+                echo 1;
             }
-            $data['admin_id'] = CLIENT_ID;
-            $this->PageModel->add($data);
-            echo 1;
         }else{
             if(isset($_GET['action']) && $_GET['action'] == 'trash'){
                 $id = @$_GET['id'];
-                $this->PageModel->update(['id'=>$id],['trash'=>'1']);
+                // $this->PageModel->update(['id'=>$id],['trash'=>'1']);
+                $this->PageModel->delete(['id'=>$id]);
                 $this->session->flashdata('success_msg','Action performed successfully.');
                 redirect(current_url());
             }
@@ -327,7 +385,7 @@ class Admin extends CI_Controller{
         }
     }
     function media($page='list'){
-        $get = $this->db->select('extention,id,name as filename, CONCAT("'.base_url().'", path) as path')->get_where('media', ['admin_id' => CLIENT_ID]);
+        $get = $this->db->select('extention,id,name as filename, CONCAT("'.base_url().'", path) as path')->order_by('id','desc')->get_where('media', ['admin_id' => CLIENT_ID]);
         $this->load->view('admin/header',['result'=>$get->result()]);
         $this->load->view('admin/media/'.$page);
         $this->load->view('admin/footer');
@@ -389,7 +447,8 @@ class Admin extends CI_Controller{
         }
     }
     function load_media($multiple) {
-        $get = $this->db->select('extention,id,name as filename, CONCAT("'.base_url().'", path) as path')->get_where('media', ['admin_id' => CLIENT_ID]);
+        $this->db->order_by('id','desc');
+        $get = $this->db->select('extention,id,name as filename, CONCAT("/", path) as path')->get_where('media', ['admin_id' => CLIENT_ID]);
         $this->load->view('admin/media/index',['result'=>$get->result(),'multiple'=>$multiple]);
     }
 
@@ -408,8 +467,12 @@ class Admin extends CI_Controller{
         foreach ($_FILES[$file]['name'] as $key => $filename) {
             // Set up configuration for each file
             $config['upload_path']   = $upload_dir;
-            $config['allowed_types'] = 'gif|jpg|png';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg|webp|pdf|mp4';
             $config['max_size']      = 0;
+            // $config['encrypt_name'] = TRUE;
+            $config['file_name']     = time(); // Set file name to current timestamp
+
+
             // Initialize the upload library with the config
             $this->load->library('upload', $config);
             

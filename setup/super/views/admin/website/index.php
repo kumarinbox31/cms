@@ -30,7 +30,7 @@
                 <?php 
                     $i=1;
                     $this->db->order_by('id','desc');
-                    $get = $this->website->get();
+                    $get = $this->website->get(['rid'=>RID]);
                     foreach($get->result() as $w){
                         $bg = $w->status?'' : 'bg-danger text-white';
                         echo '<tr class="'.$bg.'">

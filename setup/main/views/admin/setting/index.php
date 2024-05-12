@@ -31,7 +31,7 @@
     
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header"><h3>Website Info</h3></div>
+            <div class="card-header bg-info"><h3 class="text-white">Website Info</h3></div>
             <div class="card-body">
                 <form class="forms-sample" method="post" action="">
                     <div class="form-group">
@@ -47,7 +47,7 @@
                         <input type="text" id="tags" name="keywords" class="form-control inputTags" placeholder="Enter Keywords" value="<?php echo @$get->keywords?>">
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button class="btn btn-light">Cancel</button>
+                    <button class="btn btn-danger">Cancel</button>
                   </form>
             </div>
         </div>
@@ -55,7 +55,7 @@
     
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header bg-primary text-white"><h3>Logo</h3></div>
+            <div class="card-header bg-primary text-white"><h3 class="text-white">Logo</h3></div>
             <div class="card-body">
                 <form class="forms-sample" method="post" action="" enctype="multipart/form-data">
                     <input type="hidden" name="logo" value="<?php echo @$get->logo ?>" id="logo">
@@ -69,7 +69,7 @@
                         <img src="<?php echo @$get->logo ?>">
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button class="btn btn-light">Cancel</button>
+                    <button class="btn btn-danger">Cancel</button>
                   </form>
             </div>
         </div>

@@ -33,6 +33,7 @@ class Web extends CI_Controller{
             if($get->num_rows()){
                 $row = $get->row();
                 $_SESSION['super-admin'] = true;
+                $_SESSION['RID'] = $row->id;
                 redirect('admin');
             }else{
                 $this->session->set_flashdata('error_msg','Authentication failed.');

@@ -12,16 +12,22 @@
                 $preview = base_url('public/admin/gear-new.gif');
             }
     ?>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
-            <div class="card-header">
-                <h5 class="text-success"><?php echo $row->title; ?></h5>
+            <div class="card-header bg-primary">
+                <h5 class="text-white"><?php echo $row->title; ?></h5>
             </div>
             <div class="card-body">
                 <img src="<?php echo $preview; ?>" style="width:100%;height:150px;">
             </div>
             <div class="card-footer">
+                <?php 
+                if(THEMEPATH == $row->path){
+                    echo '<span class="btn btn-sm btn-success" >Active</span>';
+                }else{
+                ?>
                 <a href="javascript:;" class="btn btn-sm btn-primary setTheme" data-theme-id="<?php echo $row->id; ?>">Set Theme</a>
+                <?php } ?>
             </div>
         </div>
     </div>

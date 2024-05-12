@@ -95,22 +95,30 @@
         $('#url').css('display','block');
     });
     $('#add_page').submit(function(e){
-        e.preventDefault();
-        $.ajax({
-            url:"<?php echo current_url(); ?>",
-            type:'post',
-            data:$(this).serialize(),
-            dataType:'json',
-            beforeSend:function(){
-                notify('info','Processing....');
-            },
-            success:function(res){
-                notify('success','Process Complete');
-                // setTimeout(function(){
-                //     window.location.reload();
-                // },2000);
-            }
-        });
+    e.preventDefault();
+    $.ajax({
+        url: "<?php echo current_url(); ?>", // Make sure this PHP code works and echoes the correct URL
+        type: 'post',
+        data: $(this).serialize(), // Serialize the form data correctly
+        dataType: 'json', // Make sure the server response is JSON
+        beforeSend: function(){
+            notify('info', 'Processing....');
+            $("#add_page :input").prop("disabled", true);
+        },
+        success: function(res){
+            notify('success', 'Process Complete');
+            $('#add_page')[0].reset();
+            $("#add_page :input").prop("disabled", false);
+            // Uncomment this if you want to reload the page after successful submission
+            // setTimeout(function(){
+            //     window.location.reload();
+            // }, 2000);
+        },
+        error: function(xhr, status, error) {
+            // Handle errors if necessary
+            console.error(xhr.responseText);
+        }
     });
-        
+});
+    
 </script>

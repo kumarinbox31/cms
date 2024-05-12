@@ -3,7 +3,7 @@ class Web extends CI_Controller{
     
     function __construct(){
         parent::__construct();
-        $this->load->model(['mail','PageModel','WebsiteData','MenuModel','MenuItemModel']);
+        $this->load->model(['mail','PageModel','WebsiteData','MenuModel','MenuItemModel','GalleryModel','FileServiceModel']);
     }
     
     function index($uri=''){
@@ -40,6 +40,7 @@ class Web extends CI_Controller{
                 define('LOGO',$wd->logo);
                 define('TITLE',$wd->title);
             }
+            $this->WebsiteData->addVisitorCount();
             view($data);
         }
     }
@@ -70,6 +71,11 @@ class Web extends CI_Controller{
             }
         }else{
             echo json_encode(['status'=>false,'msg'=>'Something went wrong.1']);
+        }
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        
+        }else{
+            echo '<script>alert("Process complete..");window.location.href="/";</script>';
         }
     }
     

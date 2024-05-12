@@ -15,6 +15,9 @@ class Web_api{
     public $setResellerDomain = false;
 
     function __construct($defined999){
+        
+        
+        
         $this->domain_name = $defined999['domain_name'];
         
         define('FRESH_DOMAIN',str_replace('www.','',$this->domain_name));
@@ -55,7 +58,7 @@ class Web_api{
 
         if(reseller ){ //&& domain_name == 'developer.ajaydemo.in.net'){
             // die();
-             $this->resellerDB = mysqli_connect(HOST,HOST_USER,DB_PASSWORD, RESELLER_DB) or die('ERRORS = '. mysqli_connect_error());
+             $this->resellerDB = mysqli_connect('sdb-f.hosting.stackcp.net',HOST_USER,DB_PASSWORD, RESELLER_DB) or die('ERRORS = '. mysqli_connect_error());
 
             $getREseller = $this->resellerDB->query("SELECT * FROM  ".RESELLER_PREFIX."admins WHERE domain = '".FRESH_DOMAIN."' ");
 
@@ -96,8 +99,7 @@ class Web_api{
         if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
             define('base_url','https://'.$this->domain_name);
         else 
-            define('base_url','http://abc.webfire.in');
-            // define('base_url','http://'.$this->domain_name);
+            define('base_url','http://'.$this->domain_name);
     }
     function run(){
         require_once BASEPATH.'core/CodeIgniter.php';

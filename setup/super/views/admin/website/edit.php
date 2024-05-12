@@ -1,5 +1,5 @@
 <?php 
-$get = $this->website->get(['id'=>@$_GET['id']])->row();
+$get = $this->website->get(['id'=>@$_GET['id'],'rid'=>RID])->row();
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -19,6 +19,11 @@ $get = $this->website->get(['id'=>@$_GET['id']])->row();
                         <label>Name</label>
                         <input type="text" name="name" class="form-control" required value="<?php echo $get->name; ?>">
                     </div>
+                    <div class="form-group">
+                        <label>Domain</label>
+                        <input type="text" name="domain" class="form-control" required value="<?php echo $get->domain; ?>">
+                    </div>
+                    
                     <div class="form-group">
                         <label>Email</label>
                         <input type="email" name="_email" class="form-control" required value="<?php echo $get->_email; ?>">
