@@ -1,4 +1,5 @@
 <?php
+        
 class Admin extends CI_Controller{
     
     function __construct(){
@@ -10,11 +11,50 @@ class Admin extends CI_Controller{
         $this->load->model("MediaModel");
                     
     }
-    public function downloadFormData($formId){
-        require FCPATH.'/vendor/autoload.php';
-        // Load the PhpSpreadsheet library
-        $this->load->library('PhpSpreadsheet');
+    public function change_password() {
+        $this->load->library('form_validation');
+
+    $this->load->view('admin/header');
+
+    if ($post = $this->input->post()) {
         
+        // Set form validation rules
+        $this->form_validation->set_rules('old_pass', 'Old Password', 'required');
+        $this->form_validation->set_rules('new_pass', 'New Password', 'required|min_length[8]');
+        $this->form_validation->set_rules('new_confirm_pass', 'Confirmation Password', 'required|matches[new_pass]');
+
+        if ($this->form_validation->run() == FALSE) {
+            // If validation fails, reload the change password view
+            $this->load->view('admin/change-password');
+        } else {
+            // Fetch the old password from the database securely
+            $this->db->where('id', CLIENT_ID);
+            $query = $this->db->get('ab_websites');
+            $user = $query->row();
+            if ($user && $user->_pass === $post['old_pass']) {
+                // If old password matches, update to the new password
+                $this->db->set('_pass', $post['new_pass']);
+                $this->db->where('id', CLIENT_ID);
+                $this->db->update('ab_websites');
+
+                // Redirect to the change password page with a success message
+                $this->session->set_flashdata('success', 'Password changed successfully.');
+                redirect('/admin/change-password');
+            } else {
+                // If old password does not match, reload the view with an error message
+                $this->session->set_flashdata('error', 'Old password is incorrect.');
+                $this->load->view('admin/change-password');
+            }
+        }
+    } else {
+        // Load the change password view if no form is submitted
+        $this->load->view('admin/change-password');
+    }
+
+    $this->load->view('admin/footer');
+}
+    public function downloadFormData($formId){
+        require APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
         // Load the database library
         $this->load->database();
         
@@ -22,12 +62,22 @@ class Admin extends CI_Controller{
         $query = $this->db->get('ab_form_data');
         $data = $query->result_array();
         
-        // Create a new PhpSpreadsheet object
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+        // Load PHPExcel library
+        $this->load->library('PHPExcel');
+        
+        // Create a new PHPExcel object
+        $excel = new PHPExcel();
+        $excel->setActiveSheetIndex(0);
+        $sheet = $excel->getActiveSheet();
         
         // Add headers
-        $sheet->setCellValue('A1', 'Data');
+        $sheet->setCellValue('A1', 'Name');
+        $sheet->setCellValue('B1', 'Contact-no');
+        $sheet->setCellValue('C1', 'Email-Id');
+        $sheet->setCellValue('D1', 'Service');
+        $sheet->setCellValue('E1', 'Your-Message');
+        $sheet->setCellValue('F1', 'Gender');
+        $sheet->setCellValue('G1', 'Submit');
         
         // Initialize row counter
         $row = 2;
@@ -38,20 +88,26 @@ class Admin extends CI_Controller{
             $json_data = json_decode($row_data['data'], true);
             
             // Add data to Excel
-            $sheet->setCellValue('A'.$row, json_encode($json_data)); // Adjust this line based on your JSON structure
+            $sheet->setCellValue('A'.$row, isset($json_data['Name']) ? $json_data['Name'] : '');
+            $sheet->setCellValue('B'.$row, isset($json_data['Contact-no']) ? $json_data['Contact-no'] : '');
+            $sheet->setCellValue('C'.$row, isset($json_data['Email-Id']) ? $json_data['Email-Id'] : '');
+            $sheet->setCellValue('D'.$row, isset($json_data['Service']) ? $json_data['Service'] : '');
+            $sheet->setCellValue('E'.$row, isset($json_data['Your-Message']) ? $json_data['Your-Message'] : '');
+            $sheet->setCellValue('F'.$row, isset($json_data['select-1713604811827-0']) ? $json_data['select-1713604811827-0'] : ''); // Assuming 'Gender' field key
+            $sheet->setCellValue('G'.$row, isset($json_data['Sumbit']) ? $json_data['Sumbit'] : ''); // Assuming 'Submit' field key
             
             // Increment row counter
             $row++;
         }
         
         // Set headers for download
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="form_data.xlsx"');
         header('Cache-Control: max-age=0');
         
         // Write Excel file to PHP output
-        $writer = new Xlsx($spreadsheet);
-        $writer->save('php://output');
+        $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+        $objWriter->save('php://output');
     }
     function downloadProductQuery($productGalleryId){
         

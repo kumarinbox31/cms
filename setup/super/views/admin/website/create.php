@@ -39,6 +39,7 @@
                 <div class="input-group input-group-danger">
                     <span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-key"></i></label></span>
                     <input type="text" class="form-control" name="password" placeholder="Enter password"  required>
+                    <a onclick="generatePass()" class="btn btn-sm btn-primary"><i class="fa fa-refresh"></i></a>
                 </div>
             </div>
             
@@ -78,4 +79,44 @@
       $('#showIframe').html(iframe);
     });
   });
+  
+  
+  
+  function generatePassword(length, options) {
+    const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowercase = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const specialChars = "!@#$%^&*()_+[]{}|;:,.<>?";
+
+    let allChars = "";
+    if (options.includeUppercase) allChars += uppercase;
+    if (options.includeLowercase) allChars += lowercase;
+    if (options.includeNumbers) allChars += numbers;
+    if (options.includeSpecialChars) allChars += specialChars;
+
+    if (allChars === "") {
+        throw new Error("At least one character type should be included.");
+    }
+
+    let password = "";
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * allChars.length);
+        password += allChars[randomIndex];
+    }
+
+    return password;
+}
+
+function generatePass(){
+    const options = {
+        includeUppercase: true,
+        includeLowercase: true,
+        includeNumbers: true,
+        includeSpecialChars: true
+    };
+    const passwordLength = 12;
+    const newPassword = generatePassword(passwordLength, options);
+    $('input[name="password"]').val(newPassword);
+}
+generatePass();
 </script>

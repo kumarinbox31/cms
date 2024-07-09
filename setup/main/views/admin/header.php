@@ -135,7 +135,7 @@
                                     <!--<a class="dropdown-item" href="pages/profile.html"><i class="ik ik-user dropdown-icon"></i> Profile</a>-->
                                     <!--<a class="dropdown-item" href="#"><i class="ik ik-settings dropdown-icon"></i> Settings</a>-->
                                     <!--<a class="dropdown-item" href="#"><span class="float-right"><span class="badge badge-primary">6</span></span><i class="ik ik-mail dropdown-icon"></i> Inbox</a>-->
-                                    <!--<a class="dropdown-item" href="#"><i class="ik ik-navigation dropdown-icon"></i> Message</a>-->
+                                    <a class="dropdown-item" href="/admin/change-password"><i class="ik ik-key dropdown-icon"></i> Change Password</a>
                                     <a class="dropdown-item" href="/admin/logout"><i class="ik ik-power dropdown-icon"></i> Logout</a>
                                 </div>
                             </div>
@@ -196,13 +196,13 @@
                                 <div class="nav-item">
                                     <a href="<?php echo base_url('admin/media'); ?>"><i class="ik ik-inbox"></i><span>Media</span></a>
                                 </div>
-                                <div class="nav-item has-sub">
-                                    <a href="#"><i class="ik ik-box"></i><span>Plugins</span></a>
-                                    <div class="submenu-content">
-                                        <a href="<?php echo base_url('admin/plugins/installed'); ?>" class="menu-item">Installed Plugins</a>
-                                        <a href="<?php echo base_url('admin/plugins'); ?>" class="menu-item">Plugins</a>
-                                    </div>
-                                </div>
+                                <!--<div class="nav-item has-sub">-->
+                                <!--    <a href="#"><i class="ik ik-box"></i><span>Plugins</span></a>-->
+                                <!--    <div class="submenu-content">-->
+                                <!--        <a href="<?php echo base_url('admin/plugins/installed'); ?>" class="menu-item">Installed Plugins</a>-->
+                                <!--        <a href="<?php echo base_url('admin/plugins'); ?>" class="menu-item">Plugins</a>-->
+                                <!--    </div>-->
+                                <!--</div>-->
                                 <?php 
                                     if(isset($menu) && count($menu)){
                                     foreach($menu as $plugin => $mm){

@@ -54,12 +54,15 @@ class Web extends CI_Controller{
                     unset($post['form_id']);
                     if(count($_FILES)){
                         foreach($_FILES as $key => $val){
-                            $data = $this->upload($key);
-                            if(isset($data['error'])){
-                                echo json_encode(['status'=>false,'msg'=>$data['error']]);
-                                return false;
+                            $data = $this->upload($key,false);
+                            if(!isset($data['error'])){
+                                // echo json_encode(['status'=>false,'msg'=>$data['error']]);
+                                // return false;
+                                $post[$key] = $data['file_name'];
+                            }else{
+                                $post[$key] = '';
                             }
-                            $post[$key] = $data['file_name'];
+                            
                         }
                     }
                     $this->db->insert('ab_form_data',['form_id'=>$form_id,'data'=>json_encode($post)]);
@@ -115,23 +118,25 @@ class Web extends CI_Controller{
             $this->load->view('admin/login');
         }
     }
-    function upload($file='file'){
+    function upload($file='file',$flag=true){
         $get = $this->file_up($file);
         if(!isset($get['error'])){
-            $type = isset($get['is_image']) && $get['is_image'] ? 'image' : 'video';
-            $data = [
-                    'type' => $type,
-                    'path' => str_replace(FCPATH,'',$get['full_path']),
-                    'name' => $get['raw_name'],
-                    'size' => $get['file_size'],
-                    'file_type' => $get['file_type'],
-                    'extention' => $get['file_ext'],
-                    'info' => json_encode($get),
-                    'admin_id'=>CLIENT_ID,
-                    'height'=> $get['image_height'],
-                    'width'=>$get['image_width'],
-                ];
-            $this->db->insert('media',$data);
+            if($flag){
+                $type = isset($get['is_image']) && $get['is_image'] ? 'image' : 'video';
+                $data = [
+                        'type' => $type,
+                        'path' => str_replace(FCPATH,'',$get['full_path']),
+                        'name' => $get['raw_name'],
+                        'size' => $get['file_size'],
+                        'file_type' => $get['file_type'],
+                        'extention' => $get['file_ext'],
+                        'info' => json_encode($get),
+                        'admin_id'=>CLIENT_ID,
+                        'height'=> $get['image_height'],
+                        'width'=>$get['image_width'],
+                    ];
+                $this->db->insert('media',$data);
+            }
             return $get;
         } else {
             return $get;

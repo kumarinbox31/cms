@@ -18,6 +18,24 @@ class PageModel extends MY_Model{
                 'description'=> '',
             ];
         }
+        $pages['header'] = [
+            'name' =>  'Header',
+            'filename' => 'header',
+            'file' => 'header',
+            'url' => base_url('editor/edit/header'),
+            'title' => 'Header',
+            'folder' => '',
+            'description' => '',
+        ];
+        $pages['footer'] = [
+            'name' =>  'Footer',
+            'filename' => 'footer',
+            'file' => 'footer',
+            'url' => base_url('editor/edit/footer'),
+            'title' => 'Footer',
+            'folder' => '',
+            'description' => '',
+        ];
         echo (json_encode($pages));
     }
     function pageContent($pageid){
