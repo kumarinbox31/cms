@@ -42,49 +42,44 @@
 
 
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div id="msg"></div>
                 <!-- File Upload Form -->
                 <form id="uploadForm" enctype="multipart/form-data">
-                    <input type="file" name="file" id="fileInput" class="form-control mb-2">
-                    <button type="button" class="btn btn-primary" onclick="uploadFile()">Upload</button>
+                    <input type="file" name="files[]" id="fileInput" class="form-control mb-2">
+                    <button type="submit" class="btn btn-primary" >Upload</button>
                 </form>
         
                 <!-- Display Uploaded Files (if needed) -->
                 <div id="uploadedFiles"></div>
         
                 <script>
-                    function uploadFile() {
-                        // Handle file upload logic here
-                        var fileInput = document.getElementById('fileInput');
-                        var formData = new FormData();
-                        formData.append('file', fileInput.files[0]);
-        
-                        // Use Ajax or fetch to send formData to the server for processing
-        
-                        // Example using jQuery Ajax:
-                        /*
-                        $.ajax({
-                            url: 'your-upload-endpoint',
-                            type: 'POST',
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            success: function (response) {
-                                // Handle success, update UI, etc.
-                                console.log('File uploaded successfully:', response);
-                            },
-                            error: function (error) {
-                                // Handle error, display message, etc.
-                                console.error('Error uploading file:', error);
-                            }
-                        });
-                        */
-        
-                        // Reset file input after upload (optional)
-                        fileInput.value = '';
-        
-                        // Update UI or do additional actions as needed
+            $('#uploadForm').submit(function(e){
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '<?php echo base_url(); ?>admin/upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    beforeSend:function(){
+                        $('#msg').html("<div class='alert alert-info'>Uploading... Please wait.</div>");
+                        $('#uploadForm :input').prop('disabled', false);
+                    },
+                    success: function (response) {
+                        // Handle success, update UI, etc.
+                        console.log('File uploaded successfully:', response);
+                        $('#msg').html("<div class='alert alert-success'>Uploaded successfully.</div>");
+                        $('#uploadForm :input').prop('disabled', false);
+                    },
+                    error: function (error) {
+                        // Handle error, display message, etc.
+                        console.error('Error uploading file:', error);
                     }
-                </script>
+                });
+                
+            });
+        </script>
             </div>
         </div>
 

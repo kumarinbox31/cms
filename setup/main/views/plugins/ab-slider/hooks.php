@@ -84,6 +84,9 @@ function ab_slider_style(){
             margin:0;
             overflow:hidden;
         }
+        .slide > img{
+            height:100vh !important;
+        }
         @media(max-width:640px){
             .slide{
                 height:250px!important;

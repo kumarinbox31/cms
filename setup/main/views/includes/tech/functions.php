@@ -17,6 +17,23 @@ function registerBeforeHeadContent(){
 
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="'.theme_path().'assets/css/style.css">
+    <style>.modal-backdrop,.is-sticky{display:none;}.menu-style-four{background: #0000004a;
+    border-radius: 10px;}</style>
+    <style>
+    @media(max-width:640px){
+    .header-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Adjust as needed */
+    background-color: #ffffff; /* Adjust background color as needed */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+}
+        .slider {
+            margin-top:10rem!important;
+        }
+    }</style>
             ';
     echo $links;
 }

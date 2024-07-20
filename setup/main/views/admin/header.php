@@ -22,12 +22,12 @@
 <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>ThemeKit - Admin Template</title>
+        <title>Admin Panel</title>
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
-        <link rel="icon" href="<?php echo base_url('public/admin/theme/')?>favicon.ico" type="image/x-icon" />
+        <!--<link rel="icon" href="<?php echo base_url('public/admin/theme/')?>favicon.ico" type="image/x-icon" />-->
 
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
         
@@ -135,7 +135,7 @@
                                     <!--<a class="dropdown-item" href="pages/profile.html"><i class="ik ik-user dropdown-icon"></i> Profile</a>-->
                                     <!--<a class="dropdown-item" href="#"><i class="ik ik-settings dropdown-icon"></i> Settings</a>-->
                                     <!--<a class="dropdown-item" href="#"><span class="float-right"><span class="badge badge-primary">6</span></span><i class="ik ik-mail dropdown-icon"></i> Inbox</a>-->
-                                    <!--<a class="dropdown-item" href="#"><i class="ik ik-navigation dropdown-icon"></i> Message</a>-->
+                                    <a class="dropdown-item" href="/admin/change-password"><i class="ik ik-key dropdown-icon"></i> Change Password</a>
                                     <a class="dropdown-item" href="/admin/logout"><i class="ik ik-power dropdown-icon"></i> Logout</a>
                                 </div>
                             </div>
@@ -149,9 +149,10 @@
                 <div class="app-sidebar colored">
                     <div class="sidebar-header">
                         <a class="header-brand" href="index-2.html">
-                            <div class="logo-img">
-                               <img src="<?php echo base_url('public/admin/theme/')?>src/img/brand-white.svg" class="header-brand-img" alt="lavalite"> 
-                            </div>
+                            <!--<div class="logo-img">-->
+                            <!--    AB-->
+                               <!--<img src="<?php echo base_url('public/admin/theme/')?>src/img/brand-white.svg" class="header-brand-img" alt="lavalite"> -->
+                            <!--</div>-->
                             <span class="text">Admin</span>
                         </a>
                         <button type="button" class="nav-toggle"><i data-toggle="expanded" class="ik ik-toggle-right toggle-icon"></i></button>
@@ -189,19 +190,19 @@
                                         <a href="<?php echo base_url('admin/menu/'); ?>" class="menu-item">Menu</a>
                                     </div>
                                 </div>
-                                <div class="nav-item">
-                                    <a href="<?php echo base_url('admin/theme'); ?>"><i class="ik ik-inbox"></i><span>Themes</span></a>
-                                </div>
+                                <!--<div class="nav-item">-->
+                                <!--    <a href="<?php echo base_url('admin/theme'); ?>"><i class="ik ik-inbox"></i><span>Themes</span></a>-->
+                                <!--</div>-->
                                 <div class="nav-item">
                                     <a href="<?php echo base_url('admin/media'); ?>"><i class="ik ik-inbox"></i><span>Media</span></a>
                                 </div>
-                                <div class="nav-item has-sub">
-                                    <a href="#"><i class="ik ik-box"></i><span>Plugins</span></a>
-                                    <div class="submenu-content">
-                                        <a href="<?php echo base_url('admin/plugins/installed'); ?>" class="menu-item">Installed Plugins</a>
-                                        <a href="<?php echo base_url('admin/plugins'); ?>" class="menu-item">Plugins</a>
-                                    </div>
-                                </div>
+                                <!--<div class="nav-item has-sub">-->
+                                <!--    <a href="#"><i class="ik ik-box"></i><span>Plugins</span></a>-->
+                                <!--    <div class="submenu-content">-->
+                                <!--        <a href="<?php echo base_url('admin/plugins/installed'); ?>" class="menu-item">Installed Plugins</a>-->
+                                <!--        <a href="<?php echo base_url('admin/plugins'); ?>" class="menu-item">Plugins</a>-->
+                                <!--    </div>-->
+                                <!--</div>-->
                                 <?php 
                                     if(isset($menu) && count($menu)){
                                     foreach($menu as $plugin => $mm){

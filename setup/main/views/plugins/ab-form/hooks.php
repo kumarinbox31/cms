@@ -6,7 +6,7 @@ add_shortcode('ab-form', function($atts, $content){
     $get = $this->ServiceModel->getServiceById($formId)->row();;
     $content = @$get->content;
      ob_start();
-        echo '<form method="POST" action="/web/ajax" class="ajax-form-submit">
+        echo '<form method="POST" action="/web/ajax" class="ajax-form-submit" onsubmit="javascript:;" enctype="multipart/form-data">
                 <input type="hidden" name="form_id" value="'.$formId.'">
                 <input type="hidden" name="action" value="form-submit">
                 <div class="msg"></div>   
@@ -31,8 +31,21 @@ function ab_form_scripts(){
           
         <script>
             $(document).ready(function(){
+            function convertStringToBoolean(obj) {
+                for (const key in obj) {
+                    if (typeof obj[key] === "string") {
+                        if (obj[key] === "true" || obj[key] === "false") {
+                            obj[key] = obj[key] === "true";
+                        }
+                    } else if (typeof obj[key] === "object") {
+                        convertStringToBoolean(obj[key]);
+                    }
+                }
+            }
                 $(".form_render").each(function(index, element){
                     var content = $(element).data("content");
+                    convertStringToBoolean(content);
+                    console.log(content);
                     try {
                         var formRenderOpts = {
                             formData: content,

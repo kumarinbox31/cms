@@ -41,7 +41,7 @@
                                         <td>'.$row->title.'</td>
                                         <td>[AB-Gallery id='.$row->id.']</td>
                                         <td>
-                                            <a href="'.base_url('admin/plugin/ab-gallery?page=edit&id=').$row->id.'" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                           <!-- <a href="'.base_url('admin/plugin/ab-gallery?page=edit&id=').$row->id.'" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a> -->
                                             <a href="'.base_url('admin/plugin/ab-gallery?page=maker&id=').$row->id.'" class="btn btn-sm btn-info"><i class="fa fa-cog"></i></a>
                                             <a href="'.base_url('admin/delete-service/').$row->id.'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                         </td>

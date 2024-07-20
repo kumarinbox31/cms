@@ -2,7 +2,7 @@
 $id = intval(@$_GET['id']);
 $get = $this->db->order_by('id','desc')->get_where('form_data',['form_id'=>$id]);
 ?>
-
+<a download href="<?php echo base_url('admin/downloadFormData/').$id; ?>" class="btn btn-sm btn-primary"><i class="fa fa-download"></i></a>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>

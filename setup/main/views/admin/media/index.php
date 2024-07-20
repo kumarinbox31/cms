@@ -29,39 +29,45 @@
 
 
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div id="msg"></div>
+        <div id="upload-msg"></div>
         <!-- File Upload Form -->
         <form id="uploadForm" enctype="multipart/form-data">
-            <input type="file" name="files[]" id="fileInput" class="form-control mb-2" multiple>
-            <button type="submit" class="btn btn-primary">Upload</button>
-        </form>
+    <input type="file" name="files[]" id="fileInput" class="form-control mb-2" multiple>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
 
-        <!-- Display Uploaded Files (if needed) -->
-        <div id="uploadedFiles"></div>
-
-        <script>
-            $('#uploadForm').submit(function(e){
-                e.preventDefault();
-                var formData = new FormData(this);
-                $.ajax({
-                    url: '<?php echo base_url('admin/upload'); ?>',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        // Handle success, update UI, etc.
-                        console.log('File uploaded successfully:', response);
-                        $('#msg').html("<div class='alert alert-success'>Uploaded successfully.</div>");
-                    },
-                    error: function (error) {
-                        // Handle error, display message, etc.
-                        console.error('Error uploading file:', error);
-                    }
-                });
-                
+<script>
+    $(document).ready(function(){
+        $('#uploadForm').submit(function(e){
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: '<?php echo base_url('admin/upload'); ?>',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function(){
+                    $('#upload-msg').html("<div class='alert alert-info'>Uploading... Please wait.</div>");
+                    $('#uploadForm :input').prop('disabled', true);
+                },
+                success: function (response) {
+                    console.log('File uploaded successfully:', response);
+                    alert('uploaded');
+                    $('#upload-msg').html("<div class='alert alert-success'>Uploaded successfully.</div>");
+                    $('#uploadForm :input').prop('disabled', false);
+                    $('#uploadForm')[0].reset();
+                },
+                error: function (error) {
+                    console.error('Error uploading file:', error);
+                    $('#upload-msg').html("<div class='alert alert-danger'>Error uploading file. Please try again.</div>");
+                    $('#uploadForm :input').prop('disabled', false);
+                }
             });
-        </script>
+        });
+    });
+</script>
+
     </div>
 </div>
 

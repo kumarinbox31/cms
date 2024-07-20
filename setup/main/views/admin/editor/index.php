@@ -1750,6 +1750,7 @@ let oEmbedProxyUrl = '<?php echo base_url('editor/action'); ?>?action=oembedProx
 let chatgptOptions = {"key":"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","model":"gpt-3.5-turbo-instruct","temperature":0,"max_tokens":300};
 
 let pages = <?php  echo $this->PageModel->pages(); ?>;
+console.log(pages);
 $(function() {
 
 	let firstPage = Object.keys(pages)[0];

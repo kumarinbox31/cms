@@ -90,6 +90,7 @@
         </style>
   </div>
     <script>
+    try{
         var blocks = <?php echo $this->block->getEditorBlocks(); ?>;
         var imageUploadPath = '<?php echo base_url("admin/upload"); ?>';
         var images = [<?php echo assets(); ?>];
@@ -98,6 +99,9 @@
         var saveUrlPath = "<?php echo base_url('admin/save'); ?>";
         var pageId = <?php echo $_GET['pageid'] ?? 0; ?>;
         var pageType = '<?php echo $_GET['type'] ?? ''; ?>';
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
     </script>
 
     <script type="text/javascript">

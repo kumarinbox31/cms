@@ -1,15 +1,117 @@
 <?php
+        
 class Admin extends CI_Controller{
     
     function __construct(){
         parent::__construct();
         $this->load->helper(['page','media','custom']);
-        $this->load->model(['block','PageModel','website','MenuModel','MenuItemModel','PluginModel','BlockCategory']);
+        $this->load->model(['block','PageModel','website','MenuModel','MenuItemModel',
+        'PluginModel','BlockCategory']);
         checkAdminLogin();
         $this->load->model("MediaModel");
                     
     }
-    
+    public function change_password() {
+        $this->load->library('form_validation');
+
+    $this->load->view('admin/header');
+
+    if ($post = $this->input->post()) {
+        
+        // Set form validation rules
+        $this->form_validation->set_rules('old_pass', 'Old Password', 'required');
+        $this->form_validation->set_rules('new_pass', 'New Password', 'required|min_length[8]');
+        $this->form_validation->set_rules('new_confirm_pass', 'Confirmation Password', 'required|matches[new_pass]');
+
+        if ($this->form_validation->run() == FALSE) {
+            // If validation fails, reload the change password view
+            $this->load->view('admin/change-password');
+        } else {
+            // Fetch the old password from the database securely
+            $this->db->where('id', CLIENT_ID);
+            $query = $this->db->get('ab_websites');
+            $user = $query->row();
+            if ($user && $user->_pass === $post['old_pass']) {
+                // If old password matches, update to the new password
+                $this->db->set('_pass', $post['new_pass']);
+                $this->db->where('id', CLIENT_ID);
+                $this->db->update('ab_websites');
+
+                // Redirect to the change password page with a success message
+                $this->session->set_flashdata('success', 'Password changed successfully.');
+                redirect('/admin/change-password');
+            } else {
+                // If old password does not match, reload the view with an error message
+                $this->session->set_flashdata('error', 'Old password is incorrect.');
+                $this->load->view('admin/change-password');
+            }
+        }
+    } else {
+        // Load the change password view if no form is submitted
+        $this->load->view('admin/change-password');
+    }
+
+    $this->load->view('admin/footer');
+}
+    public function downloadFormData($formId){
+        require APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
+        // Load the database library
+        $this->load->database();
+        
+        // Fetch data from the database
+        $query = $this->db->get('ab_form_data');
+        $data = $query->result_array();
+        
+        // Load PHPExcel library
+        $this->load->library('PHPExcel');
+        
+        // Create a new PHPExcel object
+        $excel = new PHPExcel();
+        $excel->setActiveSheetIndex(0);
+        $sheet = $excel->getActiveSheet();
+        
+        // Add headers
+        $sheet->setCellValue('A1', 'Name');
+        $sheet->setCellValue('B1', 'Contact-no');
+        $sheet->setCellValue('C1', 'Email-Id');
+        $sheet->setCellValue('D1', 'Service');
+        $sheet->setCellValue('E1', 'Your-Message');
+        $sheet->setCellValue('F1', 'Gender');
+        $sheet->setCellValue('G1', 'Submit');
+        
+        // Initialize row counter
+        $row = 2;
+        
+        // Loop through the database results
+        foreach ($data as $row_data) {
+            // Decode JSON data
+            $json_data = json_decode($row_data['data'], true);
+            
+            // Add data to Excel
+            $sheet->setCellValue('A'.$row, isset($json_data['Name']) ? $json_data['Name'] : '');
+            $sheet->setCellValue('B'.$row, isset($json_data['Contact-no']) ? $json_data['Contact-no'] : '');
+            $sheet->setCellValue('C'.$row, isset($json_data['Email-Id']) ? $json_data['Email-Id'] : '');
+            $sheet->setCellValue('D'.$row, isset($json_data['Service']) ? $json_data['Service'] : '');
+            $sheet->setCellValue('E'.$row, isset($json_data['Your-Message']) ? $json_data['Your-Message'] : '');
+            $sheet->setCellValue('F'.$row, isset($json_data['select-1713604811827-0']) ? $json_data['select-1713604811827-0'] : ''); // Assuming 'Gender' field key
+            $sheet->setCellValue('G'.$row, isset($json_data['Sumbit']) ? $json_data['Sumbit'] : ''); // Assuming 'Submit' field key
+            
+            // Increment row counter
+            $row++;
+        }
+        
+        // Set headers for download
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="form_data.xlsx"');
+        header('Cache-Control: max-age=0');
+        
+        // Write Excel file to PHP output
+        $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+        $objWriter->save('php://output');
+    }
+    function downloadProductQuery($productGalleryId){
+        
+    }
     function index(){
         $this->load->view('admin/header');
         $this->load->view('admin/home');
@@ -96,7 +198,6 @@ class Admin extends CI_Controller{
         $data['beforeend'] = AfterFooterContent(true);
         $data['headContent'] = $headContent;
         
-        $content = '';
         if(isset($_GET['type'])){
             $pagetype = $_GET['type'];
             if($pagetype == 'page'){
@@ -114,21 +215,34 @@ class Admin extends CI_Controller{
     }
     function page($page='index'){
         if($post = $this->input->post()){
-            $data = [];
-            $data['page_name'] = filter_var($post['page_name'], FILTER_SANITIZE_STRING);
-            $data['uri'] = filter_var($post['uri'], FILTER_SANITIZE_STRING);
-            if($post['page_type'] == 'custom'){
-                $data['url'] = filter_var($post['url'], FILTER_SANITIZE_STRING);
-                $data['same_domain'] = filter_var($post['same_domain'], FILTER_SANITIZE_STRING);
-                $data['redirect'] = filter_var($post['redirect'], FILTER_SANITIZE_STRING);
+            if(isset($post['action']) && $post['action'] == 'update-page-details'){
+                unset($post['action']);
+                $ins = $this->PageModel->update(['admin_id'=>CLIENT_ID,'id'=>$post['id']],$post);
+                if($ins){
+                    $this->session->set_flashdata('success_msg','Page Data updated');
+                    redirect(current_url());
+                }else{
+                    $this->session->set_flashdata('error_msg',$this->db->error()['message']);
+                    redirect(current_url());
+                }
+            }else{
+                $data = [];
+                $data['page_name'] = filter_var($post['page_name'], FILTER_SANITIZE_STRING);
+                $data['uri'] = filter_var($post['uri'], FILTER_SANITIZE_STRING);
+                if($post['page_type'] == 'custom'){
+                    $data['url'] = filter_var($post['url'], FILTER_SANITIZE_STRING);
+                    $data['same_domain'] = filter_var($post['same_domain'], FILTER_SANITIZE_STRING);
+                    $data['redirect'] = filter_var($post['redirect'], FILTER_SANITIZE_STRING);
+                }
+                $data['admin_id'] = CLIENT_ID;
+                $this->PageModel->add($data);
+                echo 1;
             }
-            $data['admin_id'] = CLIENT_ID;
-            $this->PageModel->add($data);
-            echo 1;
         }else{
             if(isset($_GET['action']) && $_GET['action'] == 'trash'){
                 $id = @$_GET['id'];
-                $this->PageModel->update(['id'=>$id],['trash'=>'1']);
+                // $this->PageModel->update(['id'=>$id],['trash'=>'1']);
+                $this->PageModel->delete(['id'=>$id]);
                 $this->session->flashdata('success_msg','Action performed successfully.');
                 redirect(current_url());
             }
@@ -327,7 +441,7 @@ class Admin extends CI_Controller{
         }
     }
     function media($page='list'){
-        $get = $this->db->select('extention,id,name as filename, CONCAT("'.base_url().'", path) as path')->get_where('media', ['admin_id' => CLIENT_ID]);
+        $get = $this->db->select('extention,id,name as filename, CONCAT("'.base_url().'", path) as path')->order_by('id','desc')->get_where('media', ['admin_id' => CLIENT_ID]);
         $this->load->view('admin/header',['result'=>$get->result()]);
         $this->load->view('admin/media/'.$page);
         $this->load->view('admin/footer');
@@ -389,7 +503,8 @@ class Admin extends CI_Controller{
         }
     }
     function load_media($multiple) {
-        $get = $this->db->select('extention,id,name as filename, CONCAT("'.base_url().'", path) as path')->get_where('media', ['admin_id' => CLIENT_ID]);
+        $this->db->order_by('id','desc');
+        $get = $this->db->select('extention,id,name as filename, CONCAT("/", path) as path')->get_where('media', ['admin_id' => CLIENT_ID]);
         $this->load->view('admin/media/index',['result'=>$get->result(),'multiple'=>$multiple]);
     }
 
@@ -408,8 +523,12 @@ class Admin extends CI_Controller{
         foreach ($_FILES[$file]['name'] as $key => $filename) {
             // Set up configuration for each file
             $config['upload_path']   = $upload_dir;
-            $config['allowed_types'] = 'gif|jpg|png';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg|webp|pdf|mp4';
             $config['max_size']      = 0;
+            // $config['encrypt_name'] = TRUE;
+            $config['file_name']     = time(); // Set file name to current timestamp
+
+
             // Initialize the upload library with the config
             $this->load->library('upload', $config);
             
