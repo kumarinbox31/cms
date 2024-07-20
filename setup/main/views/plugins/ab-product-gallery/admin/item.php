@@ -15,6 +15,10 @@
                     <label>Link</label>
                     <input type="text" name="link" class="form-control" placeholder="Enter link" >
                 </div>
+                <div class="form-group">
+                    <label>Button Text</label>
+                    <input type="text" name="btn" class="form-control" placeholder="Enter button text" value="Get Quote" >
+                </div>
                 <input type="hidden" name="file" id="file">
                     <style>
                         .preview-logo > *{
@@ -128,11 +132,12 @@
                         // Loop through the data array
                         data.forEach(function(item,$index) {
                             // Construct HTML for each table row using data from the array
+                            btn = item.btn == null ? 'Get Quote' : item.btn;
                             html += `<tr>
                                         <td>${item.id}</td>
                                         <td>${item.title}</td>
                                         <td><img src="${item.file}" width="50" height="50"></td>
-                                        <td>${item.link}</td>
+                                        <td><a class="btn btn-sm btn-primary" href="${item.link}">${btn}</a></td>
                                         <td>
                                             <a class="btn btn-sm btn-danger " onclick="deleteItem(${item.id})" ><i class="fa fa-trash"></i></a>
                                         </td>

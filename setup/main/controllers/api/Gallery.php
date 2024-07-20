@@ -60,6 +60,7 @@ class Gallery extends CI_Controller{
                 'desc'          =>  $post['desc'] ?? '',
                 'file'          =>  $post['file'],
                 'link'          =>  $post['link'] ?? '',
+                'btn'           =>  $post['btn'] ?? '',
             ];
             $res = $this->GalleryModel->addGalleryItem($data);
             if($res){

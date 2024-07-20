@@ -15,6 +15,7 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
                 foreach ($get->result() as $row) {
                     $image = $row->file == '' ? '' : $row->file;
                     $content = $row->title;
+                    $btn = $row->btn == null ? 'Get Quote' : $row->btn;
                     $onclick = $row->link == '' ? 'onclick="productQueryForm(' . $row->id . ');"' : 'href="' . $row->link . '"';
                     echo '
                 <div class="product-item col-md-4 mt-2" style="min-height:300px;" id="product-item-' . $row->id . '">
@@ -28,7 +29,7 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
                             <div class="text-center">
                                 <a ' . $onclick . ' class="btn btn-sm btn-primary">Get Quote</a>
                                <!-- <a ' . $onclick . ' href="' . $row->link . '" class="btn btn-sm btn-primary inline-block bg-blue-500 hover:bg-blue-700 
-                                text-white font-bold py-2 px-4 rounded">Get Quote</a> -->
+                                text-white font-bold py-2 px-4 rounded">'.$btn.'</a> -->
 
                             </div>
                         </div>
