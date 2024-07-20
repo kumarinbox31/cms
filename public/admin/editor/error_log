@@ -1,2 +1,0 @@
-[04-Feb-2024 11:53:34 Asia/kolkata] PHP Warning:  rename(/home/webfire1/public_html/tool/public/admin/editor/index.html,/home/webfire1/public_html/tool/public/admin/editor/index.html): No such file or directory in /home/webfire1/public_html/tool/public/admin/editor/save.php on line 63
-[04-Feb-2024 11:53:39 Asia/kolkata] PHP Warning:  unlink(/home/webfire1/public_html/tool/public/admin/editor/blank.html): No such file or directory in /home/webfire1/public_html/tool/public/admin/editor/save.php on line 72
