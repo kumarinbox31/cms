@@ -1,6 +1,29 @@
+<div class="container-fluid">
+    <div class="row clearfix">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="widget">
+                <div class="widget-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="state">
+                            <h6>Space Used</h6>
+                            <h2><?php echo getTotalSpaceUsed(); ?></h2>
+                        </div>
+                        <div class="icon">
+                            <i class="ik ik-award"></i>
+                        </div>
+                    </div>
+                    <small class="text-small mt-10 d-block">Use smaller images to save storage, boost loading times, and improve user experience.</small>
+                </div>
+                <!--<div class="progress progress-sm">-->
+                <!--    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="1000" style="width: 62%;"></div>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
 
-
-<?/*
+<?
+/*
 <div class="container-fluid">
                         <div class="row clearfix">
                             <div class="col-lg-3 col-md-6 col-sm-12">

@@ -7,13 +7,150 @@ class Editor extends CI_Controller{
         $this->load->helper('page');
         checkAdminLogin();
     }
+    function upload(){
+        
+        $uploadDenyExtensions  = ['php'];
+        $uploadAllowExtensions = ['ico','jpg','jpeg','png','gif','webp','svg'];
+        
+        
+        define('UPLOAD_FOLDER', FCPATH);
+        if (isset($_POST['mediaPath'])) {
+        	define('UPLOAD_PATH', $this->sanitizeFileName($_POST['mediaPath']) );
+        } else {
+        	define('UPLOAD_PATH', DIRECTORY_SEPARATOR);
+        }
+        
+        $fileName  = $this->sanitizeFileName($_FILES['file']['name']);
+        if (!$fileName) {
+        	$this->showError('Invalid filename!');
+        }
+        
+        $extension = strtolower(substr($fileName, strrpos($fileName, '.') + 1));
+        
+        //check if extension is on deny list
+        if (in_array($extension, $uploadDenyExtensions)) {
+        	$this->showError("File type $extension not allowed!");
+        }
+        
+        //comment deny code above and uncomment this code to change to a more restrictive allowed list
+        // check if extension is on allow list
+        if (!in_array($extension, $uploadAllowExtensions)) {
+        	$this->showError("File type $extension not allowed!");
+        }
+        
+        $destination = UPLOAD_FOLDER . UPLOAD_PATH . DIRECTORY_SEPARATOR . $fileName;
+        move_uploaded_file($_FILES['file']['tmp_name'], $destination);
+        
+        if (isset($_POST['onlyFilename'])) {
+        	echo $fileName;
+        } else {
+        	echo UPLOAD_PATH . $fileName;
+        }
+    }
+    function showError($error) {
+    	header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+    	die($error);
+    }
     
+    function sanitizeFileName($file)
+    {
+    	$disallow = ['.htaccess', 'passwd'];
+    	$file = str_replace($disallow, '', $file);
+    	
+    	//sanitize, remove double dot .. and remove get parameters if any
+    	$file = preg_replace('@\?.*$@' , '', preg_replace('@\.{2,}@' , '', preg_replace('@[^\/\\a-zA-Z0-9\-\._]@', '', $file)));
+    	
+    	return $file;
+    }
+    
+    function sanitizePath($path) {
+    	//sanitize, remove double dot .. and remove get parameters if any
+    	$path = preg_replace('@/+@' , DIRECTORY_SEPARATOR, preg_replace('@\?.*$@' , '', preg_replace('@\.{2,}@' , '', preg_replace('@[^\/\\a-zA-Z0-9\-\._]@', '', $path))));
+    	return $path;
+    }
+        
+    function scan(){
+        //scan media folder for all files to display in media modal
+        
+        if (isset($_POST['mediaPath']) && ($path = $this->sanitizePath(substr($_POST['mediaPath'], 0, 256)))) {
+        	define('UPLOAD_PATH', $path);
+        } else {
+        	define('UPLOAD_PATH', FCPATH.'public/temp/'.CLIENT_ID);
+        }
+        // echo UPLOAD_PATH;exit;
+        // $scandir = __DIR__ . DIRECTORY_SEPARATOR. UPLOAD_PATH;
+        $scandir = UPLOAD_PATH;
+        // echo $scandir;exit;
+        
+        // Run the recursive function
+        // This function scans the files folder recursively, and builds a large array
+        
+        $scan = function ($dir) use ($scandir, &$scan) {
+        	$files = [];
+        
+        	// Is there actually such a folder/file?
+        
+        	if (file_exists($dir)) {
+        		foreach (scandir($dir) as $f) {
+        			if (! $f || $f[0] == '.') {
+        				continue; // Ignore hidden files
+        			}
+        
+        			if (is_dir($dir . '/' . $f)) {
+        				// The path is a folder
+        
+        				$files[] = [
+        					'name'  => $f,
+        					'type'  => 'folder',
+        					'path'  => str_replace($scandir, '', $dir) . '/' . $f,
+        					'items' => $scan($dir . '/' . $f), // Recursively get the contents of the folder
+        				];
+        			} else {
+        				// It is a file
+        
+        				$files[] = [
+        					'name' => $f,
+        					'type' => 'file',
+        					'path' => str_replace($scandir, '', $dir) . '/' . $f,
+        					'size' => filesize($dir . '/' . $f), // Gets the size of this file
+        				];
+        			}
+        		}
+        	}
+        
+        	return $files;
+        };
+        
+        $response = $scan($scandir);
+        
+        // Output the directory listing as JSON
+        
+        header('Content-type: application/json');
+        
+        echo json_encode([
+        	'name'  => '',
+        	'type'  => 'folder',
+        	'path'  => '',
+        	'items' => $response,
+        ]);
+    }
     function index(){
         $this->load->view('admin/editor/index');
     }
     
     function action(){
-        print_r($_POST);exit('HI');
+        $action = @$_GET['action'];
+        switch($action){
+            case 'delete':
+                $file = FCPATH.$_POST['file'];
+                if(file_exists($file)){
+                    unlink($file);
+                    echo 'File Deleted Successfully.';
+                }else{
+                    echo 'Something went wrong.';
+                }
+            break;
+        }
     }
     
     function edit($type='page',$id=0){

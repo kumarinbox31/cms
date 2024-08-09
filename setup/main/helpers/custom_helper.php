@@ -1,4 +1,51 @@
 <?php
+function getTotalSpaceUsed(){
+    $dir = dirname(dirname(APPPATH))."/public/temp/".CLIENT_ID.'/';
+    $size = getTotalImageSize($dir);
+    return formatSizeUnits($size);
+}
+function getTotalImageSize($directory) {
+    $totalSize = 0;
+    $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp','pdf'];
+
+    if (is_dir($directory)) {
+        $files = scandir($directory);
+
+        foreach ($files as $file) {
+            if ($file != "." && $file != "..") {
+                $filePath = $directory . DIRECTORY_SEPARATOR . $file;
+                
+                if (is_file($filePath)) {
+                    $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+                    if (in_array($extension, $imageExtensions)) {
+                        $totalSize += filesize($filePath);
+                    }
+                } elseif (is_dir($filePath)) {
+                    $totalSize += getTotalImageSize($filePath); // Recursively handle subdirectories
+                }
+            }
+        }
+    }
+
+    return $totalSize;
+}
+function formatSizeUnits($bytes) {
+    if ($bytes >= 1073741824) {
+        $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+    } elseif ($bytes >= 1048576) {
+        $bytes = number_format($bytes / 1048576, 2) . ' MB';
+    } elseif ($bytes >= 1024) {
+        $bytes = number_format($bytes / 1024, 2) . ' KB';
+    } elseif ($bytes > 1) {
+        $bytes = $bytes . ' bytes';
+    } elseif ($bytes == 1) {
+        $bytes = $bytes . ' byte';
+    } else {
+        $bytes = '0 bytes';
+    }
+
+    return $bytes;
+}
 function getVisitorCounter(){
     $ci = &get_instance();
     $cnt = $ci->WebsiteData->getVisitors();
