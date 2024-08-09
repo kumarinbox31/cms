@@ -1668,8 +1668,8 @@
 <!-- media gallery -->
 <link href="<?php echo base_url('public/admin/editor/'); ?>libs/media/media.css" rel="stylesheet">
 <script>
-window.mediaPath = '<?php echo base_url('public/temp/').CLIENT_ID; ?>';
-Vvveb.themeBaseUrl = '<?php echo theme_path(); ?>';
+window.mediaPath = '<?php echo ('/public/temp/').CLIENT_ID; ?>';
+Vvveb.themeBaseUrl = '<?php echo base_url(); ?>';
 </script>
 <script src="<?php echo base_url('public/admin/editor/'); ?>libs/media/media.js"></script>	
 <script src="<?php echo base_url('public/admin/editor/'); ?>libs/media/openverse.js"></script>

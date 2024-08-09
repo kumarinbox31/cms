@@ -15,6 +15,10 @@
                     <label>Link</label>
                     <input type="text" name="link" class="form-control" placeholder="Enter link" >
                 </div>
+                <div class="form-group">
+                    <label>Button Text</label>
+                    <input type="text" name="btn" class="form-control" placeholder="Enter button text" value="Get Quote" >
+                </div>
                 <input type="hidden" name="file" id="file">
                     <style>
                         .preview-logo > *{
@@ -30,7 +34,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Desc</label>
-                    <textarea name="desc" class="form-control ckeditor" ></textarea>
+                    <textarea name="desc" class="form-control " ></textarea>
                 </div>
             </div>
         </div>
@@ -67,38 +71,40 @@
 <script>
     loadData();
     $('.add-product').submit(function(e){
-        e.preventDefault();
-        var formdata = new FormData(this);
-        var btn = $(this).find('button');
-        $.ajax({
-            url:"<?php echo base_url('api/gallery/addItem'); ?>",
-            type:"POST",
-            dataType:"json",
-            data:formdata,
-            cache:false,
-            contentType: false,
-            processData: false,
-            beforeSend:function(){
-                btn.css('disabled',true);
-                $('#msg').html('<div class="alert alert-info">Processing....</div>');
-            },
-            success:function(res){
-                console.log(res);
-                if(res.status){
-                    alert(res.msg);
-                    loadData();
-                    $('.add-product')[0].reset();
-                }else{
-                    alert(res.msg);
-                }
-            },
-            complete:function(){
-                btn.css('disabled',false);
-                $('#msg').html("<div class='alert alert-success'>Saved</div>");
+    e.preventDefault();
+    var formdata = new FormData(this);
+    var btn = $(this).find('button');
+    
+    $.ajax({
+        url: "<?php echo base_url('api/gallery/addItem'); ?>",
+        type: "POST",
+        dataType: "json",
+        data: formdata,
+        cache: false,
+        contentType: false,
+        processData: false,
+        beforeSend: function(){
+            btn.prop('disabled', true);
+            $('#msg').html('<div class="alert alert-info">Processing....</div>');
+        },
+        success: function(res){
+            console.log(res);
+            if(res.status){
+                alert(res.msg);
+                loadData();
+                $('.add-product')[0].reset();
+            }else{
+                alert(res.msg);
             }
-        });
+        },
+        complete: function(){
+            btn.prop('disabled', false);
+            $('#msg').html("<div class='alert alert-success'>Saved</div>");
+        }
     });
-    function deleteItem(id){
+});
+
+function deleteItem(id){
         var c = confirm('Are you sure?');
         if(c){
             $.ajax({
@@ -108,6 +114,7 @@
                 function(res){
                     if(res.status){
                         loadData();
+                        $('#msg').html("<div class='alert alert-success'>Deleted Item successfully.</div>");
                     }else{
                         alert(res.msg);
                     }
@@ -128,11 +135,12 @@
                         // Loop through the data array
                         data.forEach(function(item,$index) {
                             // Construct HTML for each table row using data from the array
+                            btn = item.btn == null ? 'Get Quote' : item.btn;
                             html += `<tr>
                                         <td>${item.id}</td>
                                         <td>${item.title}</td>
                                         <td><img src="${item.file}" width="50" height="50"></td>
-                                        <td>${item.link}</td>
+                                        <td><a class="btn btn-sm btn-primary" href="${item.link}">${btn}</a></td>
                                         <td>
                                             <a class="btn btn-sm btn-danger " onclick="deleteItem(${item.id})" ><i class="fa fa-trash"></i></a>
                                         </td>

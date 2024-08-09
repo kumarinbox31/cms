@@ -32,6 +32,32 @@ class Gallery extends CI_Controller{
         }
         
     }
+    function update() {
+        if($post = $this->input->post()){
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('title', 'Title', 'required');
+            $this->form_validation->set_rules('id', 'Id', 'required');
+        
+            if ($this->form_validation->run() == FALSE) {
+                echo json_encode(['status' => 0, 'msg' => 'Validation Failed.', 'code' => 12, 'data' => validation_errors()]);
+                return;
+            }
+            
+            $data = [];
+            foreach($post as $key => $val){
+                $data[$key] = is_array($val) ? json_encode($val) : $val;
+            }
+            $res = $this->GalleryModel->updateGallery(['id'=>$post['id']],$data);
+            if($res){
+                echo json_encode(['status'=>1,'msg'=>'Gallery Update Successfully.','data'=>$post,'code'=>14]);
+            }else{
+                echo json_encode(['status'=>0,'msg'=> 'Database Error','code'=>13,'data'=>$this->db->error()]);
+            }
+        }else{
+            echo json_encode(['status'=>0,'msg'=>'Only Post Method Allowed','code'=>15]);
+        }
+        
+    }
     public function deleteGallery(int $id){
         $this->GalleryModel->deleteGallery($id);
         echo json_encode(['status'=>1,'msg'=>'Deleted successfully.','code'=>14,'data'=>null]);
@@ -60,6 +86,7 @@ class Gallery extends CI_Controller{
                 'desc'          =>  $post['desc'] ?? '',
                 'file'          =>  $post['file'],
                 'link'          =>  $post['link'] ?? '',
+                'btn'           =>  $post['btn'] ?? '',
             ];
             $res = $this->GalleryModel->addGalleryItem($data);
             if($res){

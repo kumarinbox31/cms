@@ -11,6 +11,11 @@ if(getVal('ab-whatsapp-plugin') == 'enable'){
     add_action('ab_footer', 'whatsapp_icon_footer');
     add_action('ab_head', 'custom_css');
 }
+
+if(getVal('ab-popup-content') != ''){
+    add_action('ab_footer', 'popupScript');
+    add_action('ab_head', 'popupCss');
+}
 function whatsapp_icon_footer(){
     echo '
         <a href="https://wa.me//+91'.getVal('ab-whatsapp-number').'" class="whatsapp-icon">
@@ -22,9 +27,11 @@ function whatsapp_icon_footer(){
             </svg> -->
             <img src="'.base_url('public/admin/call.png').'" width="50" height="50">
         </a>
+        '.getVal('ab-tawk-to-script').'
     ';
 }
 function custom_css(){
+    
     echo '<style>
     .whatsapp-icon{
         fill: white;
@@ -53,8 +60,111 @@ function custom_css(){
                 position:fixed;
                 bottom:5px;
                 left:5px;
-                z-index:999;
+                z-index:10;
             }
+            
+            
         </style>';
+        if(getVal('ab-tawk-to-script') != ''){
+        echo '<style>
+        .whatsapp-icon{
+            bottom: 70px;
+    left: 5px;
+        }
+        </style>';
+    }
+}
+function popupScript(){
+    echo '<div id="ab-popup1" class="ab-overlay">
+        	<div class="ab-popup">
+        		<a class="close" href="#" onclick=\'AbHidePopup("ab-popup1")\'>&times;</a>
+        		<div class="content">
+        			'.do_shortcode(getVal('ab-popup-content')).'
+        		</div>
+        	</div>
+        </div>
+        <script>
+            function AbShowPopup(divId){
+                var divElement = document.getElementById(divId);
+                if (divElement) {
+                    divElement.style.visibility = "visible";
+                    divElement.style.opacity = "1";
+                } else {
+                    console.error("POPUP DIV " + divId + " not found.");
+                }
+            }
+            function AbHidePopup(divId){
+                var divElement = document.getElementById(divId);
+                if (divElement) {
+                    divElement.style.visibility = "hidden";
+                    divElement.style.opacity = "0";
+                } else {
+                    console.error("POPUP DIV " + divId + " not found.");
+                }
+            }
+            AbShowPopup("ab-popup1");
+        </script>';
+}
+function popupCss(){
+    echo '
+    <style>
+     .ab-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index:999;
+}
+.ab-overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.ab-popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.ab-popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+.ab-popup .close {
+  position: absolute;
+  top: -12px;
+    right: 12px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.ab-popup .close:hover {
+  color: #06D85F;
+}
+.ab-popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 700px){
+  .box{
+    width: 70%;
+  }
+  .ab-popup{
+    width: 70%;
+  }
+}</style>';
 }
 ?>

@@ -31,6 +31,15 @@ $btn_icon = $enable == 'enable' ? 'on' : 'off';
                 <label>Calling No</label>
                 <input type="number" min="0" class="form-control" name="ab-calling-number" value="<?=getVal('ab-calling-number');?>" placeholder="Enter calling number">
             </div>
+            <div class="form-group col-md-6">
+                <label>Tawk.to Widget Script</label>
+                <textarea name="ab-tawk-to-script"
+                placeholder="Enter script" rows="10" class="form-control"><?php echo getVal('ab-tawk-to-script'); ?></textarea>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Popup Content</label>
+                <textarea name="ab-popup-content" placeholder="Enter Content" rows="10" class="form-control ckeditor" ><?php echo getVal('ab-popup-content'); ?></textarea>
+            </div>
             <div class="form-group col-md-12">
                 <button type="submit" class="btn btn-sm btn-primary" >Submit</button>
             </div>

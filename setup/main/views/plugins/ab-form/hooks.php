@@ -3,7 +3,7 @@ add_shortcode('ab-form', function($atts, $content){
     //  [ab-form id=1 ]
     $formId = @$atts['id'];
     $ci = &get_instance();
-    $get = $this->ServiceModel->getServiceById($formId)->row();;
+    $get = $ci->ServiceModel->getServiceById($formId)->row();;
     $content = @$get->content;
      ob_start();
         echo '<form method="POST" action="/web/ajax" class="ajax-form-submit" onsubmit="javascript:;" enctype="multipart/form-data">

@@ -4,6 +4,14 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
     $id = intval(@$atts['id']);
     $ci = &get_instance();
     $get = $this->GalleryModel->getGallery(['id' => $id])->row();
+    $extra = @$get->extra;
+    if(isset($get->extra)){
+        $extra = json_decode($extra);
+    }
+    $button_title = isset($extra->button_title) ? $extra->button_title : 'Get Quote';
+    $button_style = isset($extra->button_style) ? $extra->button_style : 'primary';
+    $button_color = isset($extra->button_color) ? $extra->button_color : '#ffffff';
+    $button_bg  = isset($extra->button_bg) ? $extra->button_bg : '#086AD8';
     ob_start();
     ?>
     <main class="product-gallery-main container py-2 w-100">
@@ -15,6 +23,7 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
                 foreach ($get->result() as $row) {
                     $image = $row->file == '' ? '' : $row->file;
                     $content = $row->title;
+                    $btn = $row->btn == null ? 'Get Quote' : $row->btn;
                     $onclick = $row->link == '' ? 'onclick="productQueryForm(' . $row->id . ');"' : 'href="' . $row->link . '"';
                     echo '
                 <div class="product-item col-md-4 mt-2" style="min-height:300px;" id="product-item-' . $row->id . '">
@@ -26,9 +35,12 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
                         <div class="card-body py-2">
                             <h4 class="text-center ab-product-title">' . $row->title . '</h4>
                             <div class="text-center">
-                                <a ' . $onclick . ' class="btn btn-sm btn-primary">Get Quote</a>
+                                <a ' . $onclick . ' class="btn btn-sm btn-primary" 
+                                style="background:'.$button_bg.' !important;
+                                color:'.$button_color.' !important;"
+                                >'.$button_title.'</a>
                                <!-- <a ' . $onclick . ' href="' . $row->link . '" class="btn btn-sm btn-primary inline-block bg-blue-500 hover:bg-blue-700 
-                                text-white font-bold py-2 px-4 rounded">Get Quote</a> -->
+                                text-white font-bold py-2 px-4 rounded">'.$btn.'</a> -->
 
                             </div>
                         </div>
@@ -137,6 +149,7 @@ add_action('ab_footer', function () {
             var image = itemEl.find('.ab-product-image').attr('src');
             var title = itemEl.find('.ab-product-title').text();
             var desc = itemEl.find('.ab-product-desc').html();
+            console.log(desc);
             var form = $('#product-query-form');
             form.find('.modal-title').html(title);
             form.find('.image').attr('src', image);
