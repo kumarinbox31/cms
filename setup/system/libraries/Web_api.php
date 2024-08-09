@@ -58,7 +58,7 @@ class Web_api{
 
         if(reseller ){ //&& domain_name == 'developer.ajaydemo.in.net'){
             // die();
-             $this->resellerDB = mysqli_connect('sdb-f.hosting.stackcp.net',HOST_USER,DB_PASSWORD, RESELLER_DB) or die('ERRORS = '. mysqli_connect_error());
+             $this->resellerDB = mysqli_connect(HOST,HOST_USER,DB_PASSWORD, RESELLER_DB) or die('ERRORS = '. mysqli_connect_error());
 
             $getREseller = $this->resellerDB->query("SELECT * FROM  ".RESELLER_PREFIX."admins WHERE domain = '".FRESH_DOMAIN."' ");
 

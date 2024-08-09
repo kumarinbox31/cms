@@ -1,4 +1,19 @@
 <?php
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+use Dotenv\Dotenv;
+
+// Initialize dotenv
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
+function env($type,$default=''){
+    if(isset($_ENV[$type])){
+        return $_ENV[$type];
+    }else{
+        return $default;
+    }
+}
+
 
     require_once __DIR__.'/system/libraries/Web_api.php';
 	define('main_dir',__DIR__.'/main/');
@@ -38,21 +53,22 @@
 	}
     
     $api = new Web_api(
-    						[
-    							'ENVIRONMENT'		=>	isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development',
-    							'HOST'				=>	'sdb-w.hosting.stackcp.net',
-    							'HOST_USER'			=>	'webfire_main',
-    				            'DB_PASSWORD'       =>  '_l/RwI_0]ZeJ',
-    							'DB_NAME'			=>	'webfire_main-323133ec33',
-    							'DB_PREFIX'			=>	'w999_',
-    							'MAIN_SITE'			=>	'https://webfire.in/',
-    							'domain_name'		=>	$_SERVER['HTTP_HOST'],
-    							'EDB_NAME'			=>	'website9_ecommerce_001',
-    							'PREFIX'			=>	'ab',
-    							'reseller'			=>	true,
-    							'RESELLER_PREFIX'	=>	'ab_',
-    							'RESELLER_DB'       =>  'webfire_super-313834a166',
-    						]
+					[
+						'ENVIRONMENT'        => isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development',
+						'HOST'               => env('HOST', 'localhost'),
+						'HOST_USER'          => env('HOST_USER', 'webfire_main'),
+						'DB_PASSWORD'        => env('DB_PASSWORD', '_l/RwI_0]ZeJ'),
+						'DB_NAME'            => env('DB_NAME', 'webfire_main-323133ec33'),
+						'DB_PREFIX'          => env('DB_PREFIX', 'w999_'),
+						'MAIN_SITE'          => env('MAIN_SITE', 'https://webfire.in/'),
+						'domain_name'        => env('domain_name', $_SERVER['HTTP_HOST']),
+						'EDB_NAME'           => env('EDB_NAME', 'website9_ecommerce_001'),
+						'PREFIX'             => env('PREFIX', 'ab'),
+						'reseller'           => env('reseller', true),
+						'RESELLER_PREFIX'    => env('RESELLER_PREFIX', 'ab_'),
+						'RESELLER_DB'        => env('RESELLER_DB', 'webfire_super-313834a166'),
+					]
+		
     				);
     
     // print_r($api);
