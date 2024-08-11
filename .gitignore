@@ -1,5 +1,7 @@
 /setup-old
 /backup
-/public
+/public/temp/*
 /test
 .env
+flipkart.webfire.site
+error_log
