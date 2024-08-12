@@ -54,7 +54,7 @@ function env($type,$default=''){
     
     $api = new Web_api(
 					[
-						'ENVIRONMENT'        => isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development',
+						'ENVIRONMENT'        => isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production',
 						'HOST'               => env('HOST', 'localhost'),
 						'HOST_USER'          => env('HOST_USER', 'webfire_main'),
 						'DB_PASSWORD'        => env('DB_PASSWORD', '_l/RwI_0]ZeJ'),
