@@ -1,9 +1,16 @@
 <?php 
-$all = $this->website->get(['rid'=>RID])->num_rows();
-$active = $this->website->get(['status'=>'1','rid'=>RID])->num_rows();
-$inactive = $this->website->get(['status'=>'0','rid'=>RID])->num_rows();
-$activePer = $active/$all*100;
-$inactivePer = $inactive/$all*100;
+$rid = RID;
+$all = $this->website->get(['rid' => $rid])->num_rows();
+
+if ($all > 0) {
+    $active = $this->website->get(['status' => '1', 'rid' => $rid])->num_rows();
+    $inactive = $this->website->get(['status' => '0', 'rid' => $rid])->num_rows();
+    
+    $activePer = ($active / $all) * 100;
+    $inactivePer = ($inactive / $all) * 100;
+} else {
+    $active = $inactive = $activePer = $inactivePer = 0;
+}
 ?>
 <div class="container-fluid">
                         <div class="row clearfix">
