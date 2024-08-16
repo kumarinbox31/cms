@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = "https://".FRESH_DOMAIN."/";
+$config['base_url'] = env('BASE_URL',"https://".FRESH_DOMAIN."/");
 
 /*
 |--------------------------------------------------------------------------
