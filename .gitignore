@@ -1,6 +1,7 @@
 /setup-old
 /backup
 /public/temp/*
+/public/theme/*
 /test
 .env
 flipkart.webfire.site
