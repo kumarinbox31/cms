@@ -5,6 +5,7 @@ add_action('ab_body_class', 'registerBodyClass');
 
 function registerBeforeHeadContent(){
     echo '
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" />
             <script>document.documentElement.className = document.documentElement.className + " yes-js js_active js"</script>
       <meta name="robots" content="max-image-preview:large" />
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />

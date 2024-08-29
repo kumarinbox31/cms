@@ -1,9 +1,11 @@
 /setup-old
 /backup
 /public/temp/*
+/public/theme/*
 /test
 .env
 flipkart.webfire.site
 error_log
 cgi-bin
 .well-known
+/public
