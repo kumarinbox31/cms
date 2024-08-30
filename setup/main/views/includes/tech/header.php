@@ -11,7 +11,11 @@
         <?php beforeHeadContent(); ?>
         <?php echo OtherContent('header','cssdata'); ?>
         <?php echo theContent($page_id,'cssdata'); ?>
-        
+        <style>
+            .site-wrapper-reveal{
+                margin: top 5rem !important;
+            }
+        </style>
     </head>
     <body <?php echo bodyClass(); ?>>
         
