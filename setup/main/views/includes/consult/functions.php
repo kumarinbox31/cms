@@ -5,7 +5,6 @@ add_action('ab_body_class', 'registerBodyClass');
 
 function registerBeforeHeadContent(){
     echo '
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" />
             <script>document.documentElement.className = document.documentElement.className + " yes-js js_active js"</script>
       <meta name="robots" content="max-image-preview:large" />
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
@@ -344,7 +343,8 @@ function registerAfterFooterContent(){
    }} // End of RevInitScript
    if (window.RS_MODULES.checkMinimal!==undefined) { window.RS_MODULES.checkMinimal();};
 </script>
-      
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet"/>
+
         ';
 }
 
