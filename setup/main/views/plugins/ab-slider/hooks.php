@@ -87,12 +87,20 @@ function ab_slider_style(){
         .slide > img{
             height:100vh !important;
         }
-        @media(max-width:1000px){
+        @media(max-width:840px){
             .slide{
                 height:250px!important;
             }
             .slide > img{
                 height:250px!important;
+            }
+        }
+        @media(max-width:1000px) and (min-width:840px){
+            .slide{
+                height:350px!important;
+            }
+            .slide > img{
+                height:350px!important;
             }
         }
     </style>
