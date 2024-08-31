@@ -19,12 +19,37 @@
             }
         }
         */
-        @media (max-width: 680px) {
+        /* @media (max-width: 680px) {
             .main-content {
                 margin-top: 3rem !important;
             }
-        } 
+        }  */
     </style>
+    <script>
+        // Function to adjust the margin-top based on the header height
+function adjustMarginTop() {
+    const headerArea = document.querySelector('.header-area--absolute');
+    const mainContent = document.querySelector('.main-content');
+
+    if (headerArea && mainContent) {
+        const headerHeight = headerArea.offsetHeight;
+
+        // Check the screen width and apply the margin-top within the media query condition
+        if (window.innerWidth <= 680) {
+            mainContent.style.marginTop = headerHeight + 'px';
+        } else {
+            mainContent.style.marginTop = '3rem'; // Reset to default or a fallback value
+        }
+    }
+}
+
+// Call the function on page load
+window.addEventListener('DOMContentLoaded', adjustMarginTop);
+
+// Call the function on window resize
+window.addEventListener('resize', adjustMarginTop);
+
+    </script>
 </head>
 
 <body <?php echo bodyClass(); ?>>
