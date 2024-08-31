@@ -38,7 +38,7 @@ function adjustMarginTop() {
         if (window.innerWidth <= 680) {
             mainContent.style.marginTop = headerHeight + 'px';
         } else {
-            mainContent.style.marginTop = '3rem'; // Reset to default or a fallback value
+            mainContent.style.marginTop = '0'; // Reset to default or a fallback value
         }
     }
 }
