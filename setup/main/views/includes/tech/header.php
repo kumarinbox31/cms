@@ -13,7 +13,7 @@
         <?php echo theContent($page_id,'cssdata'); ?>
         <style>
             .site-wrapper-reveal{
-                margin: top 5rem !important;
+                margin-top: 5rem !important;
             }
         </style>
     </head>
