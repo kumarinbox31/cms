@@ -21,7 +21,7 @@
         */
         @media (max-width: 680px) {
             .main-content {
-                margin-top: -4.5rem !important;
+                margin-top: 3rem !important;
             }
         } 
     </style>
