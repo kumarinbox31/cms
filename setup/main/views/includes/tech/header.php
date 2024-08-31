@@ -19,9 +19,9 @@
             }
         }
         */
-        @media (min-width: 480px) and (max-width: 680px) {
+        @media (max-width: 680px) {
             .main-content {
-                margin-top: 5rem !important;
+                margin-top: -4.5rem !important;
             }
         } 
     </style>
