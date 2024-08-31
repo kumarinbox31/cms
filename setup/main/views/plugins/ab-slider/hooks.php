@@ -87,7 +87,7 @@ function ab_slider_style(){
         .slide > img{
             height:100vh !important;
         }
-        @media(max-width:840px){
+        @media(max-width:1000px){
             .slide{
                 height:250px!important;
             }
