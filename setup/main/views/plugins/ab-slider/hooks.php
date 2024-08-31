@@ -97,10 +97,10 @@ function ab_slider_style(){
         }
         @media(max-width:1000px) and (min-width:840px){
             .slide{
-                height:350px!important;
+                height:500px!important;
             }
             .slide > img{
-                height:350px!important;
+                height:500px!important;
             }
         }
     </style>
