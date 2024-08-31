@@ -1,4 +1,4 @@
-
+</div>
 <?php echo OtherContent('footer','cssdata'); ?>
 
        <?php 
