@@ -125,8 +125,10 @@ add_action('ab_head', function () {
             margin-bottom: 1rem;
         }
         .ab-product-image{
-            height:170px;
-            width:100%;
+            height: 200px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
         }
         .form-hidden{
             display:none;
