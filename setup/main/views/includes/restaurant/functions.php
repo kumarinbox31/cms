@@ -27,7 +27,7 @@ add_shortcode('navbar', function($atts, $content){
      $type = @$atts['type'] ?? 'horizontal';
      ob_start();
      include 'navbar/nav1.php';
-     include 'navbar/mobile.php';
+    //  include 'navbar/mobile.php';
      
      $html = ob_get_contents();
 	 ob_end_clean();
