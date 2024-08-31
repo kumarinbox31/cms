@@ -203,17 +203,23 @@
                                 <!--        <a href="<?php echo base_url('admin/plugins'); ?>" class="menu-item">Plugins</a>-->
                                 <!--    </div>-->
                                 <!--</div>-->
-                                <?php 
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-gitlab"></i><span>Appearance</span> <span class="badge badge-success">New</span></a>
+                                    <div class="submenu-content">
+                                    <?php 
                                     if(isset($menu) && count($menu)){
                                     foreach($menu as $plugin => $mm){
                                         foreach($mm as $m){
-                                        echo '<div class="nav-item">
-                                                <a href="'.base_url("admin/plugin/$plugin?page=").$m['link'].'"><i class="'.$m['icon'].'"></i><span>'.$m['label'].'</span></a>
-                                            </div>';
+                                        echo '
+                                                <a href="'.base_url("admin/plugin/$plugin?page=").$m['link'].'" class="menu-item"><i class="'.$m['icon'].'"></i><span>'.$m['label'].'</span></a>
+                                            ';
                                         }
                                     }
                                     }
                                 ?>
+                                    </div>
+                                </div>
+                                
                                 <!--<div class="nav-item has-sub">-->
                                 <!--    <a href="#"><i class="ik ik-gitlab"></i><span>Advance</span> <span class="badge badge-success">New</span></a>-->
                                 <!--    <div class="submenu-content">-->
