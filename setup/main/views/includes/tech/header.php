@@ -13,17 +13,17 @@
     <?php echo OtherContent('header', 'cssdata'); ?>
     <?php echo theContent($page_id, 'cssdata'); ?>
     <style>
-        @media (max-width: 640px) and (min-width: 480px) {
+        /* @media (max-width: 640px) and (min-width: 480px) {
             .site-wrapper-reveal {
                 margin-top: 2rem !important;
             }
         }
-
-        @media (max-width: 480px) {
-            .site-wrapper-reveal {
-                margin-top: -2.5rem !important;
+        */
+        @media (min-width: 480px) and (max-width: 680px) {
+            .main-content {
+                margin-top: 5rem !important;
             }
-        }
+        } 
     </style>
 </head>
 
@@ -37,3 +37,4 @@
         include 'header-content.php';
     }
     ?>
+<div class="main-content">
