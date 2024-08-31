@@ -30,9 +30,7 @@ function registerBeforeHeadContent(){
     background-color: #ffffff; /* Adjust background color as needed */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
 }
-        .slider {
-            margin-top:10rem!important;
-        }
+        
     }</style>
             ';
     echo $links;
