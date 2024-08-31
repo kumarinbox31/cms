@@ -84,7 +84,7 @@
                         <div class="lang-wrap"><a href="#" class="act-lang">En</a><span>/</span><a href="#">Fr</a></div>
                     </div> -->
                     <!--  header-top end  -->
-                    <div class="nav-holder-wrap init-fix-header  fl-wrap">
+                    <div class="nav-holder-wrap init-fix-header  fl-wrap" style="width:100%!important;">
                         <a href="/" class="logo-holder"><img src="<?php echo LOGO; ?>" alt=""></a>
                         <!--  navigation -->
                         <div class="nav-holder main-menu">
