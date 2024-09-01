@@ -89,7 +89,7 @@
                 </div>
                 <div class="footer-bottom">
                     <div class="container">
-                        <a href="index.html" class="footer-logo"><img src="images/logo.png" alt=""></a>
+                        <a href="index.html" class="footer-logo"><img src="/public/theme/restaurant/images/logo.png" alt=""></a>
                         <div class="copyright">&#169; Diamant 2024 . All rights reserved. </div>
                         <div class="to-top"><span>Back To Top </span><i class="fal fa-angle-double-up"></i></div>
                     </div>

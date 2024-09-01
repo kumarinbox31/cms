@@ -120,10 +120,10 @@
                             <div class="col-lg-6">
                                 <div class="hero-image-collge-wrap">
                                     <div class="single-dec_img">
-                                        <img src="images/all/11.jpg" alt="" class="respimg">
+                                        <img src="/public/theme/restaurant/images/all/11.jpg" alt="" class="respimg">
                                     </div>
-                                    <div class="hero_images-collage-item" style="width: 25%; bottom:  25px; z-index: 15; left: -70px;"><img src="images/all/12.jpg" class="respimg" alt=""></div>
-                                    <div class="hero_images-collage-item" style="width: 45%; top: -5%; z-index: 11; right: -120px;"><img src="images/all/7.jpg" class="respimg" alt=""></div>
+                                    <div class="hero_images-collage-item" style="width: 25%; bottom:  25px; z-index: 15; left: -70px;"><img src="/public/theme/restaurant/images/all/12.jpg" class="respimg" alt=""></div>
+                                    <div class="hero_images-collage-item" style="width: 45%; top: -5%; z-index: 11; right: -120px;"><img src="/public/theme/restaurant/images/all/7.jpg" class="respimg" alt=""></div>
                                     <div class="dc_dec-item_right"><span></span></div>
                                 </div>
                             </div>
@@ -399,27 +399,27 @@
                                                 <div class="swiper-wrapper">
                                                     <!--client-item-->
                                                     <div class="swiper-slide">
-                                                        <a href="#" class="client-item"><img src="images/clients/1.png" alt=""></a>
+                                                        <a href="#" class="client-item"><img src="/public/theme/restaurant/images/clients/1.png" alt=""></a>
                                                     </div>
                                                     <!--client-item end-->
                                                     <!--client-item-->
                                                     <div class="swiper-slide">
-                                                        <a href="#" class="client-item"><img src="images/clients/2.png" alt=""></a>
+                                                        <a href="#" class="client-item"><img src="/public/theme/restaurant/images/clients/2.png" alt=""></a>
                                                     </div>
                                                     <!--client-item end-->
                                                     <!--client-item-->
                                                     <div class="swiper-slide">
-                                                        <a href="#" class="client-item"><img src="images/clients/3.png" alt=""></a>
+                                                        <a href="#" class="client-item"><img src="/public/theme/restaurant/images/clients/3.png" alt=""></a>
                                                     </div>
                                                     <!--client-item end-->
                                                     <!--client-item-->
                                                     <div class="swiper-slide">
-                                                        <a href="#" class="client-item"><img src="images/clients/4.png" alt=""></a>
+                                                        <a href="#" class="client-item"><img src="/public/theme/restaurant/images/clients/4.png" alt=""></a>
                                                     </div>
                                                     <!--client-item end-->
                                                     <!--client-item-->
                                                     <div class="swiper-slide">
-                                                        <a href="#" class="client-item"><img src="images/clients/5.png" alt=""></a>
+                                                        <a href="#" class="client-item"><img src="/public/theme/restaurant/images/clients/5.png" alt=""></a>
                                                     </div>
                                                     <!--client-item end-->
                                                 </div>
@@ -441,13 +441,13 @@
                                         <div class="tbc-separator"></div>
                                         <div class="signature-opt">
                                             <div class="signature_title">
-                                                <img src="images/avatar/7.jpg" alt="">
+                                                <img src="/public/theme/restaurant/images/avatar/7.jpg" alt="">
                                                 <div class="signature_title_item">
                                                     <h5>Kevin Cooper</h5>
                                                     <h6>Hotel Manager</h6>
                                                 </div>
                                             </div>
-                                            <div class="signature_item"><img src="images/signature.png" class="respimg" alt=""></div>
+                                            <div class="signature_item"><img src="/public/theme/restaurant/images/signature.png" class="respimg" alt=""></div>
                                         </div>
                                     </div>
                                 </div>
@@ -656,7 +656,7 @@
                                     <!--testi-item-->
                                     <div class="swiper-slide">
                                         <div class="testi-item">
-                                            <div class="testi-avatar"><img src="images/avatar/2.jpg" alt=""></div>
+                                            <div class="testi-avatar"><img src="/public/theme/restaurant/images/avatar/2.jpg" alt=""></div>
                                             <div class="testimonilas-text">
                                                 <div class="testimonilas-text-item">
                                                     <h3>Andy Dimasky</h3>
@@ -673,7 +673,7 @@
                                     <!--testi-item-->
                                     <div class="swiper-slide">
                                         <div class="testi-item">
-                                            <div class="testi-avatar"><img src="images/avatar/3.jpg" alt=""></div>
+                                            <div class="testi-avatar"><img src="/public/theme/restaurant/images/avatar/3.jpg" alt=""></div>
                                             <div class="testimonilas-text">
                                                 <div class="testimonilas-text-item">
                                                     <h3>Jannet Dellov</h3>
@@ -690,7 +690,7 @@
                                     <!--testi-item-->
                                     <div class="swiper-slide">
                                         <div class="testi-item">
-                                            <div class="testi-avatar"><img src="images/avatar/4.jpg" alt=""></div>
+                                            <div class="testi-avatar"><img src="/public/theme/restaurant/images/avatar/4.jpg" alt=""></div>
                                             <div class="testimonilas-text">
                                                 <div class="testimonilas-text-item">
                                                     <h3>Centa Simpson</h3>
@@ -707,7 +707,7 @@
                                     <!--testi-item-->
                                     <div class="swiper-slide">
                                         <div class="testi-item">
-                                            <div class="testi-avatar"><img src="images/avatar/5.jpg" alt=""></div>
+                                            <div class="testi-avatar"><img src="/public/theme/restaurant/images/avatar/5.jpg" alt=""></div>
                                             <div class="testimonilas-text">
                                                 <div class="testimonilas-text-item">
                                                     <h3>Nicolo Svensky</h3>

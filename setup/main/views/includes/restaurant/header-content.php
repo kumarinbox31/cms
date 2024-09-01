@@ -26,7 +26,7 @@
                     </div>
                     <!--  header-top end  -->
                     <div class="nav-holder-wrap init-fix-header  fl-wrap">
-                        <a href="index.html" class="logo-holder"><img src="images/logo2.png" alt=""></a>
+                        <a href="index.html" class="logo-holder"><img src="/public/theme/restaurant/images/logo2.png" alt=""></a>
                         <!--  navigation -->
                         <div class="nav-holder main-menu">
                             <nav>
@@ -89,7 +89,7 @@
                             <div class="wish-list-container">
                                 <!--wish-list-item-->
                                 <div class="wish-list-item fl-wrap">
-                                    <div class="wish-list-img"><a href="room-single.html"><img src="images/room/thumbnail/1.jpg" alt=""></a>  
+                                    <div class="wish-list-img"><a href="room-single.html"><img src="/public/theme/restaurant/images/room/thumbnail/1.jpg" alt=""></a>  
                                     </div>
                                     <div class="wish-list-descr">
                                         <h4><a href="room-single.html">Garden Family Room</a></h4>
@@ -101,7 +101,7 @@
                                 <!--wish-list-item end-->
                                 <!--wish-list-item-->
                                 <div class="wish-list-item fl-wrap">
-                                    <div class="wish-list-img"><a href="room-single.html"><img src="images/room/thumbnail/2.jpg" alt=""></a>  
+                                    <div class="wish-list-img"><a href="room-single.html"><img src="/public/theme/restaurant/images/room/thumbnail/2.jpg" alt=""></a>  
                                     </div>
                                     <div class="wish-list-descr">
                                         <h4><a href="room-single.html">Premium Panorama Room</a></h4>
