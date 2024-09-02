@@ -58,8 +58,8 @@
     </div>
  */?>   
 <!--  header  -->
-<header class="main-header">
-                <div class="container">
+<!-- <header class="main-header">
+                <div class="container"> -->
                     <!--  header-top -->
                     <!-- <div class="header-top  fl-wrap">
                         <div class="header-top_contacts"><a href="#"><span>Call:</span> +489756412322</a><a href="#"><span>Find us:</span> USA 27TH Brooklyn NY</a></div>
@@ -195,6 +195,6 @@
                         <!--wish-list-wrap-->
                         */?>
                     </div>
-                </div>
-            </header>
+                <!-- </div>
+            </header> -->
            
