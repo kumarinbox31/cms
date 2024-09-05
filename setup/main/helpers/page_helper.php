@@ -54,8 +54,8 @@ function beforeHeadContent($flag=false){
             	<meta property="og:type" content="article" />
             	<meta property="og:title" content="'.$wd->title.'">
                 <meta property="og:description" content="'.$wd->desc.'" > 
-                <meta property="og:image" content="">
-                <meta property="og:image:url" itemprop="image" content="" />
+                <meta property="og:image" content="'.LOGO.'">
+                <meta property="og:image:url" itemprop="image" content="'.LOGO.'" />
                 <meta property="og:image:type" content="image/png" />
                 <meta property="og:image:width" content="600" />
                 <meta property="og:image:height" content="600" />
@@ -66,6 +66,7 @@ function beforeHeadContent($flag=false){
                 <link rel="sitemap" type="application/xml" href="'.current_url().'sitemap.xml">
                 <link rel="canonical" href="'.base_url().'"/ >
                 <link rel="stylesheet" href="'.base_url('public/style.css').'">
+                <link rel="icon" type="image/x-icon" href="'.LOGO.'" />
                 <!--<script src="https://cdn.tailwindcss.com"></script> 
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/twind/0.16.16/twind.js"></script>
                 <script src="https://cdn.tailwindcss.com"></script>-->
