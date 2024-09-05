@@ -24,7 +24,7 @@
                         </div>
                         <div class="lang-wrap"><a href="#" class="act-lang">En</a><span>/</span><a href="#">Fr</a></div>
                     </div>
-                    <div>[navbar id=1]</div>
+                    <div id="i1bp">[navbar id=1]</div>
                     <?/*
                     <!--  header-top end  -->
                     <div class="nav-holder-wrap init-fix-header  fl-wrap">
