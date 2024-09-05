@@ -24,6 +24,8 @@
                         </div>
                         <div class="lang-wrap"><a href="#" class="act-lang">En</a><span>/</span><a href="#">Fr</a></div>
                     </div>
+                    <div>[navbar id=1]</div>
+                    <?/*
                     <!--  header-top end  -->
                     <div class="nav-holder-wrap init-fix-header  fl-wrap">
                         <a href="index.html" class="logo-holder"><img src="/public/theme/restaurant/images/logo2.png" alt=""></a>
@@ -118,6 +120,7 @@
                         </div>
                         <!--wish-list-wrap-->
                     </div>
+                    */?>
                 </div>
             </header>
            
