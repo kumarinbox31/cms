@@ -17,7 +17,7 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
     <main class="product-gallery-main container py-2 w-100">
         <div class="product-gallery-container gallery-item-<?php echo $id; ?>">
             <h1 class="text-center"><?php echo $get->title; ?></h1>
-            <div class="product-list  row " style="flex-wrap:wrap;">
+            <div class="product-list  row " style="flex-wrap:wrap;margin-left:3px;">
                 <?php
                 $get = $this->GalleryModel->getGalleyItems(['gallery_id' => $get->id]);
                 foreach ($get->result() as $row) {
