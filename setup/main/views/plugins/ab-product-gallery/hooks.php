@@ -62,7 +62,7 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <img class="w-100 image" src="" style="max-height:200px;">
+                            <img class="w-100 image" src="" style="max-height:auto;">
                             <div class="desc"></div>
 
 
