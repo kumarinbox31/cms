@@ -9,3 +9,5 @@ error_log
 cgi-bin
 .well-known
 /public
+.user.ini
+php.ini
