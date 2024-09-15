@@ -118,7 +118,7 @@ function popupCss(){
   transition: opacity 500ms;
   visibility: hidden;
   opacity: 0;
-  z-index:999;
+  z-index:99999;
 }
 .ab-overlay:target {
   visibility: visible;
