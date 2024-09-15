@@ -79,7 +79,7 @@ function popupScript(){
         	<div class="ab-popup">
         		<a class="close" href="#" onclick=\'AbHidePopup("ab-popup1")\'>&times;</a>
         		<div class="content">
-        			'.do_shortcode(getVal('ab-popup-content')).'
+        			'.str_replace('table table-bordered table-striped datatable','',do_shortcode(getVal('ab-popup-content'))).'
         		</div>
         	</div>
         </div>
