@@ -24,7 +24,7 @@
                 'childAnchorClass' => 'nav-link',
                 'childActiveClass' => 'active',
                 'dropdownLiClass' => 'nav-item',
-                'dropdownAnchorClass' => 'nav-link',
+                'dropdownAnchorClass' => 'dropdown-toggle nav-link',
                 'extendBefore' => '',
                 'extendAfter' => '',
             ];

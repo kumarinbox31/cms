@@ -12,7 +12,11 @@
     <?php beforeHeadContent(); ?>
     <?php echo OtherContent('header', 'cssdata'); ?>
     <?php echo theContent($page_id, 'cssdata'); ?>
-    
+    <style>
+        .navbar .navbar-nav .nav-item .nav-link span{
+            display:block !important;
+        }
+    </style>
 </head>
 
 <body <?php echo bodyClass(); ?>>
