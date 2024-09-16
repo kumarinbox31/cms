@@ -17,7 +17,7 @@ $popup_type = getVal('ab-popup-type','all_pages');
 if ($popup_type != '') {
   // Log a message to the error log for debugging
   error_log('Condition met: ab-popup-content is not empty and DEFAULTPAGE equals CURRENT_PAGE_ID.');
-  if ($popup_type == 'default_page' && DEFAULTPAGE == CURRENT_PAGE_ID) {
+  if ($popup_type == 'default_page' && defined('CURRENT_PAGE_ID') && DEFAULTPAGE == CURRENT_PAGE_ID) {
     add_action('ab_footer', 'popupScript');
     add_action('ab_head', 'popupCss');
   } elseif ($popup_type == 'all_pages') {
