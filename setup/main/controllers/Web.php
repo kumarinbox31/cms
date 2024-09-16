@@ -29,6 +29,7 @@ class Web extends CI_Controller{
                 $pagename = 'Home';
                 $uri = 'home';
             }
+            define('CURRENT_PAGE_ID',$page_id);
             define('PAGE_NAME',$pagename);
             $data['uri'] = $uri;
             $data['page_id'] = $page_id;
