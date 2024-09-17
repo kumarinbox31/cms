@@ -12,7 +12,7 @@ if (getVal('ab-whatsapp-plugin') == 'enable') {
   add_action('ab_head', 'custom_css');
 }
 
-$popup_type = getVal('ab-popup-type','all_pages');
+$popup_type = getVal('ab-popup-type');
 // if (getVal('ab-popup-content') != '' && DEFAULTPAGE == CURRENT_PAGE_ID) {
 if ($popup_type != '') {
   // Log a message to the error log for debugging
