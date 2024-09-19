@@ -142,7 +142,8 @@ function deleteItem(id){
                                         <td><img src="${item.file}" width="50" height="50"></td>
                                         <td><a class="btn btn-sm btn-primary" href="${item.link}">${btn}</a></td>
                                         <td>
-                                            <a class="btn btn-sm btn-danger " onclick="deleteItem(${item.id})" ><i class="fa fa-trash"></i></a>
+                                            <a class="btn btn-sm btn-info " href="<?php echo base_url('admin/plugin/ab-product-gallery?page=item-edit&id=')?>(${item.id})" ><i class="fa fa-edit"></i></a>
+                                          <a class="btn btn-sm btn-danger " onclick="deleteItem(${item.id})" ><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>`;
                         });
