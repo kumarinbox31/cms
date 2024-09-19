@@ -27,6 +27,13 @@ class GalleryModel extends MY_Model{
         $data['admin_id'] = CLIENT_ID;
         return $this->db->insert($this->table2,$data);
     }
+    public function updateGalleryItem($id,$data){
+        if (empty($id) || !is_numeric($id)) {
+            return false; // Or handle this case as you see fit
+        }
+        $this->db->where('id',$id);
+        return $this->db->update($this->table2,$data);
+    }
     public function deleteGalleryItems($galleryId){
         return $this->db->where(['gallery_id'=>$galleryId])->delete($this->table2);
     }
