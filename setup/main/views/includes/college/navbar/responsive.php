@@ -194,7 +194,7 @@
 <!-- End Responsive Navbar Area -->
 
 <script>
-    $('#navbarOffcanvas').click(function () {
+    $('.navbar-toggler').click(function () {
         $('#navbarOffcanvas').addClass('show');
     });
 
