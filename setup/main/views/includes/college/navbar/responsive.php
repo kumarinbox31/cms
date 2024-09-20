@@ -2,10 +2,10 @@
 <div class="responsive-navbar offcanvas offcanvas-end border-0" data-bs-backdrop="static" tabindex="-1"
     id="navbarOffcanvas">
     <div class="offcanvas-header">
-        <a href="index.html" class="logo d-inline-block">
+        <a href="/" class="logo d-inline-block">
             <img src="<?php echo LOGO; ?>" alt="logo">
         </a>
-        <button type="button" class="close-btn bg-transparent position-relative lh-1 p-0 border-0"
+        <button type="button" id="close-btn" class="close-btn bg-transparent position-relative lh-1 p-0 border-0"
             data-bs-dismiss="offcanvas" aria-label="Close">
             <i class="ri-close-fill"></i>
         </button>
@@ -192,3 +192,13 @@
     </div>
 </div>
 <!-- End Responsive Navbar Area -->
+
+<script>
+    $('#navbarOffcanvas').click(function () {
+        $('#navbarOffcanvas').addClass('show');
+    });
+
+    $('#close-btn').click(function() {
+        $('#navbarOffcanvas').removeClass('show');
+    });
+</script>
