@@ -70,6 +70,7 @@ function beforeHeadContent($flag=false){
                 <link rel="canonical" href="'.base_url().'"/ >
                 <link rel="stylesheet" href="'.base_url('public/style.css').'">
                 <link rel="icon" type="image/x-icon" href="'.LOGO.'" />
+                <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
                 <!--<script src="https://cdn.tailwindcss.com"></script> 
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/twind/0.16.16/twind.js"></script>
                 <script src="https://cdn.tailwindcss.com"></script>-->
@@ -89,7 +90,11 @@ function beforeHeadContent($flag=false){
 }
 function AfterFooterContent($flag=false){
     $get = do_action('ab_footer');
-    $get .= '<script src="'.base_url('public/admin/custom/js/custom.js').'"></script>';
+    $get .= '<script src="'.base_url('public/admin/custom/js/custom.js').'"></script>
+    </script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>';
     if($get){
         return $get;
     }else{
