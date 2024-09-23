@@ -5,6 +5,8 @@ add_shortcode('AB-Slider', function($atts, $content){
     $ci = &get_instance();
     $get = $this->ServiceModel->getServiceById($id)->row();
     $content = json_decode($get->content);
+    $sliderHeight =  isset($content->size->height) ? $content->size->height : '500px';
+    
      ob_start();
        ?>
        <style>
@@ -22,7 +24,7 @@ add_shortcode('AB-Slider', function($atts, $content){
                 $content = $row->content;
         ?>
         <!-- Slide 1 -->
-        <div class="slide" style="height:<?php echo @$content->size->height ?? '500px' ?>">
+        <div class="slide" style="height:<?php echo $sliderHeight; ?>">
             <?php if($image != ''){?>
             <img src="<?php echo $image; ?>" alt="Slide 1" style="width:<?php echo $content->size->width ?? '100%'; ?>;">
             <?php }if($content != ''){ ?>
