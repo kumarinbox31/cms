@@ -78,7 +78,7 @@
                                                             'childItemClass'    => 'menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children parent hfe-has-submenu hfe-creative-menu',
                                                             'childAnchorClass'  => 'hfe-sub-menu-item',
                                                             'childActiveClass'  => 'current-menu-item',
-                                                            'dropdownLiClass'   => 'menu-item menu-item-type-post_type menu-item-object-page hfe-creative-menu',
+                                                            'dropdownLiClass'   => 'menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children parent hfe-has-submenu hfe-creative-menu parent-has-child',
                                                             'dropdownAnchorClass'   => 'hfe-menu-item',
                                                             'extendBefore'      =>  '',
                                                             'extendAfter'       =>  '',
