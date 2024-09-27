@@ -76,10 +76,10 @@
                                                             'anchorClass'  =>  'hfe-menu-item',
                                                             'dropdownUlClass'   => 'sub-menu',
                                                             'childItemClass'    => 'menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children parent hfe-has-submenu hfe-creative-menu',
-                                                            'childAnchorClass'  => 'hfe-menu-toggle sub-arrow hfe-menu-child-0',
+                                                            'childAnchorClass'  => 'hfe-sub-menu-item',
                                                             'childActiveClass'  => 'current-menu-item',
-                                                            'dropdownLiClass'   => 'has-children has-children--multilevel-submenu',
-                                                            'dropdownAnchorClass'   => 'hfe-sub-menu-item',
+                                                            'dropdownLiClass'   => 'menu-item menu-item-type-post_type menu-item-object-page hfe-creative-menu',
+                                                            'dropdownAnchorClass'   => 'hfe-menu-item',
                                                             'extendBefore'      =>  '',
                                                             'extendAfter'       =>  '',
                                                         ];
