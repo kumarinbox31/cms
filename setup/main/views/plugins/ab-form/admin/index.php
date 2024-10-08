@@ -5,7 +5,8 @@
     $ci = &get_instance();
     $webPlanId = PLANID;
     $per = $ci->PlanModel->getPermissionValue('ab-form');
-    if($per && $webPlanId){
+    $get = $ci->ServiceModel->getServiceByType('ab-form');
+    if($per['status']  && $webPlanId && $per['permission_value'] >$get->num_rows()){
 ?>
     <form class="card" method="POST">
         <input type="hidden" name="action" value="add-service">
@@ -46,7 +47,6 @@
                     <?php 
                         $i = 1;
                         $ci = &get_instance();
-                        $get = $ci->ServiceModel->getServiceByType('ab-form');
                         foreach($get->result() as $row){
                              echo '<tr>
                                         <td>'.$i++.'</td>
