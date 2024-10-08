@@ -39,7 +39,7 @@ function view($data=[]){
 
 
 
-function beforeHeadContent($flag=false){
+function beforeHeadContent($flag=false,$admin=false){
     $get = '';
     $ci = &get_instance();
     $ci->load->model('WebsiteData');
@@ -69,8 +69,11 @@ function beforeHeadContent($flag=false){
                 <link rel="sitemap" type="application/xml" href="'.current_url().'sitemap.xml">
                 <link rel="canonical" href="'.base_url().'"/ >
                 <link rel="stylesheet" href="'.base_url('public/style.css').'">
-                <link rel="icon" type="image/x-icon" href="'.LOGO.'" />
-                <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+                <link rel="icon" type="image/x-icon" href="'.LOGO.'" />';
+                if($admin == false){
+                    $get .= '<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">';
+                }
+                $get .= '
                 <!--<script src="https://cdn.tailwindcss.com"></script> 
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/twind/0.16.16/twind.js"></script>
                 <script src="https://cdn.tailwindcss.com"></script>-->
