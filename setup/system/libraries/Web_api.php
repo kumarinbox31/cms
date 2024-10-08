@@ -114,6 +114,7 @@ class Web_api{
         define('FOLDER','public/temp/'.CLIENT_ID);
         define('CUSTOMER_SESSION',$this->client['last_login_session']);
         define('DEFAULTPAGE',$this->client['defualt_page']);
+        define('PLANID',$this->client['planid']);
         // define('COMMING_SOON',$this->client['comming_soon']);
         
         // define('starttime',$this->client['start_time']);

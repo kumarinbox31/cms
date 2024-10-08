@@ -8,7 +8,7 @@ class Admin extends CI_Controller{
         $this->load->model(['block','PageModel','website','MenuModel','MenuItemModel',
         'PluginModel','BlockCategory']);
         checkAdminLogin();
-        $this->load->model("MediaModel");
+        $this->load->model("MediaModel",'PlanModel');
                     
     }
     public function change_password() {

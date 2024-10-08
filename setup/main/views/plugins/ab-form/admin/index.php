@@ -1,6 +1,12 @@
 
 <div class="row">
 <div class="col-md-4">
+<?php 
+    $ci = &get_instance();
+    $webPlanId = PLANID;
+    $per = $ci->PlanModel->getPermissionValue('ab-form');
+    if($per && $webPlanId){
+?>
     <form class="card" method="POST">
         <input type="hidden" name="action" value="add-service">
         <input type="hidden" name="type" value="ab-form">
@@ -15,6 +21,11 @@
             <button type="submit" class="btn  btn-sm btn-danger">Save</button>
         </div>
     </form>
+<?php 
+    }else{
+        echo '<div class="alert alert-danger">Quota Full!</div>';
+    }
+?>
 </div>
 
 <div class="col-md-8">
