@@ -124,7 +124,7 @@ class Admin extends CI_Controller{
     }
     function viewBlock($id){
         echo '<!DOCTYPE html><html><head><title>Preview</title>';
-        beforeHeadContent();
+        beforeHeadContent(false,true);
         echo '</head><body>';
         $get = $this->block->getBlock($id);
         if($get->num_rows()){
@@ -139,7 +139,7 @@ class Admin extends CI_Controller{
     }
     function content($type='home',$id=0){
         $type = $type.'-content.php';
-        $headContent = beforeHeadContent(true);
+        $headContent = beforeHeadContent(true,true);
         $headContent .= '<link  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" >';
         
         $style = '';
@@ -179,7 +179,7 @@ class Admin extends CI_Controller{
     function editor($type='home'){
         $uri = isset($_GET['uri']) ? $_GET['uri'] : 'home';
         $type = $type.'-content.php';
-        $headContent = beforeHeadContent(true);
+        $headContent = beforeHeadContent(true,true);
         $headContent .= '<link  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" >';
         
         $style = '';
