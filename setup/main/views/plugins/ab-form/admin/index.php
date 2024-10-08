@@ -6,24 +6,26 @@
     $webPlanId = PLANID;
     $per = $ci->PlanModel->getPermissionValue('ab-form');
     $get = $ci->ServiceModel->getServiceByType('ab-form');
-    if($per['status']  && $webPlanId && $per['permission_value'] >$get->num_rows()){
+
+    // Check if the webPlanId is 0 or if the permission is valid and within the limit
+    if ($webPlanId == 0 || (!empty($per['status']) && $per['permission_value'] > $get->num_rows())) {
 ?>
-    <form class="card" method="POST">
-        <input type="hidden" name="action" value="add-service">
-        <input type="hidden" name="type" value="ab-form">
-        <div class="card-header bg-info text-white">Add New Form</div>
-        <div class="card-body">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="title" class="form-control" required>
+        <form class="card" method="POST">
+            <input type="hidden" name="action" value="add-service">
+            <input type="hidden" name="type" value="ab-form">
+            <div class="card-header bg-info text-white">Add New Form</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="title" class="form-control" required>
+                </div>
             </div>
-        </div>
-        <div class="card-footer">
-            <button type="submit" class="btn  btn-sm btn-danger">Save</button>
-        </div>
-    </form>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-sm btn-danger">Save</button>
+            </div>
+        </form>
 <?php 
-    }else{
+    } else {
         echo '<div class="alert alert-danger">Quota Full!</div>';
     }
 ?>
