@@ -30,7 +30,11 @@ function registerBeforeHeadContent(){
     background-color: #ffffff; /* Adjust background color as needed */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
 }
-        
+       .header-area{
+    width:100%;
+    max-width:100vw !important;
+}
+     
     }</style>
             ';
     echo $links;
