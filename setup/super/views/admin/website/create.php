@@ -57,7 +57,7 @@
                         <?php 
                             $get = $this->PlanModel->getAllActivePlans();
                             foreach($get->result()  as $row){
-                                echo '<option value="'.$row->id.'">'.$row->name.'</option>';
+                                echo '<option value="'.$row->id.'">'.$row->plan_name.'</option>';
                             }
                         ?>
                     </select>
