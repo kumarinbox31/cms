@@ -5,6 +5,7 @@ class Admin extends CI_Controller{
         parent::__construct();
         $this->load->model('website');
         $this->load->model('BlockModel');
+        $this->load->model('PlanModel');
         if(!$this->session->has_userdata('super-admin')){
             redirect('admin-login');
         }
@@ -67,6 +68,7 @@ class Admin extends CI_Controller{
             $address = htmlspecialchars($post['address']);
             $mobile = intval($post['mobile']);
             $wid = intval($post['wid']);
+            $planid = intval($post['planid']);
             $start_time = time();
             $end_time = strtotime("+1 year", $start_time);
             $data = [
@@ -78,7 +80,8 @@ class Admin extends CI_Controller{
                 'domain' => $domain,
                 'start_time' => $start_time,
                 'end_time' => $end_time,
-                'rid'=>RID
+                'rid'=>RID,
+                'planid' => $planid
             ];
             $this->website->create($data,$wid);
             $this->session->set_flashdata('success_msg','Website Created successfully.');

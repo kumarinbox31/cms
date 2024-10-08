@@ -49,6 +49,20 @@
                     <input type="text" class="form-control" name="domain" placeholder="Enter domain"  required>
                 </div>
             </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Plan</label>
+                    <select class="form-control select2" name="planid" >
+                        <option value="0">--Select Plan--</option>
+                        <?php 
+                            $get = $this->PlanModel->getAllActivePlans();
+                            foreach($get->result()  as $row){
+                                echo '<option value="'.$row->id.'">'.$row->name.'</option>';
+                            }
+                        ?>
+                    </select>
+                </div>
+            </div>
             
             <div class="col-sm-6">
                 <div class="form-group">
