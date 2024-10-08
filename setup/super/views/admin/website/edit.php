@@ -40,7 +40,7 @@ $get = $this->website->get(['id'=>@$_GET['id'],'rid'=>RID])->row();
                                 $get = $this->PlanModel->getAllActivePlans();
                                 foreach($get->result()  as $p){
                                     $selected = $row->planid ==$p->id ? 'selected' : '';
-                                    echo '<option value="'.$p->id.'" '.$selected.'>'.$p->name.'</option>';
+                                    echo '<option value="'.$p->id.'" '.$selected.'>'.$p->plan_name.'</option>';
                                 }
                             ?>
                         </select>
