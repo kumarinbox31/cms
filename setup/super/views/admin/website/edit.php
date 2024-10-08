@@ -32,6 +32,19 @@ $get = $this->website->get(['id'=>@$_GET['id'],'rid'=>RID])->row();
                         <label>Password</label>
                         <input type="text" name="_pass" class="form-control" required value="<?php echo $get->_pass; ?>">
                     </div>
+                    <div class="form-group">
+                        <label>Plan</label>
+                        <select class="form-control select2" name="planid" >
+                            <option value="0">--Select Plan--</option>
+                            <?php 
+                                $get = $this->PlanModel->getAllActivePlans();
+                                foreach($get->result()  as $p){
+                                    $selected = $row->planid ==$p->id ? 'selected' : '';
+                                    echo '<option value="'.$p->id.'" '.$selected.'>'.$p->name.'</option>';
+                                }
+                            ?>
+                        </select>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <button type="submit" name="action" value="update-website" class="btn btn-sm btn-primary">Submit</button>
