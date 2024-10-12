@@ -6,7 +6,9 @@ add_action('ab_body_class', 'registerBodyClass');
 function registerBeforeHeadContent(){
     $links = '  <link type="text/css" rel="stylesheet" href="'.theme_path().'css/plugins.css">
         <link type="text/css" rel="stylesheet" href="'.theme_path().'css/style.css">
-           
+           <style>
+            .gallery-card .card-image a{position: unset !important;}
+           </style>
             ';
     echo $links;
 }
