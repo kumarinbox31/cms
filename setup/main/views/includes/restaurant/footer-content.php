@@ -75,7 +75,7 @@
                         </div>
                         <!-- footer-widget-wrap end-->					
                     </div>
-                    <div class="footer-title-dec">Diamant Hotel</div>
+                    <!-- <div class="footer-title-dec">Diamant Hotel</div> -->
                 </div>
                 <div class="footer-social">
                     <div class="container">
