@@ -1,0 +1,93 @@
+
+<div class="row">
+<div class="col-md-4">
+<?php 
+    $ci = &get_instance();
+    $webPlanId = PLANID;
+    $per = $ci->PlanModel->getPermissionValue('ab-payment-form');
+    $get = $ci->ServiceModel->getServiceByType('ab-payment-form');
+    
+    // Check if the webPlanId is 0 or if the permission is valid and within the limit
+    if (true || $webPlanId == 0 || (!empty($per['status']) && $per['permission_value'] > $get->num_rows())) {
+?>
+        <form class="card" method="POST">
+            <input type="hidden" name="action" value="add-service">
+            <input type="hidden" name="type" value="ab-payment-form">
+            <div class="card-header bg-info text-white">Add New Payment Form</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Gateway</label>
+                    <select class="form-control" name="desc[pg]" required>
+                        <option value="">Select Payment Gateway</option>
+                        <option value="pg-razorpay">Razorpay</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Form</label>
+                    <select class="form-control" name="desc[form]" required>
+                        <option value="">Select Form</option>
+                        <?php 
+                            $forms = $ci->ServiceModel->getServiceByType('ab-form');
+                            foreach($forms->result() as $form){
+                                echo '<option value="'.$form->id.'">'.$form->title.'</option>';
+                            }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-sm btn-danger">Save</button>
+            </div>
+        </form>
+<?php 
+    } else {
+        echo '<div class="alert alert-danger">Quota Full!</div>';
+    }
+?>
+</div>
+
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header bg-primary text-white">All Payment Forms</div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped datatable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Short-Code</th>
+                        <th>Data</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                        $i = 1;
+                        $ci = &get_instance();
+                        foreach($get->result() as $row){
+                             echo '<tr>
+                                        <td>'.$i++.'</td>
+                                        <td>'.$row->title.'</td>
+                                        <td>[ab-payment-form id='.$row->id.']</td>
+                                        <td>
+                                            <a href="'.base_url('admin/plugin/ab-payment-form?page=show-data&id=').$row->id.'" class="btn btn-sm btn-primary"><i class="fa fa-list"></i></a>
+                                        </td>
+                                        <td>
+                                            <a href="'.base_url('admin/plugin/ab-payment-form?page=edit&id=').$row->id.'" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                            <a href="'.base_url('admin/plugin/ab-payment-form?page=editor&id=').$row->id.'" class="btn btn-sm btn-info"><i class="fa fa-cog"></i></a>
+                                            <a href="'.base_url('admin/delete-service/').$row->id.'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                </tr>';
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</div>

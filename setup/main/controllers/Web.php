@@ -173,4 +173,9 @@ class Web extends CI_Controller{
         $name = do_action('ab_head');
         var_dump($name);
     }
+
+    function plugin($plugin,$page='index'){
+        $page = htmlspecialchars($page);
+        $this->load->view("plugins/$plugin/$page");
+    }
 }
