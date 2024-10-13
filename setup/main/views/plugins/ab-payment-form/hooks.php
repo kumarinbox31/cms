@@ -13,7 +13,10 @@ add_shortcode('ab-payment-form', function ($atts) {
     <form id="payment-form" method="POST" class="ajax-pg-form-submit" enctype="multipart/form-data">
         <input type="hidden" name="form_id" value="<?php echo htmlspecialchars($pgformId); ?>">
         <input type="hidden" name="currency" value="INR">
-        <input type="hidden" name="amount" value="100">
+        <div class="form-group">
+            <label>Amount</label>
+            <input type="number" min="100" class="form-control" placeholder="Enter amount" value="100" required>
+        </div>
         <div class="msg"></div>
         <div style="display:flex;flex-wrap:wrap" class="row">
             <div class="form_render" data-form-id="<?php echo htmlspecialchars($pgformId); ?>"></div>
@@ -139,8 +142,14 @@ function ab_pg_form_scripts()
                                         dataType: 'json',
                                         success: function (verificationResponse) {
                                             if (verificationResponse.status) {
-                                                // Payment verified, redirect or show success message
-                                                window.location.href = "/payment/success"; // Redirect to success page
+                                                var successMessage = `
+                                                        <div class="payment-message">
+                                                            <h2>Payment Successful!</h2>
+                                                            <p>Thank you for your payment. Your transaction has been completed successfully.</p>
+                                                            <p>Your order ID: ${razorpayOrderId}</p>
+                                                        </div>
+                                                    `;
+                                                $("#payment-form").replaceWith(successMessage);
                                             } else {
                                                 // Handle verification failure
                                                 alert("Payment verification failed: " + verificationResponse.msg);
@@ -182,7 +191,21 @@ function ab_pg_form_scripts()
 
 function ab_pg_form_styles()
 {
-    echo '';
+    echo '
+    <style>
+    .payment-message {
+    padding: 20px;
+    margin: 20px 0;
+    border: 2px solid #4CAF50; /* Green border */
+    background-color: #f9f9f9; /* Light background */
+    color: #4CAF50; /* Green text */
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+    </style>
+    ';
 }
 
 ?>
