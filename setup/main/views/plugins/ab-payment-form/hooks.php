@@ -1,4 +1,6 @@
 <?php
+$ci = &get_instance();
+if($ci->uri->segment(1) != 'admin'){
 add_shortcode('ab-payment-form', function ($atts) {
     // Shortcode usage example: [ab-payment-form id=1]
     $pgformId = isset($atts['id']) ? intval($atts['id']) : null;
@@ -30,9 +32,9 @@ add_shortcode('ab-payment-form', function ($atts) {
     return $html;
 });
 
-
 add_action('ab_footer', 'ab_pg_form_scripts');
 add_action('ab_head', 'ab_pg_form_styles');
+}
 function ab_pg_form_scripts()
 {
     ob_start();
