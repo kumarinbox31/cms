@@ -84,7 +84,48 @@
                                                             'extendAfter'       =>  '',
                                                         ];
                                                         $items = $this->MenuModel->items($id)['items'];
-                                                        print $this->MenuModel->get_menu($items,$arr);
+
+                                                        print school_custom_menu($items,$arr);
+
+
+                                                        function school_custom_menu($items,$arr) {
+                                                            extract($arr);
+                                                            $html = '';
+                                                              $html .= @$extendBefore;
+                                                              $html .= '<ul id="'.@$id.'" class="'.@$class.'">';
+                                                              foreach($items as $key=>$value) {
+                                                                  $page_id = $value['page_id'];
+                                                                  $_page_url = DEFAULTPAGE==$value['page_id']?'/':(base_url().'page/'.$value['uri']);
+                                                                  $_page_url = $value['link'] == '' ? $_page_url : $value['link'];
+                                                                $iconWithTExt =  $value['label'];
+                                                                  
+                                                                if(array_key_exists('child',$value)){
+                                                                        $childArr = [
+                                                                                        'id' => '',
+                                                                                        'class' => @$dropdownUlClass,
+                                                                                        'itemClass' => @$childItemClass,
+                                                                                        'anchorClass'=>@$childAnchorClass,
+                                                                                        'activeClass' => @$childActiveClass,
+                                                                                    ];
+                                                                        $html.= '<li id="menu-item-'.$page_id.'" class="'.@$dropdownLiClass.'">
+                                                                            <div class="hfe-has-submenu-container ">
+                                                                            <a class="'.@$dropdownAnchorClass.'" href="#" ><span class="menu-title">'.$iconWithTExt.' </span> 
+                                                                            <span class="hfe-menu-toggle sub-arrow hfe-menu-child-0"><i class="fa"></i></span>
+                                                                            </a></div>
+                                                                            
+                                                                            '.school_custom_menu($value['child'],$childArr).'</li>
+                                                                            ';
+                                                            
+                                                                }else{
+                                                            
+                                                                  $html.= '<li id="menu-item-'.$page_id.'" class="'.@$itemClass.'" ><a class="'.@$anchorClass.'" href="'.$_page_url.'" '.$value['target'].' >'.$iconWithTExt.'</a></li>';
+                                                                }
+                                                              }
+                                                            $html .= '</ul>';
+                                                            $html .= @$extendAfter;
+                                                          return $html;
+                                                        }
+                                                
                                                         
                                                     ?>
 
