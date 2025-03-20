@@ -57,6 +57,10 @@ $btn_icon = $enable == 'enable' ? 'on' : 'off';
                 <textarea name="ab-popup-content" placeholder="Enter Content" rows="10"
                     class="form-control ckeditor"><?php echo getVal('ab-popup-content'); ?></textarea>
             </div>
+            <div class="form-group col-md-6">
+                <label>Google Translate</label>
+                <code>[GOOGLE-TRANSLATE]</code>
+            </div>
             <div class="form-group col-md-12">
                 <button type="submit" class="btn btn-sm btn-primary">Submit</button>
             </div>

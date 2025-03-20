@@ -53,63 +53,93 @@ class Admin extends CI_Controller{
 
     $this->load->view('admin/footer');
 }
-    public function downloadFormData($formId){
-        require APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
+    public function downloadFormData($formId,$type='form') {
+        // error_reporting(E_ALL);ini_set('display_errors',-1);
+    try {
         // Load the database library
         $this->load->database();
-        
+
         // Fetch data from the database
-        $query = $this->db->get('ab_form_data');
-        $data = $query->result_array();
-        
-        // Load PHPExcel library
-        $this->load->library('PHPExcel');
-        
-        // Create a new PHPExcel object
-        $excel = new PHPExcel();
-        $excel->setActiveSheetIndex(0);
-        $sheet = $excel->getActiveSheet();
-        
-        // Add headers
-        $sheet->setCellValue('A1', 'Name');
-        $sheet->setCellValue('B1', 'Contact-no');
-        $sheet->setCellValue('C1', 'Email-Id');
-        $sheet->setCellValue('D1', 'Service');
-        $sheet->setCellValue('E1', 'Your-Message');
-        $sheet->setCellValue('F1', 'Gender');
-        $sheet->setCellValue('G1', 'Submit');
-        
-        // Initialize row counter
-        $row = 2;
-        
-        // Loop through the database results
-        foreach ($data as $row_data) {
-            // Decode JSON data
-            $json_data = json_decode($row_data['data'], true);
-            
-            // Add data to Excel
-            $sheet->setCellValue('A'.$row, isset($json_data['Name']) ? $json_data['Name'] : '');
-            $sheet->setCellValue('B'.$row, isset($json_data['Contact-no']) ? $json_data['Contact-no'] : '');
-            $sheet->setCellValue('C'.$row, isset($json_data['Email-Id']) ? $json_data['Email-Id'] : '');
-            $sheet->setCellValue('D'.$row, isset($json_data['Service']) ? $json_data['Service'] : '');
-            $sheet->setCellValue('E'.$row, isset($json_data['Your-Message']) ? $json_data['Your-Message'] : '');
-            $sheet->setCellValue('F'.$row, isset($json_data['select-1713604811827-0']) ? $json_data['select-1713604811827-0'] : ''); // Assuming 'Gender' field key
-            $sheet->setCellValue('G'.$row, isset($json_data['Sumbit']) ? $json_data['Sumbit'] : ''); // Assuming 'Submit' field key
-            
-            // Increment row counter
-            $row++;
+        if($type == 'form'){
+            $query = $this->db->get_where('ab_form_data', ['form_id' => $formId]);
+            $data = $query->result_array();
+        }else{
+            $query = $this->db->get_where('ab_payment_data', ['pg_form_id' => $formId]);
+            $data = $query->result_array();
         }
-        
-        // Set headers for download
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="form_data.xlsx"');
+
+        // Check if data is empty
+        if (empty($data)) {
+            throw new Exception('No data found for the specified form ID.');
+        }
+
+        // Initialize an array to store all unique headers dynamically
+        $headers = [];
+
+        // Collect all unique keys from the JSON data to create dynamic headers
+        foreach ($data as $row_data) {
+            $json_data = json_decode($row_data['data'], true);
+            if (is_array($json_data)) {
+                $headers = array_unique(array_merge($headers, array_keys($json_data)));
+            }
+        }
+        // Check if headers are generated
+        if (empty($headers)) {
+            throw new Exception('No headers found in the form data.');
+        }
+        if($type == 'payment'){
+            $headers[] = 'txn_id';
+        }
+        // Set headers for CSV file download
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename="form_data.csv"');
         header('Cache-Control: max-age=0');
+
+        // Open PHP output stream for writing CSV
+        $output = fopen('php://output', 'w');
+
+        // Add dynamic headers to the CSV
+        fputcsv($output, $headers);
         
-        // Write Excel file to PHP output
-        $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-        $objWriter->save('php://output');
+        // Define the base URL dynamically (ensure you use the correct base URL for your project)
+        $base_url = base_url('public/temp/'.CLIENT_ID.'/');
+
+        // Loop through the database results and add rows to the CSV
+        foreach ($data as $row_data) {
+            $json_data = json_decode($row_data['data'], true);
+            if($type == 'payment'){
+                $json_data['txn_id'] = $row_data['txn_id'];
+            }
+            $row = [];
+            foreach ($headers as $header) {
+                // Add the value for each header or an empty string if not present
+                $v = isset($json_data[$header]) ? $json_data[$header] : '';
+                
+                // Check if the value is a file path and ends with a known image or PDF extension
+                if (is_string($v) && preg_match('/\.(jpg|jpeg|png|gif|pdf)$/i', $v)) {
+                    if (filter_var($v, FILTER_VALIDATE_URL) === false) {
+                        $v = $base_url . $v;
+                    }
+                }
+
+                
+                // Add the value (modified or original) to the row
+                $row[] = $v;
+            }
+            fputcsv($output, $row);
+        }
+
+        // Close the output stream
+        fclose($output);
+        exit;
+    } catch (Exception $e) {
+        // Handle exceptions and display the error message
+        echo 'Error: ' . $e->getMessage();
+        exit;
     }
-    function downloadProductQuery($productGalleryId){
+}
+
+function downloadProductQuery($productGalleryId){
         
     }
     function index(){
@@ -390,9 +420,14 @@ class Admin extends CI_Controller{
         }else{
             $page = @$_GET['page'] ?? 'index';
             $page = htmlspecialchars($page);
-            $this->load->view('admin/header');
+            $flag = @$_GET['flag'] ?? true;
+            if($flag){
+                $this->load->view('admin/header');
+            }
             $this->load->view("plugins/$plugin/admin/$page");
-            $this->load->view('admin/footer');
+            if($flag){
+                $this->load->view('admin/footer');
+            }
         }
     }
     function delete_service($id){

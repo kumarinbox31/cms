@@ -36,7 +36,7 @@
                         echo '<tr class="'.$bg.'">
                                 <td>'.$i++.'</td>
                                 <td><a href="'.base_url('admin/website/edit?id=').$w->id.'" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a></td>
-                                <td>'.$w->domain.'</td>
+                                <td><a target="_blank" href="https://'.$w->domain.'">'.$w->domain.'</a></td>
                                 <td>'.$w->name.'</td>
                                 <td>'.$w->_email.'</td>
                                 <td>'.$w->_pass.'</td>

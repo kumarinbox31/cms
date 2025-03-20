@@ -11,6 +11,11 @@
         <?php beforeHeadContent(); ?>
         <?php echo OtherContent('header','cssdata'); ?>
         <?php echo theContent($page_id,'cssdata'); ?>
+        <style>
+            .modal-backdrop{
+                display:none !important;
+            }
+        </style>
         
     </head>
     <body <?php echo bodyClass(); ?>>

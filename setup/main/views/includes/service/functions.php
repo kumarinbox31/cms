@@ -28,7 +28,7 @@ function registerAfterFooterContent(){
 }
 
 function registerBodyClass(){
-    echo '';
+    echo 'home page-template-default page page-id-2254 theme-xclean woocommerce-no-js  pbmit-top-menu-total-6 pbmit-sidebar-no elementor-default elementor-kit-5 elementor-page elementor-page-2254';
 }
 add_shortcode('navbar', function($atts, $content){
     //  [navbar id=1871 type=vertical]

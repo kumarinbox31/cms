@@ -5,8 +5,79 @@ class Web extends CI_Controller{
         parent::__construct();
         $this->load->model(['mail','PageModel','WebsiteData','MenuModel','MenuItemModel','GalleryModel','FileServiceModel']);
     }
+    function manifest(){
+        header("Content-Type:manifest/json");
+        $this->load->view('web/manifest');
+    }
+   public function form_submit($form_id) {
+       error_reporting(E_ALL);ini_set('display_errors',1);
+    // Get JSON payload if the request is JSON
+    $postData = json_decode(file_get_contents('php://input'), true);
     
-    function index($uri=''){
+    // Get form-data if available
+    $formPostData = $this->input->post();
+
+    // Use either JSON data or form data, whichever is available
+    $post = !empty($formPostData) ? $formPostData : (!empty($postData['data']) ? $postData['data'] : null);
+    $post = $postData;
+    
+    // If no data is found, return an error
+    if (!$post) {
+        http_response_code(400); // Bad Request
+        echo json_encode(['status' => false, 'msg' => 'Invalid request. No data received.']);
+        exit;
+    }
+
+    // Handle normal file uploads (if present)
+    if (!empty($_FILES)) {
+        foreach ($_FILES as $key => $val) {
+            $data = $this->upload($key, false);
+            if (!isset($data['error'])) {
+                $post[$key] = $data['file_name']; // Store file name in post data
+            } else {
+                $post[$key] = ''; // If upload fails, store an empty string
+            }
+        }
+    }
+
+    // Handle base64 file uploads for multiple fields
+    foreach ($post as $fieldKey => $fieldValue) {
+        if (is_array($fieldValue)) {
+            foreach ($fieldValue as $index => $fileData) {
+                if (isset($fileData['storage']) && $fileData['storage'] === 'base64' && !empty($fileData['url'])) {
+                    $savedFile = $this->saveBase64File($fileData);
+                    if (!isset($savedFile['error'])) {
+                        $post[$fieldKey] = $savedFile['file_name'];
+                        // $post[$fieldKey][$index]['saved_file_name'] = $savedFile['file_name']; // Store file name
+                        // $post[$fieldKey][$index]['saved_path'] = $savedFile['file_path']; // Store file path
+                    } else {
+                        $post[$fieldKey] = '';
+                        // $post[$fieldKey][$index]['error'] = $savedFile['error']; // Store error if saving failed
+                    }
+                }
+            }
+        }
+    }
+    // print_r($post);exit;
+    // Insert data into the database
+    $ins = $this->db->insert('ab_form_data', [
+        'form_id' => $form_id,
+        'data' => json_encode($post), // Store data as JSON
+        'admin_id' => CLIENT_ID
+    ]);
+
+    // Return appropriate response
+    if ($ins) {
+        http_response_code(200); // Success
+        echo json_encode(['status' => true, 'msg' => 'Form submitted successfully.','data'=>$post]);
+    } else {
+        http_response_code(500); // Internal Server Error
+        echo json_encode(['status' => false, 'msg' => $this->db->error()['message']]);
+    }
+    exit;
+}
+
+function index($uri=''){
         if($post = $this->input->post()){
             // $data = '';
             // foreach($post as $key => $val){
@@ -45,44 +116,71 @@ class Web extends CI_Controller{
             view($data);
         }
     }
-    function ajax(){
-        if($post = $this->input->post()){
-            $action = @$post['action'];
-            if(isset($post['action'])){unset($post['action']);};
-            switch($action){
-                case 'form-submit':
-                    $form_id = $post['form_id'];
-                    unset($post['form_id']);
-                    if(count($_FILES)){
-                        foreach($_FILES as $key => $val){
-                            $data = $this->upload($key,false);
-                            if(!isset($data['error'])){
-                                // echo json_encode(['status'=>false,'msg'=>$data['error']]);
-                                // return false;
-                                $post[$key] = $data['file_name'];
-                            }else{
-                                $post[$key] = '';
-                            }
-                            
+   function ajax() {
+    if ($post = $this->input->post()) {
+        $action = @$post['action'];
+        if (isset($post['action'])) {
+            unset($post['action']);
+        }
+
+        switch ($action) {
+            case 'form-submit':
+                $form_id = $post['form_id'];
+                unset($post['form_id']);
+
+                if (count($_FILES)) {
+                    foreach ($_FILES as $key => $val) {
+                        $data = $this->upload($key, false);
+                        if (!isset($data['error'])) {
+                            $post[$key] = $data['file_name'];
+                        } else {
+                            $post[$key] = '';
                         }
                     }
-                    $this->db->insert('ab_form_data',['form_id'=>$form_id,'data'=>json_encode($post)]);
-                    echo json_encode(['status'=>true,'msg'=>'Form submited successfully.']);
+                }
+
+                $ins = $this->db->insert('ab_form_data', [
+                    'form_id' => $form_id,
+                    'data' => json_encode($post),
+                    'admin_id' => CLIENT_ID
+                ]);
+
+                if ($ins) {
+                    http_response_code(200); // Success
+                    echo json_encode(['status' => true, 'msg' => 'Form submitted successfully.']);
+                } else {
+                    http_response_code(500); // Internal Server Error
+                    echo json_encode(['status' => false, 'msg' => $this->db->error()['message']]);
+                    exit;
+                }
                 break;
-                default:
-                    echo json_encode(['status'=>false,'msg'=>'Something went wrong.']);
+
+            default:
+                http_response_code(400); // Bad Request
+                echo json_encode(['status' => false, 'msg' => 'Something went wrong.']);
                 break;
-            }
-        }else{
-            echo json_encode(['status'=>false,'msg'=>'Something went wrong.1']);
         }
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-        
+    } else {
+        http_response_code(400); // Bad Request
+        echo json_encode(['status' => false, 'msg' => 'Invalid request.']);
+    }
+
+    if (!$this->is_ajax_submit()) {
+        echo '<script>
+            alert("Process complete..");
+            window.location.href = document.referrer ? document.referrer : "/";
+        </script>';
+    }
+}
+
+    
+    function is_ajax_submit(){
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'){
+            return false;
         }else{
-            echo '<script>alert("Process complete..");window.location.href="/";</script>';
+            return true;
         }
     }
-    
     function customer_login(){
         if($post = $this->input->post()){
             $email = htmlentities($this->input->post('email',true));
@@ -119,6 +217,58 @@ class Web extends CI_Controller{
             $this->load->view('admin/login');
         }
     }
+    private function saveBase64File($fileData) {
+    $uploadPath = FCPATH . 'public/temp/'.CLIENT_ID.'/'; // Change this to your desired upload directory
+
+    // Ensure the directory exists
+    if (!is_dir($uploadPath)) {
+        mkdir($uploadPath, 0777, true);
+    }
+
+    // Extract base64 data
+    $base64String = $fileData['url'];
+    $originalName = $fileData['name'];
+
+    // Generate unique filename
+    $uniqueName = uniqid() . '-' . preg_replace('/[^A-Za-z0-9_.-]/', '', $originalName); // Sanitize filename
+
+    // Get file extension from MIME type
+    if (preg_match('/^data:image\/(\w+);base64,/', $base64String, $matches)) {
+        $fileExtension = $matches[1];
+        $base64String = preg_replace('/^data:image\/\w+;base64,/', '', $base64String);
+        $fileName = $uniqueName . '.' . $fileExtension;
+    } else {
+        return ['error' => 'Invalid base64 format'];
+    }
+
+    $filePath = $uploadPath . $fileName;
+
+    // Decode and save the file
+    $decodedData = base64_decode($base64String);
+    if ($decodedData === false) {
+        return ['error' => 'Base64 decoding failed'];
+    }
+
+    if (file_put_contents($filePath, $decodedData)) {
+        // Save file info in database
+        $data = [
+            'type' => 'image',
+            'path' => str_replace(FCPATH, '', $filePath),
+            'name' => pathinfo($fileName, PATHINFO_FILENAME),
+            'size' => strlen($decodedData) / 1024, // Convert bytes to KB
+            'file_type' => $fileData['type'],
+            'extention' => ".$fileExtension",
+            'info' => json_encode($fileData),
+            'admin_id' => CLIENT_ID
+        ];
+        $this->db->insert('media', $data);
+
+        return ['file_name' => $fileName, 'file_path' => $filePath];
+    } else {
+        return ['error' => 'Failed to save base64 file'];
+    }
+}
+
     function upload($file='file',$flag=true){
         $get = $this->file_up($file);
         if(!isset($get['error'])){
@@ -151,7 +301,7 @@ class Web extends CI_Controller{
             mkdir($upload_dir, 0777, true);
         }
         $config['upload_path']   = $upload_dir;
-        $config['allowed_types'] = 'gif|jpg|png|jpeg|webp';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|webp|pdf';
         $config['max_size']      = 0;
         // $config['max_width']     = 1024;
         // $config['max_height']    = 768;

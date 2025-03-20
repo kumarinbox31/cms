@@ -57,8 +57,8 @@ function beforeHeadContent($flag=false,$admin=false){
             	<meta property="og:type" content="article" />
             	<meta property="og:title" content="'.$wd->title.'">
                 <meta property="og:description" content="'.$wd->desc.'" > 
-                <meta property="og:image" content="'.LOGO.'">
-                <meta property="og:image:url" itemprop="image" content="'.LOGO.'" />
+                <meta property="og:image" content="'.base_url().LOGO.'">
+                <meta property="og:image:url" itemprop="image" content="'.base_url().LOGO.'" />
                 <meta property="og:image:type" content="image/png" />
                 <meta property="og:image:width" content="600" />
                 <meta property="og:image:height" content="600" />
@@ -97,7 +97,8 @@ function AfterFooterContent($flag=false){
     </script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
   AOS.init();
-</script>';
+</script>
+';
     if($get){
         return $get;
     }else{

@@ -61,6 +61,7 @@
                         <th>Name</th>
                         <th>Short-Code</th>
                         <th>Data</th>
+                        <th>Statics</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -69,6 +70,30 @@
                         $i = 1;
                         $ci = &get_instance();
                         foreach($get->result() as $row){
+                            $p = $this->db->select('SUM(amount) as ttl, COUNT(amount) AS cn')
+                                ->where('pg_form_id', $row->id)
+                                ->where('status', 'pending')
+                                ->get('ab_payment_data')
+                                ->row();
+                            $p_ttl = $p->ttl ?? 0;
+                            $p_cnt = $p->cn ?? 0;
+                            
+                            $s = $this->db->select('SUM(amount) as ttl, COUNT(amount) AS cn')
+                                ->where('pg_form_id', $row->id)
+                                ->where('status', 'success')
+                                ->get('ab_payment_data')
+                                ->row();
+                            $s_ttl = $s->ttl ?? 0;
+                            $s_cnt = $s->cn ?? 0;
+                            
+                            $f = $this->db->select('SUM(amount) as ttl, COUNT(amount) AS cn')
+                                ->where('pg_form_id', $row->id)
+                                ->where('status', 'failed')
+                                ->get('ab_payment_data')
+                                ->row();
+                            $f_ttl = $f->ttl ?? 0;
+                            $f_cnt = $f->cn ?? 0;
+
                              echo '<tr>
                                         <td>'.$i++.'</td>
                                         <td>'.$row->title.'</td>
@@ -77,9 +102,13 @@
                                             <a href="'.base_url('admin/plugin/ab-payment-form?page=show-data&id=').$row->id.'" class="btn btn-sm btn-primary"><i class="fa fa-list"></i></a>
                                         </td>
                                         <td>
-                                            <a href="'.base_url('admin/plugin/ab-payment-form?page=edit&id=').$row->id.'" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
-                                            <a href="'.base_url('admin/plugin/ab-payment-form?page=editor&id=').$row->id.'" class="btn btn-sm btn-info"><i class="fa fa-cog"></i></a>
-                                            <a href="'.base_url('admin/delete-service/').$row->id.'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                            <b>Pending :</b> ₹ '.intval($p_ttl).' ['.intval($p_cnt).']<br>
+                                            <b>Success :</b> ₹ '.intval($s_ttl).' ['.intval($s_cnt).']<br>
+                                            <b>Failed :</b> ₹ '.intval($f_ttl).' ['.intval($f_cnt).']<br>
+                                        </td>
+                                        
+                                        <td>
+                                            <a onclick="return confirm('."'Are you sure ?'".');" href="'.base_url('admin/delete-service/').$row->id.'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                         </td>
                                 </tr>';
                         }

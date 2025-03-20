@@ -1,7 +1,6 @@
 <?php
-error_reporting(E_ALL);ini_set('display_errors',1);
 $id = intval(@$_GET['id']);
-$get = $this->db->order_by('id','desc')->get_where('form_data',['id'=>$id]);
+$get = $this->db->order_by('id','desc')->get_where('ab_payment_data',['id'=>$id]);
 $row  = $get->row();
 $data = json_decode($row->data);
 ?>

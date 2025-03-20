@@ -55,4 +55,5 @@ $route['translate_uri_dashes'] = TRUE;
 
 $route['page/(:any)'] = 'web/index/$1';
 $route['customer-login'] = 'web/customer_login';
+$route['manifest.json'] = 'web/manifest';
 

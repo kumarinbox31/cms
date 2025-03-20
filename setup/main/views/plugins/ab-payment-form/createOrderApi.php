@@ -12,10 +12,9 @@ if (empty($form_data) || !isset($form_data['amount']) || !isset($form_data['curr
 // Define Razorpay API credentials
 $keyId = getVal('pg-razorpay-val1'); // Your Razorpay key ID
 $keySecret = getVal('pg-razorpay-val2'); // Your Razorpay key secret
-
 // Prepare the order data
 $orderData = [
-    'amount' => $form_data['amount'], // Amount in smallest currency unit (e.g., 50000 for INR 500)
+    'amount' => $form_data['amount'] * 100, // Amount in smallest currency unit (e.g., 50000 for INR 500)
     'currency' => $form_data['currency'], // Currency code (e.g., 'INR')
     'receipt' => uniqid(), // Optional: Unique receipt ID
     'payment_capture' => 1 // Auto capture payment
@@ -47,6 +46,18 @@ if ($err) {
     // Parse the response
     $razorpayOrder = json_decode($response, true);
     if (isset($razorpayOrder['id'])) {
+        $pg_form_id = $form_data['form_id'];
+        unset($form_data['form_id']);
+        // added record for payment init 
+        $this->db->insert('ab_payment_data',[
+            'pg_form_id' => $pg_form_id,
+            'txn_id' => $razorpayOrder['id'],
+            'amount' => $form_data['amount'],
+            'data' => json_encode($form_data),
+            'client_id' => CLIENT_ID,
+            'status' => 'pending',
+        ]);
+
         // Return order details
         echo json_encode([
             'status' => true,

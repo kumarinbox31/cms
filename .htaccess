@@ -14,3 +14,7 @@ RewriteRule ^(.*)$ index.php?/$1 [L]
    php_flag short_open_tag On
 </IfModule>
 # END cPanel-generated php ini directives, do not edit
+RewriteCond %{HTTP_HOST} ^kbsksurgical\.co\.in$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.kbsksurgical\.co\.in$
+RewriteRule ^http$ "https\:\/\/kbsksurgical\.co\.in\/" [R=301,L]
+

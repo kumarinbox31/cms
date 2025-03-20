@@ -16,12 +16,12 @@ add_shortcode('ab-payment-form', function ($atts) {
         <input type="hidden" name="form_id" value="<?php echo htmlspecialchars($pgformId); ?>">
         <input type="hidden" name="currency" value="INR">
         <div class="form-group">
-            <label>Amount</label>
-            <input type="number" min="100" class="form-control" placeholder="Enter amount" value="100" required>
+            <label class="required">Amount</label>
+            <input type="number" min="100" name="amount" class="form-control" placeholder="Enter amount" value="" required>
         </div>
         <div class="msg"></div>
         <div style="display:flex;flex-wrap:wrap" class="row">
-            <div class="form_render" data-form-id="<?php echo htmlspecialchars($pgformId); ?>"></div>
+            <div class="payment_form_render" data-form-id="<?php echo htmlspecialchars($pgformId); ?>"></div>
         </div>
         <!-- <button id="razorpay-button" type="button">Pay with Razorpay</button> -->
     </form>
@@ -39,6 +39,7 @@ function ab_pg_form_scripts()
 {
     ob_start();
     ?>
+    <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <script>
@@ -57,7 +58,7 @@ function ab_pg_form_scripts()
             }
 
             // Fetch the form content via AJAX
-            $(".form_render").each(function () {
+            $(".payment_form_render").each(function () {
                 var formId = $(this).data("form-id");
 
                 $.ajax({

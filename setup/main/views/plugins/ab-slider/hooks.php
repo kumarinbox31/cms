@@ -26,7 +26,7 @@ add_shortcode('AB-Slider', function($atts, $content){
         <!-- Slide 1 -->
         <div class="slide" style="height:<?php echo $sliderHeight; ?>">
             <?php if($image != ''){?>
-            <img src="<?php echo $image; ?>" alt="Slide 1" style="width:<?php echo $content->size->width ?? '100%'; ?>;">
+            <img src="<?php echo $image; ?>" alt="Slide 1" style="width:<?php echo $content->size->width ?? '100%'; ?> ;height:<?php echo $sliderHeight; ?>">
             <?php }if($content != ''){ ?>
              <div class="slider-content" >
                 <?php echo $content; ?>

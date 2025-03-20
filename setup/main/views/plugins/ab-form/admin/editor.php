@@ -1,5 +1,8 @@
  <button id="save-button" class="btn btn-sm btn-primary">Save Form</button>
  <div id="msg"></div>
+<center>
+          <a href="<?php echo base_url('admin/plugin/ab-form?page=formio-editor&id='.@$_GET['id']).'&flag=0'; ?>" class="btn btn-sm btn-info text-white">Edit with New Editor</a>
+      </center><br>
   <div id="fb-editor"></div>
 <?php 
     add_action('ab-admin-footer',function(){

@@ -22,10 +22,12 @@ $generatedSignature = hash_hmac('sha256', $razorpayOrderId . '|' . $razorpayPaym
 
 // Verify the signature
 if ($generatedSignature === $razorpaySignature) {
+    $this->db->where('txn_id',$razorpayOrderId)->update('ab_payment_data',['status'=>'success']);
     // Payment is verified
     echo json_encode(['status' => true, 'msg' => 'Payment verified successfully.']);
     // Here you can handle post-verification tasks (like updating the database, sending notifications, etc.)
 } else {
+    $this->db->where('txn_id',$razorpayOrderId)->update('ab_payment_data',['status'=>'failed']);
     // Payment verification failed
     echo json_encode(['status' => false, 'msg' => 'Payment verification failed.']);
 }
