@@ -17,4 +17,7 @@ RewriteRule ^(.*)$ index.php?/$1 [L]
 RewriteCond %{HTTP_HOST} ^kbsksurgical\.co\.in$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.kbsksurgical\.co\.in$
 RewriteRule ^http$ "https\:\/\/kbsksurgical\.co\.in\/" [R=301,L]
+RewriteCond %{HTTP_HOST} ^himalayasolar\.in\.net$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.himalayasolar\.in\.net$
+RewriteRule ^rajpushpasolarenergy\.in$ "https\:\/\/rajpushpasolarenergy\.in\/" [R=302,L]
 

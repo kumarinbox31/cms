@@ -5,11 +5,11 @@
     }
 </style>
 <div class="row">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header bg-info text-white">Add Template</div>
-            <div class="card-body">
-                <form method="POST" action="">
+    <div class="col-md-12">
+        <form method="GET">
+            <div class="card">
+                <div class="card-header bg-primary text-white">Panel</div>
+                <div class="card-body">
                     <div class="form-group">
                         <label>Theme</label>
                         <select class="form-control" name="theme_id" required>
@@ -17,38 +17,121 @@
                             <?php 
                                 $get = $this->db->get_where('ab_themes',['status'=>1]);
                                 foreach($get->result() as $row){
-                                    echo '<option value="'.$row->id.'">'.$row->title.'</option>';
+                                    $selected = $theme_id == $row->id ? 'selected' : '';
+                                    echo '<option value="'.$row->id.'" '.$selected.'>'.$row->title.'</option>';
                                 }
                             ?>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        <select class="form-control" required>
-                            <?php 
-                                $get = $this->BlockCategory->getActiveBlockCategories();
-                                foreach($get->result() as $row){
-                                    echo '<option value="'.$row->id.'">'.$row->name.'</option>';
-                                }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Label</label>
-                        <input type="text" name="label" class="form-control" requried>
-                    </div>
-                    <div class="form-group">
-                        <label>Media</label>
-                        <input type="text" name="media" class="form-control" requried>
-                    </div>
-                    <div class="form-group">
-                        <label>Content</label>
-                        <textarea name="content" class="form-control" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-sm btn-success">Submit</button>
-                    </div>
-                </form>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <?php if(isset($theme_id)){ ?>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">Add Template</div>
+            <div class="card-body">
+                <?php if($this->session->flashdata('success')): ?>
+    <div class="alert alert-success"><?php echo $this->session->flashdata('success'); ?></div>
+<?php endif; ?>
+<?php if($this->session->flashdata('error')): ?>
+    <div class="alert alert-danger"><?php echo $this->session->flashdata('error'); ?></div>
+<?php endif; ?>
+
+<form method="POST" action="<?php echo base_url('admin/template_save'); ?>" id="themeForm" novalidate>
+    <input type="hidden" name="theme_id" value="<?php echo htmlspecialchars($theme_id); ?>">
+    
+    <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" name="category" id="category" required>
+            <option value="">Select Category</option>
+            <?php 
+                $get = $this->BlockCategory->getActiveBlockCategories();
+                foreach($get->result() as $row){
+                    $selected = (set_value('category') == $row->id) ? 'selected' : '';
+                    echo '<option value="'.htmlspecialchars($row->id).'" '.$selected.'>'.htmlspecialchars($row->name).'</option>';
+                }
+            ?>
+        </select>
+        <?php echo form_error('category', '<div class="invalid-feedback">', '</div>'); ?>
+    </div>
+
+    <div class="form-group">
+        <label for="label">Label</label>
+        <input type="text" name="label" id="label" class="form-control" value="<?php echo set_value('label'); ?>" required maxlength="100">
+        <?php echo form_error('label', '<div class="invalid-feedback">', '</div>'); ?>
+    </div>
+
+    <!--<div class="form-group">-->
+    <!--    <label for="media">Media</label>-->
+    <!--    <input type="text" name="media" id="media" class="form-control" value="<?php echo set_value('media'); ?>" required>-->
+    <!--    <?php echo form_error('media', '<div class="invalid-feedback">', '</div>'); ?>-->
+    <!--</div>-->
+
+    <div class="form-group">
+        <label for="content">Content</label>
+        <textarea name="content" id="content" class="form-control" required rows="4"><?php echo set_value('content'); ?></textarea>
+        <?php echo form_error('content', '<div class="invalid-feedback">', '</div>'); ?>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-sm btn-success">Submit</button>
+    </div>
+</form>
+
+<!-- Client-side validation with JavaScript for Bootstrap 4.6 -->
+<script>
+// (function() {
+//     'use strict';
+//     window.addEventListener('load', function() {
+//         var form = document.getElementById('themeForm');
+//         form.addEventListener('submit', function(event) {
+//             let isValid = true;
+            
+//             form.querySelectorAll('[required]').forEach(function(element) {
+//                 if (!element.value.trim()) {
+//                     isValid = false;
+//                     element.classList.add('is-invalid');
+//                 } else {
+//                     element.classList.remove('is-invalid');
+//                 }
+//             });
+
+//             const mediaInput = document.getElementById('media');
+//             const urlPattern = /^(https?:\/\/)?([\w\d-]+\.)+[\w\d]{2,}(\/.*)?$/i;
+//             if (mediaInput.value && !urlPattern.test(mediaInput.value)) {
+//                 isValid = false;
+//                 mediaInput.classList.add('is-invalid');
+//             }
+
+//             if (!isValid) {
+//                 event.preventDefault();
+//                 event.stopPropagation();
+//             }
+            
+//             form.classList.add('was-validated');
+//         }, false);
+//     }, false);
+// })();
+</script>
+
+<style>
+.invalid-feedback {
+    display: none;
+}
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+.was-validated .form-control:invalid ~ .invalid-feedback,
+.form-control.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+</style>
             </div>
         </div>
     </div>
@@ -70,13 +153,18 @@
                 <tbody>
                     <?php 
                         $i = 1;
-                        $get = $this->block->getActiveBlocks();
+                        $get = $this->block->getActiveBlocks($theme_id);
                         foreach($get->result() as $row){
                             echo '<tr>
                                     <td>'.$i++.'</td>
                                     <td>'.$row->category.'</td>
                                     <td>'.$row->label.'</td>
-                                    <td>'.$row->media.'</td>
+                                    <td><svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <rect width="100%" height="100%" fill="#f0f0f0" />
+  <text x="50%" y="50%" font-family="Arial" font-size="40" fill="#333" text-anchor="middle" alignment-baseline="middle">
+    '.$row->label.'
+</text>
+</svg></td>
                                     <td>
                                         <button onclick="setIframe('.$row->blockid.')" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                           View Block
@@ -91,6 +179,7 @@
             </table>
         </div>
     </div>
+    <?php } ?>
 </div>
 
 

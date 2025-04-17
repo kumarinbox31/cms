@@ -11,3 +11,5 @@ cgi-bin
 /public
 .user.ini
 php.ini
+*.zip
+/uploads/

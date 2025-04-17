@@ -4,27 +4,19 @@ add_action('ab_footer', 'registerAfterFooterContent');
 add_action('ab_body_class', 'registerBodyClass');
 
 function registerBeforeHeadContent(){
-    $links = '
-       <link rel="stylesheet" href="'.theme_path().'assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="'.theme_path().'assets/css/swiper-bundle.min.css">
-        <link rel="stylesheet" href="'.theme_path().'assets/css/scrollCue.css">
-        <link rel="stylesheet" href="'.theme_path().'assets/css/remixicon.css">
-        <link rel="stylesheet" href="'.theme_path().'assets/css/flaticon.css">
-        <link rel="stylesheet" href="'.theme_path().'assets/css/style.css">
-        <link rel="stylesheet" href="'.theme_path().'assets/css/responsive.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-            ';
-    echo $links;
+    ob_start();
+    include 'header-script.php';
+    $html = ob_get_contents();
+	 ob_end_clean();
+	 echo $html;
 }
 
 function registerAfterFooterContent(){
-    echo '
-          <script src="'.theme_path().'assets/js/swiper-bundle.min.js"></script>
-        <script src="'.theme_path().'assets/js/fslightbox.js"></script>
-        <script src="'.theme_path().'assets/js/scrollCue.min.js"></script>
-        <script src="'.theme_path().'assets/js/custom.js"></script>
-          ';
+    ob_start();
+    include 'footer-script.php';
+    $html = ob_get_contents();
+	 ob_end_clean();
+	 echo $html;
 }
 
 function registerBodyClass(){

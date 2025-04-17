@@ -9,6 +9,7 @@ class Admin extends CI_Controller{
         'PluginModel','BlockCategory','PlanModel']);
         checkAdminLogin();
         $this->load->model("MediaModel");
+        $this->load->library('form_validation');
                     
     }
     public function change_password() {
@@ -148,25 +149,70 @@ function downloadProductQuery($productGalleryId){
         $this->load->view('admin/footer');
     }
     function template($page='index'){
+        $theme = isset($_GET['theme_id']) ? $_GET['theme_id'] : 0;
         $this->load->view('admin/header');
-        $this->load->view('admin/template/'.$page);
+        $this->load->view('admin/template/'.$page,['theme_id'=>$theme]);
         $this->load->view('admin/footer');
     }
-    function viewBlock($id){
-        echo '<!DOCTYPE html><html><head><title>Preview</title>';
-        beforeHeadContent(false,true);
-        echo '</head><body>';
-        $get = $this->block->getBlock($id);
-        if($get->num_rows()){
-            $row = $get->row();
-            $content = $row->content;
-            echo $content;
-        }else{
-            echo 'Something went wrong.';
-        }
-        AfterFooterContent();
-        echo '</body></html>';
+    public function template_save() {
+    // Set validation rules
+    $this->form_validation->set_rules('theme_id', 'Theme ID', 'required|numeric');
+    $this->form_validation->set_rules('category', 'Category', 'required|numeric');
+    $this->form_validation->set_rules('label', 'Label', 'required|trim|max_length[100]');
+    // $this->form_validation->set_rules('media', 'Media', 'required');
+    $this->form_validation->set_rules('content', 'Content', 'required|trim');
+
+    $theme_id = $this->input->post('theme_id', TRUE);
+
+    // Run validation
+    if (!$this->form_validation->run()) {
+        $this->session->set_flashdata('error', validation_errors());
+        return redirect('admin/template?theme_id=' . $theme_id);
     }
+
+    // Sanitize and prepare data
+    $label = $this->input->post('label', TRUE);
+    $data = [
+        'theme_id' => $theme_id,
+        'category_id' => $this->input->post('category', TRUE),
+        'label' => $label,
+        // 'media' => $this->input->post('media'),
+        'content' => $this->input->post('content'),
+        'created_at' => date('Y-m-d H:i:s'),
+        'blockid' => str_replace(array(' '),'',$label)
+    ];
+
+    // Save to database
+    if ($this->block->create($data)) {
+        $this->session->set_flashdata('success', 'Form saved successfully');
+    } else {
+        $this->session->set_flashdata('error', 'Failed to save form');
+    }
+
+    return redirect('admin/template?theme_id=' . $theme_id);
+}
+function viewBlock($id) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    define('PAGE_NAME', '');
+
+    // Ensure THEMEPATH is defined before using it
+    $data['page_id'] = DEFAULTPAGE;
+    $get = $this->block->getBlock($id);
+    if ($get && $get->num_rows() > 0) {
+        $row = $get->row();
+        $content = $row->content;
+    } else {
+        $content = '<p>Error: Block not found or an issue occurred.</p>';
+    }
+    $data['content'] = $content;
+    $this->load->view('includes/'.THEMEPATH.'/header',$data);
+    $this->load->view('admin/template/view_block');
+    $this->load->view('includes/'.THEMEPATH.'/footer');
+}
+
+
     function content($type='home',$id=0){
         $type = $type.'-content.php';
         $headContent = beforeHeadContent(true,true);
@@ -590,6 +636,7 @@ function downloadProductQuery($productGalleryId){
 
     function logout(){
         unset($_SESSION['customer-session']);
+        unset($_SESSION['by_superadmin']);
         redirect('/');
     }
     

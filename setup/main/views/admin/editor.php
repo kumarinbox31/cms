@@ -21,8 +21,9 @@
     <script src="<?php echo base_url('public/admin/'); ?>abeditor/js/toastr.min.js"></script>
     <!--<script src="<?php echo base_url('public/admin/'); ?>abeditor/js/grapes.min44a5.js?v0.20.4"></script>-->
     <script src="https://unpkg.com/grapesjs-preset-webpage@1.0.2"></script>
-    <script src="https://unpkg.com/grapesjs-blocks-basic@1.0.1"></script>
-    <script src="https://unpkg.com/grapesjs-plugin-forms@2.0.5"></script>
+    <!--<script src="https://unpkg.com/grapesjs-blocks-basic@1.0.1"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/grapesjs-blocks-basic@1.0.1"></script>
+    <!--<script src="https://unpkg.com/grapesjs-plugin-forms@2.0.5"></script>-->
     <script src="https://unpkg.com/grapesjs-component-countdown@1.0.1"></script>
     <script src="https://unpkg.com/grapesjs-plugin-export@1.0.11"></script>
     <script src="https://unpkg.com/grapesjs-tabs@1.0.6"></script>
@@ -34,6 +35,18 @@
     <script src="https://unpkg.com/grapesjs-typed@1.0.5"></script>
     <script src="https://unpkg.com/grapesjs-style-bg@2.0.1"></script>
     <!--<script src="https://unpkg.com/grapesjs-plugin-ckeditor"></script>-->
+    
+    <!--changes script-->
+    <script src="https://cdn.jsdelivr.net/npm/grapesjs-plugin-forms@2.0.5"></script>
+<script src="https://cdn.jsdelivr.net/npm/grapesjs-component-code-editor"></script>
+<script src="https://cdn.jsdelivr.net/npm/grapesjs-parser-postcss"></script>
+<script src="/path-to-files/grapesjs-plugin-forms.min.js"></script>
+<script src="/path-to-files/grapesjs-component-code-editor.min.js"></script>
+<script src="/path-to-files/grapesjs-parser-postcss.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/grapesjs@0.22.6/dist/css/grapes.min.css">
+<script src="https://unpkg.com/grapesjs-typed@1.0.5/dist/grapesjs-typed.min.js"></script>
+<script src="https://unpkg.com/grapesjs-style-bg@2.0.1/dist/index.js"></script>
+<!--changed scripts-->
     
     <!--plugins-->
     <!--<script src="<?php echo base_url('public/admin/'); ?>abeditor/js/grapesjs-swiper-slider.min.js"></script>-->

@@ -13,7 +13,7 @@
 											<h1 class="site-title"><a href="index.html" rel="home"><span
 														class="site-title-text">Xclean Demo1 - Cleaning Services
 														WordPress Theme</span><img class="pbmit-main-logo"
-														src="<?php echo theme_path(); ?>demo1/wp-content/uploads/sites/2/2024/10/logo.svg"
+														src="<?php echo LOGO ?>"
 														alt="Xclean Demo1" title="Xclean Demo1" /></a></h1>
 											<!-- Logo area -->
 										</div><!-- .wrap -->
@@ -445,7 +445,7 @@
 					</image_lists>
 				</sr7-module>
 				<script>
-					SR7.PMH ??= {}; SR7.PMH["SR7_1_1"] = { cn: 0, state: false, fn: function () { if (_tpt !== undefined && _tpt.prepareModuleHeight !== undefined) { _tpt.prepareModuleHeight({ id: "SR7_1_1", el: [700, 700, 650, 550, 450], type: 'standard', shdw: '0', gh: [700, 700, 650, 550, 450], gw: [1460, 1460, 1024, 778, 480], vpt: ['100px&#039;,&#039;100px&#039;,&#039;100px&#039;,&#039;100px&#039;,&#039;100px'], size: { fullWidth: true, fullHeight: false }, mh: '0', onh: 0, onw: 0, bg: { color: '{"orig":"transparent","type":"solid","string":"transparent"}' } }); SR7.PMH["SR7_1_1"].state = true; } else if ((SR7.PMH["SR7_1_1"].cn++) < 100) setTimeout(SR7.PMH["SR7_1_1"].fn, 19); } }; SR7.PMH["SR7_1_1"].fn();
+					//SR7.PMH ??= {}; SR7.PMH["SR7_1_1"] = { cn: 0, state: false, fn: function () { if (_tpt !== undefined && _tpt.prepareModuleHeight !== undefined) { _tpt.prepareModuleHeight({ id: "SR7_1_1", el: [700, 700, 650, 550, 450], type: 'standard', shdw: '0', gh: [700, 700, 650, 550, 450], gw: [1460, 1460, 1024, 778, 480], vpt: ['100px&#039;,&#039;100px&#039;,&#039;100px&#039;,&#039;100px&#039;,&#039;100px'], size: { fullWidth: true, fullHeight: false }, mh: '0', onh: 0, onw: 0, bg: { color: '{"orig":"transparent","type":"solid","string":"transparent"}' } }); SR7.PMH["SR7_1_1"].state = true; } else if ((SR7.PMH["SR7_1_1"].cn++) < 100) setTimeout(SR7.PMH["SR7_1_1"].fn, 19); } }; SR7.PMH["SR7_1_1"].fn();
 				</script>
 			</div>
 		</header><!-- #masthead -->

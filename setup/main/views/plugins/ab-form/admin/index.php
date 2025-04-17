@@ -50,6 +50,10 @@
                         $i = 1;
                         $ci = &get_instance();
                         foreach($get->result() as $row){
+                            $copy = '';
+                            if(!empty($_SESSION['by_superadmin'])){
+                                $copy = '<a onclick="confirm(\'Are you sure ?\');" href="'.base_url('admin/plugin/ab-form?page=copy_to_another&id=').$row->id.'" class="btn btn-sm btn-warning"><i class="fa fa-copy"></i></a>';
+                            }
                              echo '<tr>
                                         <td>'.$i++.'</td>
                                         <td>'.$row->title.'</td>
@@ -58,9 +62,10 @@
                                             <a href="'.base_url('admin/plugin/ab-form?page=show-data&id=').$row->id.'" class="btn btn-sm btn-primary"><i class="fa fa-list"></i></a>
                                         </td>
                                         <td>
+                                            '.$copy.'
                                             <a href="'.base_url('admin/plugin/ab-form?page=edit&id=').$row->id.'" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
                                             <a href="'.base_url('admin/plugin/ab-form?page=editor&id=').$row->id.'" class="btn btn-sm btn-info"><i class="fa fa-cog"></i></a>
-                                            <a href="'.base_url('admin/delete-service/').$row->id.'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                            <a onclick="confirm(\'Are you sure ?\');" href="'.base_url('admin/delete-service/').$row->id.'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                         </td>
                                 </tr>';
                         }

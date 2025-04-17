@@ -196,7 +196,7 @@ function index($uri=''){
                     $cookie_name = 'customer-session';
                     $cookie_expiration = time() + 3600 * 6; // 1 hour
                     $cookie_path = '/';
-                    $cookie_domain = 'yourdomain.com'; // Replace with your actual domain
+                    $cookie_domain = $row->domain; // Replace with your actual domain
                     $cookie_secure = true; // Set to true if using HTTPS
                     $cookie_httponly = false;
                     
@@ -217,6 +217,59 @@ function index($uri=''){
             $this->load->view('admin/login');
         }
     }
+    
+    public function direct_login() {
+        $token = $this->input->get('_token', true);
+    
+        if (!$token) {
+            $this->session->set_flashdata('error_msg', 'Invalid or missing token.');
+            redirect(base_url('customer-login.html'));
+            return;
+        }
+    
+        // Decode the token (Ensure error handling)
+        // $decoded_data = json_decode(base64_decode($token), true);
+        // if (!$decoded_data || empty($decoded_data['email']) || empty($decoded_data['website_id']) || empty($decoded_data['exp'])) {
+        //     $this->session->set_flashdata('error_msg', 'Invalid token data.');
+        //     redirect(base_url('customer-login.html'));
+        //     return;
+        // }
+        $decoded_data = validateJWT($token,'Abhijeet#12!00');
+        
+        // Check Token Expiry
+        if ($decoded_data['exp'] < time()) {
+            $this->session->set_flashdata('error_msg', 'Token expired.');
+            redirect(base_url('customer-login.html'));
+            return;
+        }
+    
+        $email = htmlentities($decoded_data['email']);
+        $website_id = intval($decoded_data['website_id']);
+    
+        // Fetch user data based on email and website_id
+        $chk = $this->website->get(['_email' => $email, 'id' => $website_id]);
+    
+        if ($chk->num_rows()) {
+            $row = $chk->row();
+    
+            // Generate a session
+            $cookie_value = time();
+            $_SESSION['customer-session'] = $cookie_value;
+            $_SESSION['by_superadmin'] = true;
+    
+            // Set secure cookie
+            setcookie('customer-session', $cookie_value, time() + 3600 * 6, '/', $row->domain, true, false);
+    
+            $this->website->update(['id' => $row->id], ['last_login_session' => $cookie_value]);
+    
+            // Redirect to admin/dashboard
+            redirect(base_url('admin'));
+        } else {
+            $this->session->set_flashdata('error_msg', 'Invalid login credentials.');
+            redirect(base_url('customer-login.html'));
+        }
+    }
+
     private function saveBase64File($fileData) {
     $uploadPath = FCPATH . 'public/temp/'.CLIENT_ID.'/'; // Change this to your desired upload directory
 
