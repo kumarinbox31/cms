@@ -57,4 +57,9 @@ class Block extends CI_Model{
     function create($data){
         return $this->db->insert('blocks',$data);
     }
+    public function delete($id)
+{
+    return $this->db->delete('blocks', ['id' => $id]);
+}
+
 }

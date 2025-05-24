@@ -10,6 +10,45 @@ class Admin extends CI_Controller{
             redirect('admin-login');
         }
     }
+    public function change_status(){
+        $id = intval($_GET['id']);
+        $data = ['status'=>intval($_GET['new_status'])];
+        $this->website->update(['id'=>$id],$data);
+        $this->session->set_flashdata('success_msg','Saved successfully.');
+        redirect('admin/website');
+    }
+    public function backup_both_databases()
+    {
+        $this->load->helper(['file', 'download']);
+    
+        // Backup Default DB
+        $this->load->dbutil(); // Uses default DB
+        $backup1 = $this->dbutil->backup([
+            'format' => 'zip',
+            'filename' => 'main_db_backup.sql'
+        ]);
+        $filename1 = 'main_db_backup_' . date('Y-m-d_H-i-s') . '.zip';
+        write_file(FCPATH . 'backups/' . $filename1, $backup1);
+    
+        // Backup Second DB
+        $this->second_db = $this->load->database('second_db', TRUE);
+        $this->load->dbutil($this->second_db);
+        $dbutil2 = $this->load->dbutil($this->second_db);
+        $backup2 = $dbutil2->backup([
+            'format' => 'zip',
+            'filename' => 'second_db_backup.sql'
+        ]);
+        $filename2 = 'second_db_backup_' . date('Y-m-d_H-i-s') . '.zip';
+        write_file(FCPATH . 'backups/' . $filename2, $backup2);
+    
+        // Optional: Download first file
+        force_download($filename1, $backup1);
+    
+        // Optional: Just output confirmation
+        // echo "Backups created: $filename1, $filename2";
+    }
+
+
     
     function index(){
         $this->load->view('admin/header');

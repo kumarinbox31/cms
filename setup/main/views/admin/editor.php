@@ -40,9 +40,9 @@
     <script src="https://cdn.jsdelivr.net/npm/grapesjs-plugin-forms@2.0.5"></script>
 <script src="https://cdn.jsdelivr.net/npm/grapesjs-component-code-editor"></script>
 <script src="https://cdn.jsdelivr.net/npm/grapesjs-parser-postcss"></script>
-<script src="/path-to-files/grapesjs-plugin-forms.min.js"></script>
-<script src="/path-to-files/grapesjs-component-code-editor.min.js"></script>
-<script src="/path-to-files/grapesjs-parser-postcss.min.js"></script>
+<!--<script src="/path-to-files/grapesjs-plugin-forms.min.js"></script>-->
+<!--<script src="/path-to-files/grapesjs-component-code-editor.min.js"></script>-->
+<!--<script src="/path-to-files/grapesjs-parser-postcss.min.js"></script>-->
 <link rel="stylesheet" href="https://unpkg.com/grapesjs@0.22.6/dist/css/grapes.min.css">
 <script src="https://unpkg.com/grapesjs-typed@1.0.5/dist/grapesjs-typed.min.js"></script>
 <script src="https://unpkg.com/grapesjs-style-bg@2.0.1/dist/index.js"></script>

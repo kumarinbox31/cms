@@ -293,5 +293,8 @@
           }, false);
         })();
       </script>
+      <script>
+    $(".datatable").DataTable({});
+</script>
     </body>
 </html>

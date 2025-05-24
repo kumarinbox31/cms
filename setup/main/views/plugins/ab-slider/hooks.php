@@ -4,7 +4,7 @@ add_shortcode('AB-Slider', function($atts, $content){
     $id = intval(@$atts['id']);
     $ci = &get_instance();
     $get = $this->ServiceModel->getServiceById($id)->row();
-    $content = json_decode($get->content);
+    $content = empty($get->content) ? [] : json_decode($get->content);
     $sliderHeight =  isset($content->size->height) ? $content->size->height : '500px';
     
      ob_start();

@@ -62,4 +62,34 @@ window.addEventListener('resize', adjustMarginTop);
         include 'header-content.php';
     }
     ?>
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const mainWrapper = document.getElementById("main-wrapper");
+    if (!mainWrapper) {
+      console.log("No element with id='main-wrapper' found.");
+      return;
+    } else {
+      console.log("Found #main-wrapper:", mainWrapper);
+    }
+
+    const allIcons = document.querySelectorAll(".calling-icon, .whatsapp-icon");
+
+    if (allIcons.length === 0) {
+      console.log("No .calling-icon or .whatsapp-icon elements found.");
+    }
+
+    allIcons.forEach(icon => {
+      console.log("Checking icon:", icon);
+
+      // Check if the icon appears *before* the mainWrapper
+      if (icon.compareDocumentPosition(mainWrapper) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        console.log("Icon is before #main-wrapper. Hiding it.");
+        icon.style.display = "none";
+      } else {
+        console.log("Icon is not before #main-wrapper. Leaving it visible.");
+      }
+    });
+  });
+</script>
+
 <div class="main-content">

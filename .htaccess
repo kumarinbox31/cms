@@ -1,4 +1,9 @@
 RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
+RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?/$1 [L]
@@ -20,4 +25,7 @@ RewriteRule ^http$ "https\:\/\/kbsksurgical\.co\.in\/" [R=301,L]
 RewriteCond %{HTTP_HOST} ^himalayasolar\.in\.net$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.himalayasolar\.in\.net$
 RewriteRule ^rajpushpasolarenergy\.in$ "https\:\/\/rajpushpasolarenergy\.in\/" [R=302,L]
+RewriteCond %{HTTP_HOST} ^propmarketing\.co\.in$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.propmarketing\.co\.in$
+RewriteRule ^/?$ "https\:\/\/Propmarketing\.in\/" [R=301,L]
 

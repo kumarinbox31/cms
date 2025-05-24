@@ -169,6 +169,9 @@
                                         <button onclick="setIframe('.$row->blockid.')" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                           View Block
                                         </button>
+                                        <a onclick="confirm('."'Are you sure ?'".');" href="'.base_url('admin/template_delete/'.$row->blockid).'" class="btn btn-danger">
+                                          <i class="fa fa-trash"></i>
+                                        </a>
                                     </td>
                                     
                                 </tr>';

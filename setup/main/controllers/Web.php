@@ -10,7 +10,6 @@ class Web extends CI_Controller{
         $this->load->view('web/manifest');
     }
    public function form_submit($form_id) {
-       error_reporting(E_ALL);ini_set('display_errors',1);
     // Get JSON payload if the request is JSON
     $postData = json_decode(file_get_contents('php://input'), true);
     

@@ -41,6 +41,11 @@ $btn_icon = $enable == 'enable' ? 'on' : 'off';
                     class="form-control"><?php echo getVal('ab-tawk-to-script'); ?></textarea>
             </div>
             <div class="form-group col-md-6">
+                <label>Head Script</label>
+                <textarea name="ab-head-script" placeholder="Enter head script" rows="10"
+                    class="form-control"><?php echo getVal('ab-head-script'); ?></textarea>
+            </div>
+            <div class="form-group col-md-6">
                 <label for="ab-popup-type">Popup Type</label>
                 <?php $popup_type = getVal('ab-popup-type'); ?>
                 <select name="ab-popup-type" id="ab-popup-type" class="form-control">

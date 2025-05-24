@@ -35,19 +35,21 @@ add_action('ab_footer', 'ab_form_scripts',10);
 add_action('ab_head', 'ab_form_styles',10);
     
 function ab_formio_scripts(){
+    /*
     ?>
     <script src="https://cdn.form.io/js/formio.embed.js"></script>
    <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function () {
     var el = document.querySelector('.form_render');
     var content = el.getAttribute('data-content');
+    console.log("form Content: ", content);
     // Get form_id from the nearest input or container
     var form_id = el.closest('form').querySelector('[name="form_id"]').value;
     
     try {
       var formContent = JSON.parse(content);
       Formio.createForm(el, formContent).then(function (form) {
-        console.log('--init--');
+        console.log('-- formio init--');
 
         // Override the submit handler
         form.on("submit", (submission) => {
@@ -87,6 +89,68 @@ function ab_formio_scripts(){
     } catch (error) {
       console.error('Invalid form content:', error);
     }
+  });
+</script>
+
+<?php
+*/
+?>
+<script src="https://cdn.form.io/js/formio.embed.js"></script>
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.form_render').forEach(function (el) {
+      var content = el.getAttribute('data-content');
+      console.log("form Content: ", content);
+
+      // Get form_id from the nearest input or container
+      var form_id_input = el.closest('form')?.querySelector('[name="form_id"]');
+      var form_id = form_id_input ? form_id_input.value : null;
+
+      if (!form_id) {
+        console.warn('form_id not found for form element:', el);
+        return;
+      }
+
+      try {
+        var formContent = JSON.parse(content);
+        Formio.createForm(el, formContent).then(function (form) {
+          console.log('-- formio init--');
+
+          // Handle form submission
+          form.on("submit", (submission) => {
+            console.log('--submitting--', submission);
+
+            fetch('/web/form_submit/' + form_id, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(submission.data)
+            })
+            .then(response => {
+              if (!response.ok) throw new Error('Network response was not ok');
+              return response.json();
+            })
+            .then(data => {
+              console.log('--API Response--', data);
+
+              form.submission = {};
+              form.resetValue();
+              form.refresh();
+              form.setPristine(true);
+
+              alert('Form submitted successfully!');
+            })
+            .catch(error => {
+              console.error('Error submitting form:', error);
+              alert('There was an error submitting the form.');
+            });
+          });
+        });
+      } catch (error) {
+        console.error('Invalid form content:', error);
+      }
+    });
   });
 </script>
 

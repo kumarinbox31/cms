@@ -50,7 +50,9 @@ function beforeHeadContent($flag=false,$admin=false){
         if(!defined('LOGO')) {
             define('LOGO', '');
         }
-        $get .= '<meta property="title" content="'.$wd->title.'">
+        $get .= getVal('ab-head-script');
+        $get .= '
+                <meta property="title" content="'.$wd->title.'">
                 <meta property="keywords" content="'.$wd->keywords.'">
             	<meta property="og:locale" content="en_GB" />
             	<meta property="og:url" content="'.base_url().'">

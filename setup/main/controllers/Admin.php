@@ -12,6 +12,7 @@ class Admin extends CI_Controller{
         $this->load->library('form_validation');
                     
     }
+    
     public function change_password() {
         $this->load->library('form_validation');
 
@@ -154,6 +155,11 @@ function downloadProductQuery($productGalleryId){
         $this->load->view('admin/template/'.$page,['theme_id'=>$theme]);
         $this->load->view('admin/footer');
     }
+    function template_delete($id){
+        $this->block->delete($id);
+        $this->session->set_flashdata('success', 'Deleted successfully');
+        redirect('admin/template');
+    }
     public function template_save() {
     // Set validation rules
     $this->form_validation->set_rules('theme_id', 'Theme ID', 'required|numeric');
@@ -283,8 +289,6 @@ function viewBlock($id) {
                 $content = OtherContent($pagetype,'content',true);
             }
         }
-        // print_r($data);exit;
-        
         $content = $content != '' ? $content : $this->load->view('includes/'.THEMEPATH.'/'.$type,[],true);
         $data['content'] = $content;
         $this->load->view('admin/editor',$data);
