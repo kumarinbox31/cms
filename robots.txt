@@ -1,0 +1,22 @@
+# Allow all search engines full access to the site
+User-agent: *
+Disallow:
+
+# Optional: Disallow sensitive or non-public areas
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+Disallow: /cart/
+Disallow: /checkout/
+
+# Optional: Block search results pages or duplicate content
+Disallow: /search
+Disallow: /tag/
+Disallow: /*?*
+
+# Allow specific bots if you block others
+# User-agent: Googlebot
+# Allow: /
+
+# Sitemap declaration (helps search engines find your sitemap)
+Sitemap: https://www.example.com/sitemap.xml

@@ -37,9 +37,9 @@ $get = $this->website->get(['id'=>@$_GET['id'],'rid'=>RID])->row();
                         <select class="form-control select2" name="planid" >
                             <option value="0">--Select Plan--</option>
                             <?php 
-                                $get = $this->PlanModel->getAllActivePlans();
-                                foreach($get->result()  as $p){
-                                    $selected = $row->planid ==$p->id ? 'selected' : '';
+                                $plans = $this->PlanModel->getAllActivePlans();
+                                foreach($plans->result()  as $p){
+                                    $selected = $get->planid ==$p->id ? 'selected' : '';
                                     echo '<option value="'.$p->id.'" '.$selected.'>'.$p->plan_name.'</option>';
                                 }
                             ?>

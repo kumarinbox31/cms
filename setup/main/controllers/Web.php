@@ -111,7 +111,7 @@ function index($uri=''){
                 define('LOGO',$wd->logo);
                 define('TITLE',$wd->title);
             }
-            $this->WebsiteData->addVisitorCount();
+            $this->WebsiteData->addVisitorCount(CURRENT_PAGE_ID);
             view($data);
         }
     }
@@ -379,5 +379,34 @@ function index($uri=''){
     function plugin($plugin,$page='index'){
         $page = htmlspecialchars($page);
         $this->load->view("plugins/$plugin/$page");
+    }
+    
+    public function get_seo_report_by_url(){
+        header('Content-type:application/json');
+        if(!empty($_GET['url'])){
+                $url = ($_GET['url']);
+                $this->load->helper('seo');
+                $report = get_basic_seo_report($url);
+                echo json_encode($report);exit;
+        }else{
+            die('Invalid page id provided');
+        }
+    }
+    public function get_seo_report(){
+        if(!empty($_GET['page'])){
+            $page = intval($_GET['page']);
+            $p  = $this->db->get_where('ab_pages',['id'=>$page,'admin_id'=>CLIENT_ID])->row();
+            if(!empty($p)){
+                $uri = $p->uri;
+                $url = base_url().'/page/'.$uri;
+                $this->load->helper('seo');
+                $report = get_basic_seo_report($url);
+                echo json_encode($report);exit;
+            }else{
+                die('Page details not found');
+            }
+        }else{
+            die('Invalid page id provided');
+        }
     }
 }

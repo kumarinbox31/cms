@@ -217,6 +217,6 @@ The rotateX/Y reversal is easy since it's not animated, so just use its opposite
   </div>
 </div>
 <div class="txt3">For more information please </div>
-<a href="#"><div class="button">Contact with us</div></a>
+<a target="_blank" href="https://webfiredegitech.com/"><div class="button">Contact with us</div></a>
 </body>
 </html>

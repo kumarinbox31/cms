@@ -11,7 +11,7 @@ class WebsiteData extends MY_Model{
         return true;
     }
 
-    public function addVisitorCount() {
+    public function addVisitorCount($page_id) {
         $cookie_name = 'ab-visits';
         $cookie_value = 1; // Assuming getVisitors() returns the visitor count
     
@@ -24,6 +24,20 @@ class WebsiteData extends MY_Model{
             // Increment count if cookie doesn't exist
             $this->addVisitors();
         } 
+        // === NEW CODE FOR PAGE VISIT TRACKING ===
+        $page_cookie_name = 'ab-visits-page-' . $page_id;
+    
+        if (!isset($_COOKIE[$page_cookie_name])) {
+            // Set page-specific visit cookie
+            setcookie($page_cookie_name, 1, time() + 31556926, '/');
+    
+            // Update visit count for this specific page
+            $this->incrementPageVisitCount($page_id);
+        }
+    }
+    
+    public function incrementPageVisitCount($page_id){
+        $this->db->where('admin_id', CLIENT_ID)->where('id',$page_id)->set('visit_count', 'visit_count+1', FALSE)->update('pages');
     }
     
     public function addVisitors(){

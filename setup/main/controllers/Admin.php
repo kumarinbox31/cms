@@ -145,8 +145,27 @@ function downloadProductQuery($productGalleryId){
         
     }
     function index(){
+        $this->load->model(['WebsiteData','ServiceModel']);
+        $get = $this->db->get_where('websites',['id'=>CLIENT_ID])->row();
+        $formCounts = $this->ServiceModel->getServiceByType('ab-form')->num_rows();
+        $formDataCounts = $this->db->get_where('ab_form_data',['admin_id'=>CLIENT_ID])->num_rows();
+        $totalVisitors = $this->WebsiteData->getVisitors();
+        $totalPages = $this->db->get_where('pages',['admin_id'=>CLIENT_ID])->num_rows();
+        $totalPlugins = $this->db->get_where('ab_plugin_installed',['admin_id'=>CLIENT_ID])->num_rows();
+        $pagesVisitCounts = $this->db->select('id,page_name,uri,visit_count')->where(['admin_id'=>CLIENT_ID,'url' => ''])->order_by('visit_count','desc')->get('pages')->result();
+        $totalPagesVisitCount = array_sum(array_column($pagesVisitCounts, 'visit_count'));
+
         $this->load->view('admin/header');
-        $this->load->view('admin/home');
+        $this->load->view('admin/home',[
+            'web'=>$get,
+            'totalVisitors'=>$totalVisitors,
+            'totalPages'=>$totalPages,
+            'totalPlugins'=>$totalPlugins,
+            'totalForms' => $formCounts,
+            'formDataCounts' => $formDataCounts,
+            'pagesVisitCounts' => $pagesVisitCounts,
+            'totalPagesVisitCount' => $totalPagesVisitCount,
+        ]);
         $this->load->view('admin/footer');
     }
     function template($page='index'){
@@ -643,6 +662,9 @@ function viewBlock($id) {
         unset($_SESSION['by_superadmin']);
         redirect('/');
     }
+    
+    
+    
     
     
 }

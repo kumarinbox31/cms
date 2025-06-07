@@ -95,6 +95,7 @@ function formatSizeUnits($bytes) {
 }
 function getVisitorCounter(){
     $ci = &get_instance();
+    $ci->load->model('WebsiteData');
     $cnt = $ci->WebsiteData->getVisitors();
     $digitsArray = str_split((string)$cnt);
     $html = '';

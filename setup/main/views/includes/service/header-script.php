@@ -458,52 +458,52 @@
 	<link rel='stylesheet' id='elementor-icons-material-icons-css'
 		href='<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/libraries/material-icons/css/material-icons.min8a54.css?ver=1.0.0' media='all' />
 	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-	<script src="<?php echo theme_path(); ?>demo1/wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/pbminfotech-theme-dock/js/jquery.scrollbar.mind1c0.js?ver=6.7.2"
-		id="jquery-scrollbar-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/pbminfotech-theme-dock/js/scriptd1c0.js?ver=6.7.2" id="pbmdock-script-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/revslider/public/js/libs/tptools2ede.js?ver=6.7.21" id="tp-tools-js" async
-		data-wp-strategy="async"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/revslider/public/js/sr72ede.js?ver=6.7.21" id="sr7-js" async
-		data-wp-strategy="async"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.minc39b.js?ver=2.7.0-wc.9.6.0"
-		id="jquery-blockui-js" defer data-wp-strategy="defer"></script>
-	<script id="wc-add-to-cart-js-extra">
-		var wc_add_to_cart_params = { "ajax_url": "\/demo1\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/demo1\/?wc-ajax=%%endpoint%%", "i18n_view_cart": "View cart", "cart_url": "https:\/\/xclean-demo.pbminfotech.com\/demo1\/cart\/", "is_cart": "", "cart_redirect_after_add": "no" };
-	</script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min1dc6.js?ver=9.6.0"
-		id="wc-add-to-cart-js" defer data-wp-strategy="defer"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min14f7.js?ver=2.1.4-wc.9.6.0"
-		id="js-cookie-js" defer data-wp-strategy="defer"></script>
-	<script id="woocommerce-js-extra">
-		var woocommerce_params = { "ajax_url": "\/demo1\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/demo1\/?wc-ajax=%%endpoint%%" };
-	</script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min1dc6.js?ver=9.6.0" id="woocommerce-js"
-		defer data-wp-strategy="defer"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/libraries/jquery-observe/jquery-observe.mind1c0.js?ver=6.7.2"
-		id="jquery-observe-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/woocommerce/assets/js/select2/select2.full.mind5a9.js?ver=4.0.3-wc.9.6.0"
-		id="select2-js" defer data-wp-strategy="defer"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/libraries/magnific-popup/jquery.magnific-popup.mind1c0.js?ver=6.7.2"
-		id="magnific-popup-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/libraries/sticky-toolkit/jquery.sticky-kit.mind1c0.js?ver=6.7.2"
-		id="jquery-sticky-js"></script>
-	<script id="pbmit-core-script-js-extra">
-		var pbmit_js_variables = { "responsive": null, "ajaxurl": "https:\/\/xclean-demo.pbminfotech.com\/demo1\/wp-admin\/admin-ajax.php", "ajaxnonce": "a8034b6377", "ajaxnonce_ajax_pagination": "532955b791", "ajaxnonce_sortcat": "83a7663984" };
-	</script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/cored1c0.js?ver=6.7.2" id="pbmit-core-script-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/elementord1c0.js?ver=6.7.2" id="pbmit-elementor-script-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/gsapd1c0.js?ver=6.7.2" id="gsap-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/ScrollTriggerd1c0.js?ver=6.7.2" id="scrolltrigger-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/SplitTextd1c0.js?ver=6.7.2" id="splitsext-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/ScrollSmootherd1c0.js?ver=6.7.2" id="scrollsmoother-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/magneticd1c0.js?ver=6.7.2" id="magnetic-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/gsap-animationd1c0.js?ver=6.7.2" id="gsap-animation-effect-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/morphextd1c0.js?ver=6.7.2" id="pbmit-morphext-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/theia-sticky-sidebard1c0.js?ver=6.7.2"
-		id="theia-sticky-sidebar-js"></script>
-	<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/cursord1c0.js?ver=6.7.2" id="cursor-js"></script>
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/pbminfotech-theme-dock/js/jquery.scrollbar.mind1c0.js?ver=6.7.2"-->
+	<!--	id="jquery-scrollbar-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/pbminfotech-theme-dock/js/scriptd1c0.js?ver=6.7.2" id="pbmdock-script-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/revslider/public/js/libs/tptools2ede.js?ver=6.7.21" id="tp-tools-js" async-->
+	<!--	data-wp-strategy="async"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/revslider/public/js/sr72ede.js?ver=6.7.21" id="sr7-js" async-->
+	<!--	data-wp-strategy="async"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.minc39b.js?ver=2.7.0-wc.9.6.0"-->
+	<!--	id="jquery-blockui-js" defer data-wp-strategy="defer"></script>-->
+	<!--<script id="wc-add-to-cart-js-extra">-->
+	<!--	var wc_add_to_cart_params = { "ajax_url": "\/demo1\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/demo1\/?wc-ajax=%%endpoint%%", "i18n_view_cart": "View cart", "cart_url": "https:\/\/xclean-demo.pbminfotech.com\/demo1\/cart\/", "is_cart": "", "cart_redirect_after_add": "no" };-->
+	<!--</script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min1dc6.js?ver=9.6.0"-->
+	<!--	id="wc-add-to-cart-js" defer data-wp-strategy="defer"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min14f7.js?ver=2.1.4-wc.9.6.0"-->
+	<!--	id="js-cookie-js" defer data-wp-strategy="defer"></script>-->
+	<!--<script id="woocommerce-js-extra">-->
+	<!--	var woocommerce_params = { "ajax_url": "\/demo1\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/demo1\/?wc-ajax=%%endpoint%%" };-->
+	<!--</script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min1dc6.js?ver=9.6.0" id="woocommerce-js"-->
+	<!--	defer data-wp-strategy="defer"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/libraries/jquery-observe/jquery-observe.mind1c0.js?ver=6.7.2"-->
+	<!--	id="jquery-observe-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/plugins/woocommerce/assets/js/select2/select2.full.mind5a9.js?ver=4.0.3-wc.9.6.0"-->
+	<!--	id="select2-js" defer data-wp-strategy="defer"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/libraries/magnific-popup/jquery.magnific-popup.mind1c0.js?ver=6.7.2"-->
+	<!--	id="magnific-popup-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/libraries/sticky-toolkit/jquery.sticky-kit.mind1c0.js?ver=6.7.2"-->
+	<!--	id="jquery-sticky-js"></script>-->
+	<!--<script id="pbmit-core-script-js-extra">-->
+	<!--	var pbmit_js_variables = { "responsive": null, "ajaxurl": "https:\/\/xclean-demo.pbminfotech.com\/demo1\/wp-admin\/admin-ajax.php", "ajaxnonce": "a8034b6377", "ajaxnonce_ajax_pagination": "532955b791", "ajaxnonce_sortcat": "83a7663984" };-->
+	<!--</script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/cored1c0.js?ver=6.7.2" id="pbmit-core-script-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/elementord1c0.js?ver=6.7.2" id="pbmit-elementor-script-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/gsapd1c0.js?ver=6.7.2" id="gsap-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/ScrollTriggerd1c0.js?ver=6.7.2" id="scrolltrigger-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/SplitTextd1c0.js?ver=6.7.2" id="splitsext-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/ScrollSmootherd1c0.js?ver=6.7.2" id="scrollsmoother-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/magneticd1c0.js?ver=6.7.2" id="magnetic-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/gsap-animationd1c0.js?ver=6.7.2" id="gsap-animation-effect-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/morphextd1c0.js?ver=6.7.2" id="pbmit-morphext-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/theia-sticky-sidebard1c0.js?ver=6.7.2"-->
+	<!--	id="theia-sticky-sidebar-js"></script>-->
+	<!--<script src="<?php echo theme_path(); ?>demo1/wp-content/themes/xclean/js/cursord1c0.js?ver=6.7.2" id="cursor-js"></script>-->
 	
 <?/*	<noscript>
 		<style>

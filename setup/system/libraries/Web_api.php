@@ -55,6 +55,23 @@ class Web_api{
             exit;
             
         }
+        if (!empty($this->client['is_maintenance']) && @$this->isDomainSet) {
+            // List of allowed URIs during maintenance
+            $allowed_routes = [
+                'customer-login.html',
+                'web/direct_login',
+                'admin'
+            ];
+        
+            // Get the current URI path
+            $current_uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+        
+            // Check if user is NOT logged in and route is NOT whitelisted
+            if ($this->checkAdminLogin(true)['status'] == false && !in_array($current_uri, $allowed_routes)) {
+                require 'template/maintenance.php';
+                exit;
+            }
+        }
 
         if(reseller ){ //&& domain_name == 'developer.ajaydemo.in.net'){
             // die();
@@ -103,6 +120,15 @@ class Web_api{
     }
     function run(){
         require_once BASEPATH.'core/CodeIgniter.php';
+    }
+    function checkAdminLogin($flag=false){
+        $session = isset($_SESSION['customer-session']) ? $_SESSION['customer-session'] : null;
+        if($flag == true && $session != $this->client['last_login_session']){
+            return ['status'=>false,'msg'=>'Admin Login Failed.','code'=>11];
+        }
+        if ($session != $this->client['last_login_session']) {
+            redirect(base_url('customer-login.html'));
+        } 
     }
     function client(){
         define('CLIENT_ID',$this->client['id']);
