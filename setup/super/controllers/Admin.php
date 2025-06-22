@@ -9,6 +9,8 @@ class Admin extends CI_Controller{
         if(!$this->session->has_userdata('super-admin')){
             redirect('admin-login');
         }
+        $this->load->library('form_validation');
+
     }
     public function change_status(){
         $id = intval($_GET['id']);
@@ -98,6 +100,7 @@ class Admin extends CI_Controller{
             echo $html;
         }
     }
+
     function create_website(){
         if($post = $this->input->post()){
             $name = htmlspecialchars($post['name']);
@@ -109,7 +112,8 @@ class Admin extends CI_Controller{
             $wid = intval($post['wid']);
             $planid = intval($post['planid']);
             $start_time = time();
-            $end_time = strtotime("+1 year", $start_time);
+            $plan_years = intval($post['plan_years']);
+            $end_time = strtotime("+$plan_years year", $start_time);
             $data = [
                 'name' => $name,
                 '_email' => $email,
@@ -127,6 +131,82 @@ class Admin extends CI_Controller{
             redirect(base_url('admin/website'));
         }
     }
+    /*
+    public function create_website()
+    {
+        // Load the form validation library if not autoloaded
+        $this->load->library('form_validation');
+    
+        // Set validation rules
+        $this->form_validation->set_rules('name', 'Client Name', 'required|trim|min_length[3]');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|trim');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        $this->form_validation->set_rules('domain', 'Domain', 'required|trim|callback_domain_check');
+        $this->form_validation->set_rules('address', 'Address', 'required|trim');
+        $this->form_validation->set_rules('mobile', 'Mobile', 'required|numeric|min_length[10]|max_length[12]');
+        $this->form_validation->set_rules('planid', 'Plan', 'required|numeric|greater_than[0]');
+        $this->form_validation->set_rules('plan_years', 'Plan Years', 'required|numeric|greater_than[0]');
+    
+        if ($this->form_validation->run() == FALSE) {
+            // Reload the form with error messages
+            $this->session->set_flashdata('error_msg', validation_errors());
+            redirect(base_url('admin/website/create')); // Adjust form URL as needed
+        } else {
+            $post = $this->input->post();
+            $name = htmlspecialchars($post['name']);
+            $email = htmlspecialchars($post['email']);
+            $password = htmlspecialchars($post['password']);
+            $domain = cleanDomain(htmlspecialchars($post['domain']));
+            $address = htmlspecialchars($post['address']);
+            $mobile = intval($post['mobile']);
+            $wid = intval($post['wid']);
+            $planid = intval($post['planid']);
+            $plan_years = intval($post['plan_years']);
+    
+            $start_time = time();
+            $end_time = strtotime("+$plan_years year", $start_time);
+    
+            $data = [
+                'name' => $name,
+                '_email' => $email,
+                'mobile' => $mobile,
+                'address' => $address,
+                '_pass' => password_hash($password, PASSWORD_BCRYPT), // hash for security
+                'domain' => $domain,
+                'start_time' => $start_time,
+                'end_time' => $end_time,
+                'rid' => RID,
+                'planid' => $planid
+            ];
+    
+            $this->website->create($data, $wid);
+            $this->session->set_flashdata('success_msg', 'Website created successfully.');
+            redirect(base_url('admin/website'));
+        }
+    }
+        */
+    public function domain_check($domain)
+    {
+        // Simple check for valid domain format
+        if (!preg_match("/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $domain)) {
+            $this->form_validation->set_message('domain_check', 'The {field} format is not valid.');
+            return false;
+        }
+    
+        // Optionally check if domain already exists in DB
+        $exists = $this->website->checkDomainExists($domain);
+        if ($exists) {
+            $this->form_validation->set_message('domain_check', 'This domain is already registered.');
+            return false;
+        }
+    
+        return true;
+    }
+    public function checkDomainExists($domain)
+    {
+        return $this->db->where('domain', $domain)->count_all_results('websites') > 0;
+    }
+
     function copy_website($wid,$nwid){
         // $this->website->copy_website($wid,$nwid);
     }

@@ -1,3 +1,19 @@
+<style>
+    .label-required:after{
+        content:' *';
+        color:red;
+    }
+</style>
+<?php error_reporting(E_ALL);ini_set('display_errors',1);if ($this->session->flashdata('success_msg')): ?>
+    <div class="alert alert-success"><?= $this->session->flashdata('success_msg'); ?></div>
+<?php endif; ?>
+
+<?php if ($this->session->flashdata('error_msg')): ?>
+    <div class="alert alert-danger"><?= $this->session->flashdata('error_msg'); ?></div>
+<?php endif; ?>
+
+<?= validation_errors('<div class="alert alert-danger">', '</div>'); ?>
+
 <form method="POST" action="<?php echo base_url('admin/create-website');?>" class="validate" novalidate>
     <div class="card">
         <div class="card-header bg-warning text-white" style="display:block;">
@@ -9,7 +25,7 @@
             <div class="col-sm-12">
                 <div class="input-group input-group-primary">
                     <span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-user"></i></label></span>
-                    <input type="text" class="form-control" name="name" placeholder="Enter name" required>
+                    <input type="text" class="form-control" name="name" placeholder="Enter name" required value="<?= set_value('name') ?>">
                     <!--<div class="invalid-feedback">Please enter a valid email address.</div>-->
                 </div>
             </div>
@@ -17,28 +33,28 @@
             <div class="col-sm-6">
                 <div class="input-group input-group-info">
                     <span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-envelope"></i></label></span>
-                    <input type="text" class="form-control" name="email" placeholder="Enter email"  required>
+                    <input type="text" class="form-control" name="email" placeholder="Enter email"  required value="<?= set_value('email') ?>">
                 </div>
             </div>
             
             <div class="col-sm-6">
                 <div class="input-group input-group-warning">
                     <span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-phone"></i></label></span>
-                    <input type="text" class="form-control" name="mobile" placeholder="Enter mobile"  required>
+                    <input type="text" class="form-control" name="mobile" placeholder="Enter mobile"  required value="<?= set_value('mobile') ?>">
                 </div>
             </div>
             
             <div class="col-sm-12">
                 <div class="input-group input-group-success">
                     <span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-location"></i></label></span>
-                    <input type="text" class="form-control" name="address" placeholder="Enter address"  >
+                    <input type="text" class="form-control" name="address" placeholder="Enter address"  value="<?= set_value('address') ?>">
                 </div>
             </div>
             
             <div class="col-sm-6">
                 <div class="input-group input-group-danger">
                     <span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-key"></i></label></span>
-                    <input type="text" class="form-control" name="password" placeholder="Enter password"  required>
+                    <input type="text" class="form-control" name="password" placeholder="Enter password"  required value="<?= set_value('password') ?>">
                     <a onclick="generatePass()" class="btn btn-sm btn-primary"><i class="fa fa-refresh"></i></a>
                 </div>
             </div>
@@ -46,23 +62,39 @@
             <div class="col-sm-6">
                 <div class="input-group input-group-primary">
                     <span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-globe"></i></label></span>
-                    <input type="text" class="form-control" name="domain" placeholder="Enter domain"  required>
+                    <input type="text" class="form-control" name="domain" placeholder="Enter domain"  required value="<?= set_value('domain') ?>">
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label>Plan</label>
-                    <select class="form-control select2" name="planid" >
-                        <option value="0">--Select Plan--</option>
+                    <label class="label-required">Plan</label>
+                    <select class="form-control select2" name="planid" required>
+                        <option value="">--Select Plan--</option>
                         <?php 
                             $get = $this->PlanModel->getAllActivePlans();
                             foreach($get->result()  as $row){
-                                echo '<option value="'.$row->id.'">'.$row->plan_name.'</option>';
+                                $selected = set_select('planid', $row->id);
+                                echo '<option value="'.$row->id.'" '.$selected.'>'.$row->plan_name.'</option>';
                             }
                         ?>
                     </select>
                 </div>
             </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="label-required">Plan Duration (Years)</label>
+                    <select class="form-control select2" name="plan_years" required>
+                        <option value="">--Select Duration--</option>
+                        <?php 
+                            for($i = 1; $i <= 10; $i++) {
+                                $selected = set_select('plan_years', $i);
+                                echo '<option value="'.$i.'" '.$selected.'>'.$i.' Year'.($i > 1 ? 's' : '').'</option>';
+                            }
+                        ?>
+                    </select>
+                </div>
+            </div>
+
             
             <div class="col-sm-6">
                 <div class="form-group">
@@ -72,13 +104,18 @@
                         <?php 
                             $get = $this->website->get(['status'=>1]);
                             foreach($get->result()  as $row){
-                                echo '<option value="'.$row->id.'">'.$row->domain.'</option>';
+                                $selected = set_select('wid', $row->id);
+                                echo '<option value="'.$row->id.'" '.$selected.'>'.$row->domain.'</option>';
                             }
                         ?>
                     </select>
                 </div>
             </div>
-            <div class="col-sm-6" id="showIframe">
+            <hr>
+            <div class="col-md-12">
+                <h4>Payment Details</h4>
+            </div>
+            <div class="col-sm-12" id="showIframe">
                 
             </div>
             

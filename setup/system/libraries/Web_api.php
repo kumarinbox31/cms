@@ -73,8 +73,7 @@ class Web_api{
             }
         }
 
-        if(reseller ){ //&& domain_name == 'developer.ajaydemo.in.net'){
-            // die();
+        if(reseller ){
              $this->resellerDB = mysqli_connect(HOST,HOST_USER,DB_PASSWORD, RESELLER_DB) or die('ERRORS = '. mysqli_connect_error());
 
             $getREseller = $this->resellerDB->query("SELECT * FROM  ".RESELLER_PREFIX."admins WHERE domain = '".FRESH_DOMAIN."' ");
@@ -84,6 +83,7 @@ class Web_api{
                 $get = (object) $getREseller->fetch_assoc();
                 define('RID',$get->id);
                 define('WALLET',$get->type);
+                define('RTYPE',$get->type);
                 $this->reseller = (array) $get;  
                 
                 if(!$this->reseller['status'])
