@@ -13,3 +13,4 @@ cgi-bin
 php.ini
 *.zip
 /uploads/
+/super

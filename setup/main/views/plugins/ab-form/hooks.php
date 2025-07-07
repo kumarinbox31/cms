@@ -1,4 +1,4 @@
-<?
+<?php
 add_shortcode('ab-form', function($atts, $content){
     //  [ab-form id=1 ]
     $formId = @$atts['id'];
@@ -14,7 +14,7 @@ add_shortcode('ab-form', function($atts, $content){
     }
     
      ob_start();
-        echo '<form method="POST" action="/web/ajax" class="ajax-form-submit" onsubmit="javascript:;" enctype="multipart/form-data">
+        echo '<form data-desc="'.$desc.'" method="POST" action="/web/ajax" class="ajax-form-submit" onsubmit="javascript:;" enctype="multipart/form-data">
                 <input type="hidden" name="form_id" value="'.$formId.'">
                 <input type="hidden" name="action" value="form-submit">
                 <div class="msg"></div>   
@@ -23,14 +23,21 @@ add_shortcode('ab-form', function($atts, $content){
                     .rendered-form > div{
                         text-align:left;
                     }
+                    .form_render > .alert.alert-danger {
+    display: none;
+}
+
                 </style>
-                <div class="form_render" data-content='."'".($content)."'".'></div>
+                <div class="form_render" style="margin-left:10px;" data-content='."'".($content)."'".'></div>
                 </div>
                 </form>';
      $html = ob_get_contents();
 	 ob_end_clean();
 	 return $html;
 });
+if(CLIENT_ID == 231){
+    add_action('ab_footer', 'ab_formio_scripts');
+}
 add_action('ab_footer', 'ab_form_scripts',10);
 add_action('ab_head', 'ab_form_styles',10);
     

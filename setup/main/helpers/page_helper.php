@@ -86,6 +86,8 @@ function beforeHeadContent($flag=false,$admin=false){
     $get .= '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
             <script>var base_url = "'.base_url().'";</script>
             <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
                 ';
     if($flag){
         return $get;

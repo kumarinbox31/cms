@@ -90,6 +90,7 @@ function index($uri=''){
             // $res = $this->mail->send('abhijeetentellus@gmail.com',$msg);
             // echo json_encode(['success'=>$res]);
         }else{
+            define('IS_WEB',true);
             if($uri != ''){
                 $page = $this->PageModel->get(['uri'=>($uri),'admin_id'=>CLIENT_ID,'trash'=>'0'])->row();
                 $page_id = $page->id ?? 0;

@@ -40,7 +40,7 @@ if ($web->end_time < $now) {
         <?php
 $plan = $this->db->get_where('plan', ['id' => $web->planid])->row();
 $permissions = !empty($plan) ? json_decode($plan->permissions, true) : null;
-/*
+
 ?>
 
 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -96,7 +96,6 @@ $permissions = !empty($plan) ? json_decode($plan->permissions, true) : null;
         </div>
     </div>
 </div>
-*/?>
         <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="widget">
                 <div class="widget-body">
