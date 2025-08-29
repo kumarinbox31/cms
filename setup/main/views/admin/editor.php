@@ -83,6 +83,19 @@
           background: white;
           color: black;
        }
+       .fa-save{
+           background-color: #28a745;
+          color: white;
+          padding: 6px 12px;
+          border-radius: 5px;
+          font-weight: bold;
+          border: none;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+       }
+       .fa-save:hover {
+          background-color: #218838;
+        }
    </style>
    
    <!--custom plugins-->

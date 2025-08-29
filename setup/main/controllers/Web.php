@@ -5,6 +5,48 @@ class Web extends CI_Controller{
         parent::__construct();
         $this->load->model(['mail','PageModel','WebsiteData','MenuModel','MenuItemModel','GalleryModel','FileServiceModel']);
     }
+    public function sitemap_xml() {
+    $pages = $this->db->get_where('ab_pages', [
+        'admin_id' => CLIENT_ID,
+        'is_deleted' => '0'
+    ]);
+
+    $data['urls'] = [];
+
+    foreach ($pages->result() as $page) {
+        $uri = empty($page->uri) ? '' : str_replace(' ', '-', trim($page->uri));
+        $data['urls'][] = [
+            'loc' => empty($uri) ? base_url() : base_url('page/' . rawurlencode($uri)),
+            'lastmod' => empty($page->updated_at) ? date('Y-m-d', strtotime($page->created_at)) : date('Y-m-d', strtotime($page->updated_at)),
+            'changefreq' => 'monthly',
+            'priority' => '0.5'
+        ];
+    }
+
+    header("Content-Type: application/xml");
+    $this->load->view('sitemap_xml', $data);
+}
+
+
+public function sitemap_html() {
+    $pages = $this->db->get_where('ab_pages', [
+        'admin_id' => CLIENT_ID,
+        'is_deleted' => '0'
+    ]);
+
+    $data['urls'] = [];
+
+    foreach ($pages->result() as $page) {
+        $data['urls'][] = [
+            'loc' => empty($page->uri) ? base_url() : base_url('page/' . rawurlencode($page->uri)),
+            'label' => $page->page_name
+        ];
+    }
+
+    $this->load->view('sitemap_html', $data);
+}
+
+
     function manifest(){
         header("Content-Type:manifest/json");
         $this->load->view('web/manifest');

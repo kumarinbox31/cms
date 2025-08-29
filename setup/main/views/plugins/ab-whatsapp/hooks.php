@@ -1,4 +1,5 @@
 <?php
+
 add_shortcode('AGREE-POPUP', function ($atts, $content) {
   //  [AGREE-POPUP ]
 //   $CI = &get_instance();
@@ -366,5 +367,10 @@ function popupCss()
     width: 70%;
   }
 }</style>';
+}
+$social_links = getVal('social_links');
+if(!empty($social_links) && $social_links !='disable' && defined('IS_WEB')){
+    include 'social-links.php';
+    add_action('ab_footer','sidebar_social_links');
 }
 ?>

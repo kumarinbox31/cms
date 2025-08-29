@@ -244,6 +244,17 @@ class Web_api{
                 :   false;
     }
     
+    function __destruct() {
+        if ($this->db) {
+            mysqli_close($this->db);
+        }
+    
+        if ($this->resellerDB) {
+            mysqli_close($this->resellerDB);
+        }
+    }
+
+    
     
 }
 

@@ -24,3 +24,7 @@ RewriteRule ^http$ "https\:\/\/kbsksurgical\.co\.in\/" [R=301,L]
 RewriteCond %{HTTP_HOST} ^himalayasolar\.in\.net$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.himalayasolar\.in\.net$
 RewriteRule ^rajpushpasolarenergy\.in$ "https\:\/\/rajpushpasolarenergy\.in\/" [R=302,L]
+RewriteCond %{HTTP_HOST} ^propmarketing\.co\.in$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.propmarketing\.co\.in$
+RewriteRule ^/?$ "http\:\/\/propmarketing\.in\/" [R=301,L]
+

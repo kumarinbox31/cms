@@ -30,7 +30,7 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
                     <div class="card border rounded-lg overflow-hidden shadow-lg">
                         <div class="card-header">
                             <img class="ab-product-image w-full" src="' . $image . '" alt="' . $row->title . '">
-                            <div class="ab-product-desc d-none">' . $row->desc . '</div>
+                            <div class="ab-product-desc ">' . $row->desc . '</div>
                         </div>
                         <div class="card-body py-2">
                             <h4 class="text-center ab-product-title">' . $row->title . '</h4>

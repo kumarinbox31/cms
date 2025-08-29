@@ -66,6 +66,79 @@ $btn_icon = $enable == 'enable' ? 'on' : 'off';
                 <label>Google Translate</label>
                 <code>[GOOGLE-TRANSLATE]</code>
             </div>
+            <div class="form-group col-md-6">
+                <label>Social Links</label>
+                <select class="form-control" name="social_links">
+                    <option value="disable" <?= getVal('social_links') == 'disable' ? 'selected' : ''; ?>>Disable</option>
+                    <option value="left" <?= getVal('social_links') == 'left' ? 'selected' : ''; ?>>Left</option>
+                    <option value="right" <?= getVal('social_links') == 'right' ? 'selected' : ''; ?>>Right</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Social Links</label>
+                <select class="form-control" name="social_icon_style">
+                    <option value="style1" <?= getVal('social_icon_style','style1') == 'style1' ? 'selected' : ''; ?>>Style 1</option>
+                </select>
+            </div>
+            <?php 
+            $socials = [
+                'social_facebook' => 'Facebook',
+                'social_twitter' => 'Twitter',
+                'social_instagram' => 'Instagram',
+                'social_linkedin' => 'LinkedIn',
+                'social_youtube' => 'YouTube',
+                'social_whatsapp' => 'WhatsApp',
+                'social_telegram' => 'Telegram',
+                'social_pinterest' => 'Pinterest',
+                'social_snapchat' => 'Snapchat',
+                'social_threads' => 'Threads',
+            ];
+            
+            foreach($socials as $key => $val){
+            ?>
+                <div class="form-group col-md-6">
+                    <label><?= $val; ?></label>
+                    <input type="text" class="form-control" name="<?= $key; ?>"
+                           value="<?= getVal($key); ?>" placeholder="Enter <?= $val; ?> URL">
+                </div>
+            <?php } ?>
+<div class="form-group col-md-6">
+    <label>Icon Padding</label>
+    <input type="text" class="form-control" name="social_icon_padding"
+           value="<?= getVal('social_icon_padding', '5px'); ?>" placeholder="e.g., 10px">
+</div>
+
+<div class="form-group col-md-4">
+    <label>Background Color</label><br>
+    <input type="color" class="w-100" name="social_icon_background"
+           value="<?= getVal('social_icon_background', '#ffffff'); ?>">
+</div>
+
+<div class="form-group col-md-4">
+    <label>Icon Width</label>
+    <input type="text" class="form-control" name="social_icon_width"
+           value="<?= getVal('social_icon_width', '35px'); ?>" placeholder="e.g., 35px">
+</div>
+
+<div class="form-group col-md-4">
+    <label>Icon Height</label>
+    <input type="text" class="form-control" name="social_icon_height"
+           value="<?= getVal('social_icon_height', '35px'); ?>" placeholder="e.g., 35px">
+</div>
+
+<div class="form-group col-md-4">
+    <label>Border Radius</label>
+    <input type="text" class="form-control" name="social_icon_border_radius"
+           value="<?= getVal('social_icon_border_radius', '50%'); ?>" placeholder="e.g., 50%">
+</div>
+
+<div class="form-group col-md-4">
+    <label>Custom Filter (Optional)</label>
+    <input type="text" class="form-control" name="social_icon_filter"
+           value="<?= getVal('social_icon_filter'); ?>" placeholder="e.g., grayscale(100%)">
+</div>
+
+
             <div class="form-group col-md-12">
                 <button type="submit" class="btn btn-sm btn-primary">Submit</button>
             </div>
