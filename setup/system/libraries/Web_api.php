@@ -141,6 +141,7 @@ class Web_api{
         define('CUSTOMER_SESSION',$this->client['last_login_session']);
         define('DEFAULTPAGE',$this->client['defualt_page']);
         define('PLANID',$this->client['planid']);
+        define('WRID',$this->client['rid']);
         // define('COMMING_SOON',$this->client['comming_soon']);
         
         // define('starttime',$this->client['start_time']);
