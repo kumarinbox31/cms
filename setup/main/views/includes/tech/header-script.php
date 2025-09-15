@@ -7,3 +7,8 @@
         display:none;
     }
 </style>
+<style>
+    .hidden-icons-menu{
+        display:none !important;
+    }
+</style>

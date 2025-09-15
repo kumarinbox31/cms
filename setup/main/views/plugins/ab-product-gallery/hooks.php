@@ -12,6 +12,8 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
     $button_style = isset($extra->button_style) ? $extra->button_style : 'primary';
     $button_color = isset($extra->button_color) ? $extra->button_color : '#ffffff';
     $button_bg  = isset($extra->button_bg) ? $extra->button_bg : '#086AD8';
+    $this->load->helper('text');
+
     ob_start();
     ?>
     <main class="product-gallery-main container py-2 w-100">
@@ -30,7 +32,7 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
                     <div class="card border rounded-lg overflow-hidden shadow-lg">
                         <div class="card-header">
                             <img class="ab-product-image w-full" src="' . $image . '" alt="' . $row->title . '">
-                            <div class="ab-product-desc ">' . $row->desc . '</div>
+                            <div class="ab-product-desc " data-desc="'.$row->desc.'">' . word_limiter($row->desc, 20). '</div>
                         </div>
                         <div class="card-body py-2">
                             <h4 class="text-center ab-product-title">' . $row->title . '</h4>
@@ -63,9 +65,6 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
                     <div class="row">
                         <div class="col-md-6">
                             <img class="w-100 image" src="" style="max-height:auto;">
-                            <div class="desc"></div>
-
-
                         </div>
                         <div class="col-md-6">
                             <div class="query-msg"></div>
@@ -99,6 +98,7 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
                                     <button type="submit" class="btn btn-sm btn-primary mt-2">Submit</button>
                                 </div>
                             </form>
+                            <div class="desc"></div>
                         </div>
                     </div>
                 </div>
@@ -150,7 +150,7 @@ add_action('ab_footer', function () {
             var itemEl = $('#product-item-' + id);
             var image = itemEl.find('.ab-product-image').attr('src');
             var title = itemEl.find('.ab-product-title').text();
-            var desc = itemEl.find('.ab-product-desc').html();
+            var desc = itemEl.find('.ab-product-desc').data('desc');
             console.log(desc);
             var form = $('#product-query-form');
             form.find('.modal-title').html(title);
