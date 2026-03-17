@@ -116,6 +116,7 @@ class Gallery extends CI_Controller{
             $data = [
                 'gallery_id' => $post['gallery_id'],
                 'title'      => $post['title'] ?? '',
+                'short_desc'       => $post['short_desc'] ?? '',
                 'desc'       => $post['desc'] ?? '',
                 'file'       => $post['file'],
                 'link'       => $post['link'] ?? '',

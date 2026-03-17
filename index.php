@@ -1,4 +1,7 @@
 <?php
+if (function_exists('opcache_reset')) {
+    opcache_reset();
+}
 date_default_timezone_set('ASIA/KOLKATA'); //echo '2'; exit;
 require_once __DIR__.'/setup/config.php';
 /**

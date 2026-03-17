@@ -30,7 +30,7 @@
         print $this->MenuModel->get_menu($items, $arr);
 
         ?>
-        <!-- <ul class="responsive-menu">
+        <?php /*<ul class="responsive-menu">
 
             <li class="responsive-menu-list active"><a href="javascript:void(0);">Home</a>
                 <ul class="responsive-menu-items">
@@ -187,7 +187,7 @@
                     </div>
                 </form>
             </div>
-        </div> -->
+        </div> */?>
 
     </div>
 </div>

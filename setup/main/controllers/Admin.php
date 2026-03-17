@@ -422,6 +422,8 @@ function viewBlock($id) {
             $this->load->view('admin/footer');
         }
     }
+    
+    
     function plugins($page='index'){
         $this->load->view('admin/header');
         $this->load->view('admin/plugins/'.$page);
@@ -664,6 +666,241 @@ function viewBlock($id) {
     }
     
     
+    public function find_replace(){
+        $data = [];
+        $data['results'] = [];
+        $data['summary'] = [];
+    
+        $this->load->view('admin/header');
+        $this->load->view('admin/find_replace', $data);
+        $this->load->view('admin/footer');
+    }
+    
+    /**
+     * Preview search results (NO UPDATE)
+     * POST:
+     *  search_text
+     *  in_other (1/0)
+     *  in_page  (1/0)
+     *  case_sensitive (1/0) optional
+     */
+    public function find_replace_preview()
+    {
+        $search = trim($this->input->post('search_text', true));
+        $in_other = (int)$this->input->post('in_other');
+        $in_page  = (int)$this->input->post('in_page');
+        $case_sensitive = (int)$this->input->post('case_sensitive');
+    
+        $data = [
+            'results' => [],
+            'summary' => [
+                'total_rows' => 0,
+                'total_occurrences' => 0,
+                'search_text' => $search
+            ]
+        ];
+    
+        if ($search === '' || (!$in_other && !$in_page)) {
+            $data['error'] = 'Search text required and select at least one table.';
+            $this->load->view('admin/header');
+            $this->load->view('admin/find_replace', $data);
+            $this->load->view('admin/footer');
+            return;
+        }
+    
+        // helper: count occurrences
+        $count_occ = function($haystack, $needle) use ($case_sensitive) {
+            if ($needle === '') return 0;
+            if ($case_sensitive) {
+                return substr_count($haystack, $needle);
+            }
+            return substr_count(mb_strtolower($haystack), mb_strtolower($needle));
+        };
+    
+        // helper: snippet (small preview around first match)
+        $make_snippet = function($content, $needle) {
+            $pos = mb_stripos($content, $needle);
+            if ($pos === false) {
+                return mb_substr($content, 0, 120);
+            }
+            $start = max(0, $pos - 60);
+            $snippet = mb_substr($content, $start, 160);
+            return '...'.$snippet.'...';
+        };
+    
+        // SEARCH IN ab_other_content
+        if ($in_other) {
+            $rows = $this->db->select('id, content')
+                ->from('ab_other_content')
+                ->like('content', $search)   // case-insensitive depends on collation
+                ->where('admin_id', CLIENT_ID)
+                ->get()->result_array();
+    
+            foreach ($rows as $r) {
+                $occ = $count_occ($r['content'], $search);
+                $page = $r['type'] == 'header' ? 'Header' : 'Footer';
+                if ($occ > 0) {
+                    $data['results'][] = [
+                        'table' => 'ab_other_content',
+                        'page' => $page,
+                        'id' => (int)$r['id'],
+                        'field' => 'content',
+                        'occurrences' => $occ,
+                        'snippet' => $make_snippet($r['content'], $search),
+                        'hash' => sha1($r['content']),
+                    ];
+                    $data['summary']['total_rows']++;
+                    $data['summary']['total_occurrences'] += $occ;
+                }
+            }
+        }
+    
+        // SEARCH IN ab_page_content
+        if ($in_page) {
+            $rows = $this->db->select('id, content,page_id')
+                ->from('ab_page_content')
+                ->like('content', $search)
+                ->where('admin_id', CLIENT_ID)
+                ->get()->result_array();
+    
+            foreach ($rows as $r) {
+                $occ = $count_occ($r['content'], $search);
+                $page = $this->db->get_where('ab_pages',['id'=>$r['page_id'],'admin_id'=>CLIENT_ID])->row()->page_name;
+                if ($occ > 0) {
+                    $data['results'][] = [
+                        'table' => 'ab_page_content',
+                        'page' => $page,
+                        'id' => (int)$r['id'],
+                        'field' => 'content',
+                        'occurrences' => $occ,
+                        'snippet' => $make_snippet($r['content'], $search),
+                        'hash' => sha1($r['content']),
+                    ];
+                    $data['summary']['total_rows']++;
+                    $data['summary']['total_occurrences'] += $occ;
+                }
+            }
+        }
+    
+        $this->load->view('admin/header');
+        $this->load->view('admin/find_replace', $data);
+        $this->load->view('admin/footer');
+    }
+    
+    /**
+     * Apply replace after review
+     * POST:
+     *  search_text
+     *  replace_text
+     *  mode = selected|all
+     *  selected[] = "table|id|hash" (for selected mode)
+     *  in_other/in_page (for all mode)
+     *  case_sensitive (optional)
+     */
+    public function find_replace_apply()
+    {
+        $search  = trim($this->input->post('search_text', true));
+        $replace = (string)$this->input->post('replace_text', false); // allow html
+        $mode    = $this->input->post('mode', true); // selected or all
+        $case_sensitive = (int)$this->input->post('case_sensitive');
+    
+        if ($search === '') {
+            $this->session->set_flashdata('error', 'Search text is required.');
+            redirect('admin/find_replace');
+            return;
+        }
+    
+        // helper replace
+        $do_replace = function($content) use ($search, $replace, $case_sensitive) {
+            if ($case_sensitive) return str_replace($search, $replace, $content);
+            return str_ireplace($search, $replace, $content);
+        };
+    
+        $updated_rows = 0;
+        $updated_occ  = 0;
+    
+        $this->db->trans_start();
+    
+        if ($mode === 'selected') {
+            $selected = (array)$this->input->post('selected');
+    
+            foreach ($selected as $packed) {
+                // packed format: table|id|hash
+                $parts = explode('|', $packed);
+                if (count($parts) !== 3) continue;
+    
+                $table = $parts[0];
+                $id    = (int)$parts[1];
+                $hash  = $parts[2];
+    
+                if (!in_array($table, ['ab_other_content','ab_page_content'], true)) continue;
+    
+                $row = $this->db->select('content')
+                    ->from($table)
+                    ->where('id', $id)
+                    ->where('admin_id', CLIENT_ID)
+                    ->get()->row_array();
+    
+                if (!$row) continue;
+    
+                // hash safety check (optional)
+                if (sha1($row['content']) !== $hash) {
+                    continue; // content changed after preview
+                }
+    
+                $before = $row['content'];
+                $after  = $do_replace($before);
+    
+                if ($before !== $after) {
+                    // count occurrences replaced (approx)
+                    $occ = substr_count(mb_strtolower($before), mb_strtolower($search));
+                    $this->db->where('id', $id)->where('admin_id', CLIENT_ID)->update($table, ['content' => $after]);
+                    $updated_rows++;
+                    $updated_occ += $occ;
+                }
+            }
+    
+        } else { 
+            // mode = all (based on in_other / in_page)
+            $in_other = (int)$this->input->post('in_other');
+            $in_page  = (int)$this->input->post('in_page');
+    
+            $targets = [];
+            if ($in_other) $targets[] = 'ab_other_content';
+            if ($in_page)  $targets[] = 'ab_page_content';
+    
+            foreach ($targets as $table) {
+                $rows = $this->db->select('id, content')
+                    ->from($table)
+                    ->like('content', $search)
+                    ->where('admin_id', CLIENT_ID)
+                    ->get()->result_array();
+    
+                foreach ($rows as $r) {
+                    $before = $r['content'];
+                    $after  = $do_replace($before);
+    
+                    if ($before !== $after) {
+                        $occ = substr_count(mb_strtolower($before), mb_strtolower($search));
+                        $this->db->where('id', (int)$r['id'])->where('admin_id', CLIENT_ID)->update($table, ['content' => $after]);
+                        $updated_rows++;
+                        $updated_occ += $occ;
+                    }
+                }
+            }
+        }
+    
+        $this->db->trans_complete();
+    
+        if ($this->db->trans_status() === false) {
+            $this->session->set_flashdata('error', 'Replace failed (DB transaction error).');
+        } else {
+            $this->session->set_flashdata('success', "Replaced successfully. Rows updated: {$updated_rows}, Total occurrences: {$updated_occ}");
+        }
+    
+        redirect('admin/find_replace');
+    }
+
     
     
     

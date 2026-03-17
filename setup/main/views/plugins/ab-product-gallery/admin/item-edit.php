@@ -40,6 +40,10 @@ if(!$get){
                         <input type="text" name="btn" class="form-control" placeholder="Enter button text"
                             value="<?php echo $get->btn; ?>">
                     </div>
+                    <div class="form-group">
+                        <label>Short Desc</label>
+                        <textarea name="short_desc" class="form-control" placeholder="Enter short desc"><?php echo $get->short_desc; ?></textarea>
+                    </div>
                     <input type="hidden" name="file" id="file" value="<?php echo $get->file; ?>">
                     <style>
                         .preview-logo>* {

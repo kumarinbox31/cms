@@ -32,7 +32,7 @@
             print $this->MenuModel->get_menu($items, $arr);
 
             ?>
-            <!-- <ul class="navbar-nav ms-auto">
+            <?php /* <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
                     <a href="javascript:void(0)" class="dropdown-toggle nav-link active">
@@ -221,14 +221,14 @@
                         </button>
                     </div>
                 </div>
-            </div> -->
+            </div> */?>
         </div>
     </div>
 </nav>
 <!-- End Navbar Area -->
 
 
-<?/*
+<?php /*
 <div class="header-area header-area--absolute">
     <div class="preview-header-inner header-sticky">
         <div class="container-fluid container-fluid--cp-150">

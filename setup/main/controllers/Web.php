@@ -154,6 +154,10 @@ function index($uri=''){
                 define('LOGO',$wd->logo);
                 define('TITLE',$wd->title);
             }
+            if(empty(CURRENT_PAGE_ID)){
+                show_404();
+                exit;
+            }
             $this->WebsiteData->addVisitorCount(CURRENT_PAGE_ID);
             view($data);
         }

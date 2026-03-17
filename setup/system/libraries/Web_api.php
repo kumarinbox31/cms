@@ -144,20 +144,19 @@ class Web_api{
         define('WRID',$this->client['rid']);
         // define('COMMING_SOON',$this->client['comming_soon']);
         
-        // define('starttime',$this->client['start_time']);
-        // $date = $this->client['expire_time'];
-        // if(empty($this->client['expire_time']))
-        //     $date = strtotime( date( 'Y-m-d H:i:s', $this->client['start_time'] )  . ('+1 year'));
-        // define('endtime',$date);
-      
-        // if($this->isDomainSet){
-        //     if( time() >= endtime ){
-        //         header('HTTP/1.1 503 Service Temporarily Unavailable');
-        //         header('Status: 503 Service Temporarily Unavailable');
-        //         header('Retry-After: 300');//300 seconds
-        //         die();
-        //     }
-        // }
+        define('starttime',$this->client['start_time']);
+        $date = $this->client['end_time'];
+        if(empty($this->client['end_time']))
+            $date = strtotime( date( 'Y-m-d H:i:s', $this->client['start_time'] )  . ('+1 year'));
+        define('endtime',$date);
+        if($this->isDomainSet){
+            if( time() >= endtime ){
+                header('HTTP/1.1 503 Service Temporarily Unavailable');
+                header('Status: 503 Service Temporarily Unavailable');
+                header('Retry-After: 300');//300 seconds
+                die();
+            }
+        }
         
     }
     function setTheme($type = 'client'){

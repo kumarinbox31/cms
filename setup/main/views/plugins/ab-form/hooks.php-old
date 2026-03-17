@@ -14,7 +14,7 @@ add_shortcode('ab-form', function($atts, $content){
     }
     
      ob_start();
-        echo '<form data-desc="'.$desc.'" method="POST" action="/web/ajax" class="ajax-form-submit" onsubmit="javascript:;" novalidate enctype="multipart/form-data">
+        echo '<form data-desc="'.$desc.'" method="POST" action="/web/ajax" class="ajax-form-submit" onsubmit="javascript:;" enctype="multipart/form-data">
                 <input type="hidden" name="form_id" value="'.$formId.'">
                 <input type="hidden" name="action" value="form-submit">
                 <div class="msg"></div>   
@@ -125,7 +125,6 @@ function ab_formio_scripts(){
 
           // Handle form submission
           form.on("submit", (submission) => {
-                event.preventDefault(); // ❗ STOP default submit
             console.log('--submitting--', submission);
 
             fetch('/web/form_submit/' + form_id, {
@@ -141,17 +140,9 @@ function ab_formio_scripts(){
             })
             .then(data => {
               console.log('--API Response--', data);
-form.submission = {};
-form.resetValue();
-form.refresh();
-form.setPristine(true);
-
-// remove any error UI manually
-document.querySelectorAll('.has-error, .is-invalid').forEach(el => {
-    el.classList.remove('has-error', 'is-invalid');
-});
-
-              alert('Form submitted successfully!');
+                form.emit('resetForm');  // ✅ Proper reset
+                form.setPristine(true);
+                alert('Form submitted successfully!');
             })
             .catch(error => {
               console.error('Error submitting form:', error);
@@ -216,6 +207,8 @@ function ab_form_scripts(){
 }
 
 function ab_form_styles(){
+    echo 
+    '<style>.formio-loader{display:none}</style>';
     // echo '
     // <!-- Ab Form Installed Successfully. -->
     // <link rel="stylesheet" href="'.base_url('public/plugins/ab-form/style.css').'">';

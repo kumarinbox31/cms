@@ -1,4 +1,7 @@
 <?
+if(CLIENT_ID == 428){
+    include 'slider2.php';
+}else{
 add_shortcode('AB-Slider', function($atts, $content){
     //  [AB-Slider id=1 ]
     $id = intval(@$atts['id']);
@@ -141,5 +144,6 @@ function ab_slider_script(){
     </script>
     <!-- AB SLIDER  -->
 <?
+}
 }
 

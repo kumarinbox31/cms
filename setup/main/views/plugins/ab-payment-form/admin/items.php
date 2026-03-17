@@ -24,6 +24,7 @@
                     <select class="form-control" name="desc[pg]" required>
                         <option value="">Select Payment Gateway</option>
                         <option value="pg-razorpay">Razorpay</option>
+                        <option value="pg-payumoney">PayUMoney</option>
                     </select>
                 </div>
                 <div class="form-group">

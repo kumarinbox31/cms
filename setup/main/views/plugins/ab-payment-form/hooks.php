@@ -39,6 +39,11 @@ function ab_pg_form_scripts()
 {
     ob_start();
     ?>
+    <?php
+$payuKey = getVal('pg-payumoney-val1');       // PayU Merchant Key
+$payuSalt = getVal('pg-payumoney-val2');      // PayU Salt (keep server-side only)
+?>
+
     <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -98,11 +103,10 @@ function ab_pg_form_scripts()
                     }
                 });
             });
-
+            
             // Razorpay payment button click event
             $("#payment-form").submit(function (event) {
                 event.preventDefault(); // Prevent default form submission
-
                 var formData = $("#payment-form").serializeArray();
                 var paymentData = {};
 
@@ -110,6 +114,8 @@ function ab_pg_form_scripts()
                 formData.forEach(function (item) {
                     paymentData[item.name] = item.value;
                 });
+                
+                <?php if(!empty(getVal('pg-razorpay-val1'))){ ?>
 
                 // Get Razorpay credentials
                 var razorpayKey = "<?php echo getVal('pg-razorpay-val1'); ?>"; // Replace with your Razorpay key
@@ -182,6 +188,47 @@ function ab_pg_form_scripts()
                         console.error("Error creating order:", status, error);
                     }
                 });
+               <?php  }elseif(!empty($payuKey) && !empty($payuSalt)){ ?>
+                // PayU Key from DB
+                var payuKey = "<?php echo getVal('pg-payumoney-val1'); ?>";
+            
+                // Step 1: Create hash from server
+                $.ajax({
+                    url: "<?php echo base_url(); ?>/web/plugin/ab-payment-form/createPayUHash",
+                    method: "POST",
+                    data: paymentData,
+                    dataType: "json",
+                    success: function (res) {
+            
+                        if (!res.status) {
+                            alert("Unable to initiate PayU payment");
+                            return;
+                        }
+            
+                        // Step 2: Submit PayU Form
+                        var payuForm = `
+                            <form method="post" action="https://secure.payu.in/_payment" id="payuForm">
+                                <input type="hidden" name="key" value="${payuKey}">
+                                <input type="hidden" name="txnid" value="${res.data.txnid}">
+                                <input type="hidden" name="amount" value="${res.data.amount}">
+                                <input type="hidden" name="productinfo" value="${res.data.productinfo}">
+                                <input type="hidden" name="firstname" value="${res.data.firstname}">
+                                <input type="hidden" name="email" value="${res.data.email}">
+                                <input type="hidden" name="phone" value="${res.data.phone}">
+                                <input type="hidden" name="surl" value="${res.data.surl}">
+                                <input type="hidden" name="furl" value="${res.data.furl}">
+                                <input type="hidden" name="hash" value="${res.data.hash}">
+                            </form>
+                        `;
+            
+                        $("body").append(payuForm);
+                        $("#payuForm").submit();
+                    },
+                    error: function () {
+                        alert("PayU Server Error");
+                    }
+                });
+               <?php } ?>
             });
         });
     </script>

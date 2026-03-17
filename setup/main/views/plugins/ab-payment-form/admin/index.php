@@ -28,6 +28,31 @@
             </div>
         </form>
     </div>
+    <!-- payu money -->
+    <div class="col-md-6">
+        <form class="card" method="POST">
+            <input type="hidden" name="action" value="add-update">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h2>PayUMoney</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Merchant Key</label>
+                        <input type="text" name="pg-payumoney-val1" class="form-control" value="<?= getVal('pg-payumoney-val1'); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Salt</label>
+                        <input type="text" name="pg-payumoney-val2" class="form-control" value="<?= getVal('pg-payumoney-val2'); ?>" required>
+                    </div>
+                    
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <!-- CC-Avenue  -->
     <div class="col-md-6">
         <div class="card card-primary">

@@ -1,0 +1,223 @@
+<?php /* 
+<!-- Diwali fireworks (non-intrusive) -->
+<script>
+(function(){
+  // Create canvas
+  const canvas = document.createElement('canvas');
+  canvas.id = 'diwali-fireworks-canvas';
+  // Make sure it doesn't block clicks or forms
+  canvas.style.position = 'fixed';
+  canvas.style.left = '0';
+  canvas.style.top = '0';
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.zIndex = '9999';       // high so visible, but pointer-events none allows clicks through
+  canvas.style.pointerEvents = 'none';
+  canvas.style.mixBlendMode = 'screen';
+  canvas.style.userSelect = 'none';
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d', { alpha: true });
+
+  // Resize with DPR
+  function resize() {
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Utility
+  function rand(min, max){ return Math.random() * (max - min) + min; }
+  function randInt(min, max){ return Math.floor(rand(min, max+1)); }
+  function hsl(h, s, l){ return `hsl(${h}, ${s}%, ${l}%)`; }
+
+  // Firework / particle system
+  class Particle {
+    constructor(x, y, vx, vy, hue, life, size) {
+      this.x = x; this.y = y; this.vx = vx; this.vy = vy;
+      this.hue = hue; this.life = life; this.remaining = life;
+      this.size = size;
+      this.friction = 0.985;
+      this.gravity = 0.06;
+      this.fade = 1 / life;
+    }
+    update() {
+      this.vx *= this.friction;
+      this.vy *= this.friction;
+      this.vy += this.gravity;
+      this.x += this.vx;
+      this.y += this.vy;
+      this.remaining -= 1;
+    }
+    draw(ctx) {
+      const alpha = Math.max(0, this.remaining / this.life);
+      ctx.beginPath();
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = hsl(this.hue, 90, 55);
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  class Firework {
+    constructor() {
+      this.hue = randInt(0, 360);
+      this.x = rand(50, window.innerWidth - 50);
+      this.y = window.innerHeight + 10;
+      this.targetY = rand(100, window.innerHeight * 0.6);
+      this.speed = rand(5, 9);
+      this.exploded = false;
+      this.trail = [];
+    }
+    update() {
+      if (!this.exploded) {
+        // move up
+        this.y -= this.speed;
+        // trail
+        this.trail.push({x: this.x, y: this.y});
+        if (this.trail.length > 8) this.trail.shift();
+        if (this.y <= this.targetY) {
+          this.explode();
+          this.exploded = true;
+        }
+      }
+      // particles handled by global array
+    }
+    draw(ctx) {
+      if (!this.exploded) {
+        // draw ascending point
+        ctx.beginPath();
+        ctx.fillStyle = hsl(this.hue, 90, 65);
+        ctx.arc(this.x, this.y, 2.6, 0, Math.PI*2);
+        ctx.fill();
+        // draw trail
+        for (let i = 0; i < this.trail.length; i++) {
+          const t = this.trail[i];
+          const a = (i+1)/this.trail.length;
+          ctx.globalAlpha = a * 0.7;
+          ctx.fillStyle = hsl(this.hue, 90, 60);
+          ctx.fillRect(t.x-1.5, t.y-1.5, 3, 3);
+        }
+        ctx.globalAlpha = 1;
+      }
+    }
+    explode() {
+      const count = randInt(30, 90);
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = rand(1.8, 6.5);
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        const p = new Particle(this.x, this.y, vx, vy, this.hue + rand(-40,40), randInt(30, 80), rand(1, 3.5));
+        particles.push(p);
+      }
+      // optional sparkle sub-explosions
+      if (Math.random() < 0.18) {
+        // create a few larger slow particles
+        for (let i=0;i<8;i++){
+          const angle = Math.random() * Math.PI * 2;
+          const sp = new Particle(this.x, this.y, Math.cos(angle)*rand(0.6,1.8), Math.sin(angle)*rand(0.6,1.8), this.hue + rand(-20,20), randInt(40,120), rand(2.5,4.5));
+          particles.push(sp);
+        }
+      }
+    }
+  }
+
+  // Arrays
+  const fireworks = [];
+  const particles = [];
+
+  // Ambient sky lighten (for quick "flash" effect)
+  let flashAlpha = 0;
+
+  // Spawn logic: auto spawn at intervals
+  let spawnTimer = 0;
+  const spawnIntervalBase = 30; // lower => more frequent
+  function step() {
+    // clear with slight fade for trails
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // subtle background glow: draw translucent black to fade previous frames and let trails show
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // spawn fireworks occasionally
+    spawnTimer--;
+    if (spawnTimer <= 0) {
+      spawnTimer = Math.floor(rand(spawnIntervalBase*0.6, spawnIntervalBase*1.8));
+      fireworks.push(new Firework());
+    }
+
+    // update & draw fireworks
+    for (let i = fireworks.length-1; i >= 0; i--) {
+      const f = fireworks[i];
+      f.update();
+      f.draw(ctx);
+      if (f.exploded) fireworks.splice(i, 1);
+    }
+
+    // update & draw particles
+    for (let i = particles.length-1; i >= 0; i--) {
+      const p = particles[i];
+      p.update();
+      p.draw(ctx);
+      if (p.remaining <= 0 || p.y > window.innerHeight + 50) {
+        particles.splice(i, 1);
+      }
+    }
+
+    // small occasional flash light (sky lighting)
+    if (Math.random() < 0.01 && particles.length > 50) {
+      flashAlpha = Math.max(flashAlpha, rand(0.06, 0.18));
+    }
+    if (flashAlpha > 0) {
+      ctx.fillStyle = `rgba(255,240,200, ${flashAlpha})`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      flashAlpha -= 0.01;
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  // Start animation when visible (but keep non-intrusive)
+  let started = false;
+  function start() {
+    if (!started) {
+      started = true;
+      step();
+    }
+  }
+
+  // If page is hidden (tab not active) pause updates to save CPU
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) {
+      // stop spawning by setting a large interval
+      spawnTimer = 999999;
+    } else {
+      spawnTimer = 0;
+      start();
+    }
+  });
+
+  // Start immediately if visible
+  if (!document.hidden) start();
+
+  // Expose a small API on window to control (optional)
+  window.DiwaliFireworks = {
+    stop: function(){ spawnTimer = 999999; particles.length = 0; fireworks.length = 0; },
+    start: function(){ spawnTimer = 0; start(); },
+    remove: function(){ window.removeEventListener('resize', resize); document.body.removeChild(canvas); delete window.DiwaliFireworks; }
+  };
+
+  // Clean up on SPA navigation (some CMS frameworks replace body)
+  window.addEventListener('beforeunload', function(){ });
+
+})();
+</script>
+
+*/?>

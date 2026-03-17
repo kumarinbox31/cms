@@ -13,6 +13,7 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
     $button_color = isset($extra->button_color) ? $extra->button_color : '#ffffff';
     $button_bg  = isset($extra->button_bg) ? $extra->button_bg : '#086AD8';
     $this->load->helper('text');
+    
 
     ob_start();
     ?>
@@ -26,13 +27,14 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
                     $image = $row->file == '' ? '' : $row->file;
                     $content = $row->title;
                     $btn = $row->btn == null ? 'Get Quote' : $row->btn;
+                    $short_desc = empty($row->short_desc) ? word_limiter($row->desc, 20) : $row->short_desc;
                     $onclick = $row->link == '' ? 'onclick="productQueryForm(' . $row->id . ');"' : 'href="' . $row->link . '"';
                     echo '
                 <div class="product-item col-md-4 mt-2" style="min-height:300px;" id="product-item-' . $row->id . '">
                     <div class="card border rounded-lg overflow-hidden shadow-lg">
                         <div class="card-header">
                             <img class="ab-product-image w-full" src="' . $image . '" alt="' . $row->title . '">
-                            <div class="ab-product-desc " data-desc="'.$row->desc.'">' . word_limiter($row->desc, 20). '</div>
+                            <div class="ab-product-desc " data-desc="'.$row->desc.'">' . $short_desc. '</div>
                         </div>
                         <div class="card-body py-2">
                             <h4 class="text-center ab-product-title">' . $row->title . '</h4>
@@ -54,61 +56,217 @@ add_shortcode('Product-Gallery', function ($atts, $content) {
         </div>
     </main>
 
-    <div class="modal modal-xl" tabindex="-1" id="product-query-form">
-        <div class="modal-dialog" style="max-width:100% !important;">
-            <div class="modal-content" style="width:100% !important;">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img class="w-100 image" src="" style="max-height:auto;">
-                        </div>
-                        <div class="col-md-6">
-                            <div class="query-msg"></div>
+<!--    <div class="modal modal-xl" tabindex="-1" id="product-query-form">-->
+<!--        <div class="modal-dialog" style="max-width:100% !important;">-->
+<!--            <div class="modal-content" style="width:100% !important;">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title">Modal title</h5>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-md-6">-->
+<!--                            <img class="w-100 image" src="" style="max-height:auto;">-->
+<!--                        </div>-->
+<!--                        <div class="col-md-6">-->
+<!--                            <div class="query-msg"></div>-->
 
-                            <form class="product-query-submit" action="<?php echo base_url('api/gallery/sendQuery'); ?>"
-                                method="POST">
-                                <input type="hidden" name="productid" value="" required>
-                                <input type="hidden" name="galleryid" value="<?php echo $id; ?>" required>
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" name="name" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" name="email" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                <input type="number" name="phone" class="form-control" maxlength="10" required oninput="
-    var phoneNumber = this.value.replace(/\D/g, ''); // Remove non-digit characters
-    if (phoneNumber.length > 10) {
-        this.value = phoneNumber.slice(0, 10); // Truncate to 10 digits
-    }
-" title="Please enter a valid 10-digit phone number">
-</div>
-                                <div class="form-group">
-                                    <label>City</label>
-                                    <input type="text" name="city" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-sm btn-primary mt-2">Submit</button>
-                                </div>
-                            </form>
-                            <div class="desc"></div>
-                        </div>
-                    </div>
-                </div>
+<!--                            <form class="product-query-submit" action="<?php echo base_url('api/gallery/sendQuery'); ?>"-->
+<!--                                method="POST">-->
+<!--                                <input type="hidden" name="productid" value="" required>-->
+<!--                                <input type="hidden" name="galleryid" value="<?php echo $id; ?>" required>-->
+<!--                                <div class="form-group">-->
+<!--                                    <label>Name</label>-->
+<!--                                    <input type="text" name="name" class="form-control" required>-->
+<!--                                </div>-->
+<!--                                <div class="form-group">-->
+<!--                                    <label>Email</label>-->
+<!--                                    <input type="email" name="email" class="form-control" required>-->
+<!--                                </div>-->
+<!--                                <div class="form-group">-->
+<!--                                    <label>Phone</label>-->
+<!--                                <input type="number" name="phone" class="form-control" maxlength="10" required oninput="-->
+<!--    var phoneNumber = this.value.replace(/\D/g, ''); // Remove non-digit characters-->
+<!--    if (phoneNumber.length > 10) {-->
+<!--        this.value = phoneNumber.slice(0, 10); // Truncate to 10 digits-->
+<!--    }-->
+<!--" title="Please enter a valid 10-digit phone number">-->
+<!--</div>-->
+<!--                                <div class="form-group">-->
+<!--                                    <label>City</label>-->
+<!--                                    <input type="text" name="city" class="form-control" required>-->
+<!--                                </div>-->
+<!--                                <div class="form-group">-->
+<!--                                    <button type="submit" class="btn btn-sm btn-primary mt-2">Submit</button>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                            <div class="desc"></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <!--<div class="modal-footer">-->
                 <!--  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
                 <!--  <button type="button" class="btn btn-primary">Save changes</button>-->
                 <!--</div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+<style>
+/* ================================
+   PRODUCT QUERY POPUP – SCOPED CSS
+   Only affects #product-query-form
+================================ */
+
+#product-query-form .modal-content {
+    background: #f8f9fa;
+    border: 0;
+    border-radius: 18px;
+}
+
+#product-query-form .modal-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e9ecef;
+    padding: 18px 24px;
+}
+
+#product-query-form .modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #212529;
+}
+
+#product-query-form .modal-body {
+    padding: 24px;
+}
+
+/* Image Section */
+#product-query-form .image {
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+/* Form Card */
+#product-query-form .form-wrapper {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
+
+/* Labels */
+#product-query-form label {
+    font-size: .9rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #495057;
+}
+
+/* Inputs */
+#product-query-form .form-control {
+    border-radius: 10px;
+    height: 48px;
+}
+
+#product-query-form .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: none;
+}
+
+/* Submit Button */
+#product-query-form .btn-submit {
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+/* Message */
+#product-query-form .query-msg {
+    font-size: .9rem;
+}
+
+/* Mobile Fix */
+@media (max-width: 767px) {
+    #product-query-form .modal-body {
+        padding: 16px;
+    }
+}
+</style>
+<div class="modal fade" id="product-query-form" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Product Enquiry</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+
+            <div class="modal-body">
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+                        <img class="image" src="" alt="Product Image">
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-wrapper">
+
+                            <div class="query-msg mb-3"></div>
+
+                            <form class="product-query-submit"
+                                  action="<?php echo base_url('api/gallery/sendQuery'); ?>"
+                                  method="POST">
+
+                                <input type="hidden" name="productid">
+                                <input type="hidden" name="galleryid" value="<?php echo $id; ?>">
+
+                                <div class="mb-3">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Email</label>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Phone</label>
+                                    <input type="tel" name="phone"
+                                           class="form-control"
+                                           maxlength="10"
+                                           required
+                                           oninput="this.value=this.value.replace(/\D/g,'').slice(0,10);">
+                                </div>
+
+                                <div class="mb-4">
+                                    <label>City</label>
+                                    <input type="text" name="city" class="form-control" required>
+                                </div>
+
+                                <button type="submit"
+                                        class="btn btn-primary w-100 btn-submit">
+                                    Submit Enquiry
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="desc mt-3 text-muted small"></div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
+
     <?php
     $html = ob_get_contents();
     ob_end_clean();
@@ -189,8 +347,11 @@ add_action('ab_footer', function () {
                         $('.query-msg').html('<div class="alert alert-success">Query Sent Successfully!</div>');
                         setTimeout(function(){
                             $('.query-msg').html("");
-                            $('#product-query-form').css('display','none');
+                            // $('#product-query-form').css('display','none');
                         },2000);
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
                     } else {
                         $('.query-msg').html('<div class="alert alert-danger">Something went wrong.</div>');
                     }

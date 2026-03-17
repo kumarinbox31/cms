@@ -1,0 +1,134 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Abhooks {
+    private $hooks = [];
+    private static $executed_hooks = [];
+
+    /**
+     * Add a new action.
+     * Prevents duplicate same-function registrations for the same hook.
+     */
+    public function add_action($hook, $function, $priority = 10) {
+        if (!isset($this->hooks[$hook])) {
+            $this->hooks[$hook] = [];
+        }
+
+        $funcId = $this->getFunctionId($function);
+
+        // Prevent duplicate function registration for same hook
+        foreach ($this->hooks[$hook] as $existing) {
+            if ($existing['id'] === $funcId) {
+                log_message('debug', "Duplicate hook function ignored: {$hook} -> {$funcId}");
+                return false;
+            }
+        }
+
+        $this->hooks[$hook][] = [
+            'function' => $function,
+            'priority' => (int) $priority,
+            'id' => $funcId,
+        ];
+
+        return true;
+    }
+
+    /**
+     * Run the hook (only once unless run_once = false)
+     */
+    public function do_action($hook, $run_once = true) {
+        if ($run_once && in_array($hook, self::$executed_hooks)) {
+            log_message('debug', "Duplicate hook execution prevented: {$hook}");
+            return '';
+        }
+
+        $output = '';
+
+        if (!empty($this->hooks[$hook])) {
+            // Sort by priority
+            usort($this->hooks[$hook], function ($a, $b) {
+                return $a['priority'] - $b['priority'];
+            });
+
+            ob_start();
+            foreach ($this->hooks[$hook] as $action) {
+                if (is_callable($action['function'])) {
+                    call_user_func($action['function']);
+                } else {
+                    log_message('error', "Invalid hook function for '{$hook}'");
+                }
+            }
+            $output = ob_get_clean();
+
+            if ($run_once) {
+                self::$executed_hooks[] = $hook;
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * Generate a unique identifier for a function or closure.
+     */
+    private function getFunctionId($function) {
+        if (is_string($function)) {
+            return 'str:' . $function;
+        }
+
+        if (is_array($function)) {
+            if (is_object($function[0])) {
+                return 'obj:' . spl_object_hash($function[0]) . '::' . $function[1];
+            } else {
+                return 'class:' . $function[0] . '::' . $function[1];
+            }
+        }
+
+        if ($function instanceof Closure) {
+            // Unique hash for anonymous closures
+            $ref = new ReflectionFunction($function);
+            return 'closure:' . md5($ref->getFileName() . $ref->getStartLine() . $ref->getEndLine());
+        }
+
+        return 'unknown:' . md5(json_encode($function));
+    }
+
+    /**
+     * Helper: check if hook exists
+     */
+    public function has_hook($hook) {
+        return isset($this->hooks[$hook]);
+    }
+
+    /**
+     * Helper: check if specific function exists on a hook
+     */
+    public function has_action($hook, $function) {
+        if (!isset($this->hooks[$hook])) return false;
+        $funcId = $this->getFunctionId($function);
+
+        foreach ($this->hooks[$hook] as $action) {
+            if ($action['id'] === $funcId) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove a specific function from a hook
+     */
+    public function remove_action($hook, $function) {
+        if (!isset($this->hooks[$hook])) return false;
+        $funcId = $this->getFunctionId($function);
+
+        foreach ($this->hooks[$hook] as $i => $action) {
+            if ($action['id'] === $funcId) {
+                unset($this->hooks[$hook][$i]);
+                $this->hooks[$hook] = array_values($this->hooks[$hook]);
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
