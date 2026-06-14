@@ -162,6 +162,21 @@ class Admin extends CI_Controller{
             $parts = explode('.', $domain);
             $domain_type = (count($parts) > 2) ? 'subdomain' : 'domain';
             
+            $this->load->library('CpanelService');
+            if ($domain_type === 'subdomain') {
+                $sub = array_shift($parts);
+                $rootDomain = implode('.', $parts);
+                $cpanelRes = $this->cpanelservice->addSubdomain($sub, $rootDomain);
+            } else {
+                $cpanelRes = $this->cpanelservice->addAddonDomain($domain);
+            }
+            
+            if (!$cpanelRes['status']) {
+                $this->session->set_flashdata('error_msg', 'cPanel Error: ' . $cpanelRes['error']);
+                redirect(base_url('admin/website/create'));
+                return;
+            }
+
             $data = [
                 'name' => $name,
                 '_email' => $email,
