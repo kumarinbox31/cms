@@ -197,6 +197,16 @@
                                 <div class="nav-item">
                                     <a href="<?php echo base_url('admin/media'); ?>"><i class="ik ik-inbox"></i><span>Media</span></a>
                                 </div>
+
+                                <div class="nav-item has-sub">
+                                    <a href="javascript:void(0)"><i class="ik ik-star"></i><span>AI Builder Pro</span> <span class="badge badge-success">New</span></a>
+                                    <div class="submenu-content">
+                                        <a href="<?php echo base_url('AiMarketplace'); ?>" class="menu-item">Section Marketplace</a>
+                                        <a href="<?php echo base_url('Ai/design_tokens'); ?>" class="menu-item">Design Tokens</a>
+                                        <a href="<?php echo base_url('Ai/settings'); ?>" class="menu-item">AI Settings</a>
+                                    </div>
+                                </div>
+
                                 <!--<div class="nav-item has-sub">-->
                                 <!--    <a href="#"><i class="ik ik-box"></i><span>Plugins</span></a>-->
                                 <!--    <div class="submenu-content">-->
