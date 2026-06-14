@@ -224,7 +224,7 @@
             $('#aiErrorMessage').hide();
 
             $.ajax({
-                url: '<?php echo base_url("admin/Ai/generate_html"); ?>',
+                url: '<?php echo base_url("Ai/generate_html"); ?>',
                 type: 'POST',
                 dataType: 'json',
                 data: { prompt: prompt },
