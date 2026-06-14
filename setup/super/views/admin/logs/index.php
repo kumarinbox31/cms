@@ -37,6 +37,7 @@
                                     <th>Details</th>
                                 <?php else: ?>
                                     <th>Date</th>
+                                    <th>Domain</th>
                                     <th>Action</th>
                                     <th>Response</th>
                                     <th>IP Address</th>
@@ -71,6 +72,13 @@
                                     <td><?= $log->details ?></td>
                                 <?php else: ?>
                                     <td><?= date('d-m-Y H:i', strtotime($log->created_at)) ?></td>
+                                    <td>
+                                        <?php if(isset($log->domain) && $log->domain): ?>
+                                            <span class="badge bg-primary"><?= $log->domain ?></span>
+                                        <?php else: ?>
+                                            <span class="text-muted">N/A</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td><?= $log->action ?></td>
                                     <td><?= $log->response ?></td>
                                     <td><?= $log->ip_address ?></td>

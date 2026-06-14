@@ -41,9 +41,12 @@ class Logs extends CI_Controller {
             $data['logs'] = $this->db->get('ab_cleanup_logs')->result();
             $data['view_type'] = 'cleanup';
         } else {
-            $this->db->order_by('created_at', 'DESC');
+            $this->db->select('d.*, w.domain');
+            $this->db->from('ab_domain_logs d');
+            $this->db->join('ab_websites w', "d.action LIKE CONCAT('Website ID ', w.id, '%')", 'left', false);
+            $this->db->order_by('d.created_at', 'DESC');
             $this->db->limit(500);
-            $data['logs'] = $this->db->get('ab_domain_logs')->result();
+            $data['logs'] = $this->db->get()->result();
             $data['view_type'] = 'domain';
         }
 
