@@ -155,10 +155,105 @@
 
     </script>
     <script src="<?php echo base_url('public/admin/abeditor/custom.js'); ?>"></script>
-   <script>
-    //   var test = editor.DomComponents;
-    //   console.log(test);
-   </script>
+
+    <!-- AI Generator Modal -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <div class="modal fade" id="aiGeneratorModal" tabindex="-1" aria-labelledby="aiGeneratorModalLabel" aria-hidden="true" style="z-index: 10000;">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-dark" id="aiGeneratorModalLabel"><i class="fa fa-magic text-success"></i> AI Content Generator</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-dark">
+            <div class="form-group">
+                <label for="aiPrompt">What would you like to build?</label>
+                <textarea class="form-control mt-2" id="aiPrompt" rows="4" placeholder="e.g. Build a modern pricing section with 3 cards, blue buttons, and an FAQ section below it."></textarea>
+            </div>
+            <div id="aiLoadingIndicator" class="mt-3 text-center" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 text-muted">The AI is writing your code... This may take 10-20 seconds.</p>
+            </div>
+            <div id="aiErrorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="btnGenerateAiContent">Generate & Insert</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    $(document).ready(function() {
+        // Wait briefly for GrapesJS to fully initialize
+        setTimeout(function() {
+            if (typeof editor !== 'undefined') {
+                // Add AI Button to GrapesJS toolbar
+                editor.Panels.addButton('options', {
+                    id: 'ai-generate',
+                    className: 'fa fa-magic',
+                    command: 'open-ai-modal',
+                    attributes: { title: 'Generate with AI', style: 'color: #28a745; font-size: 16px;' }
+                });
+
+                // Define the command to open our modal
+                editor.Commands.add('open-ai-modal', {
+                    run: function(editor, sender) {
+                        sender.set('active', 0); // Deactivate the button so it doesn't stay highlighted
+                        var aiModal = new bootstrap.Modal(document.getElementById('aiGeneratorModal'));
+                        aiModal.show();
+                    }
+                });
+            }
+        }, 1000);
+
+        $('#btnGenerateAiContent').click(function() {
+            var prompt = $('#aiPrompt').val().trim();
+            if(!prompt) {
+                alert('Please enter a prompt.');
+                return;
+            }
+
+            $('#btnGenerateAiContent').prop('disabled', true);
+            $('#aiLoadingIndicator').show();
+            $('#aiErrorMessage').hide();
+
+            $.ajax({
+                url: '<?php echo base_url("admin/Ai/generate_html"); ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: { prompt: prompt },
+                success: function(response) {
+                    $('#btnGenerateAiContent').prop('disabled', false);
+                    $('#aiLoadingIndicator').hide();
+                    
+                    if(response.status && response.html) {
+                        // Inject directly into GrapesJS canvas
+                        if (typeof editor !== 'undefined') {
+                            editor.addComponents(response.html);
+                        }
+                        
+                        // Close the modal and reset
+                        $('#aiGeneratorModal').modal('hide');
+                        $('#aiPrompt').val('');
+                    } else {
+                        $('#aiErrorMessage').text(response.error || 'Failed to generate content.').show();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#btnGenerateAiContent').prop('disabled', false);
+                    $('#aiLoadingIndicator').hide();
+                    $('#aiErrorMessage').text('Server error: ' + error).show();
+                }
+            });
+        });
+    });
+    </script>
     
   </body>
 </html>
