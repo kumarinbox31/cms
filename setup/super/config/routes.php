@@ -62,3 +62,6 @@ $route['admin/email/(.*)'] = 'email/$1';
 
 $route['admin/cleanup'] = 'cleanup/index';
 $route['admin/cleanup/(.*)'] = 'cleanup/$1';
+
+$route['admin/logs'] = 'logs/index';
+$route['admin/logs/(.*)'] = 'logs/$1';
