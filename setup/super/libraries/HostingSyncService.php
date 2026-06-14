@@ -20,7 +20,13 @@ class HostingSyncService {
         if (!$website) return false;
 
         $domain = $website['domain'];
-        $isSubdomain = ($website['domain_type'] === 'subdomain');
+        $isSubdomain = false;
+        if (!empty($website['domain_type'])) {
+            $isSubdomain = ($website['domain_type'] === 'subdomain');
+        } else {
+            $parts = explode('.', $domain);
+            $isSubdomain = (count($parts) > 2);
+        }
 
         // 1. Check DNS
         $dnsResult = $this->CI->domainservice->checkDns($domain, $isSubdomain);

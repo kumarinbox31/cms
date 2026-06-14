@@ -158,6 +158,10 @@ class Admin extends CI_Controller{
             }
             
             $end_time = strtotime("+$plan_years year", $start_time);
+            
+            $parts = explode('.', $domain);
+            $domain_type = (count($parts) > 2) ? 'subdomain' : 'domain';
+            
             $data = [
                 'name' => $name,
                 '_email' => $email,
@@ -165,6 +169,7 @@ class Admin extends CI_Controller{
                 'address' => $address,
                 '_pass' => $password,
                 'domain' => $domain,
+                'domain_type' => $domain_type,
                 'start_time' => $start_time,
                 'end_time' => $end_time,
                 'rid'=>RID,
