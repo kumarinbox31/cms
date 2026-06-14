@@ -1,5 +1,5 @@
 <?php
-class AiModel extends MY_Model {
+class AiModel extends CI_Model {
     
     /**
      * Get a setting by key and admin_id
