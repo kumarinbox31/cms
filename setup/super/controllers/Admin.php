@@ -57,8 +57,44 @@ class Admin extends CI_Controller{
         $this->load->view('admin/home');
         $this->load->view('admin/footer');
     }
-    function delete_website($wid){
-        // $this->website->delete_website($wid);
+    function delete_wizard() {
+        if (!isset($_GET['id'])) redirect('admin/website');
+        $this->_render('website/delete_wizard');
+    }
+
+    function execute_delete_website() {
+        if ($post = $this->input->post()) {
+            $wid = intval($post['wid']);
+            $w = $this->website->get(['id'=>$wid])->row();
+            if (!$w) redirect('admin/website');
+
+            $this->load->library('CpanelService');
+
+            // 1. Remove Addon
+            if (isset($post['remove_addon']) && $w->addon_status === 'Added') {
+                $this->cpanelservice->deleteAddonDomain($w->domain, explode('.', $w->domain)[0]);
+            }
+            // 2. Remove Subdomains (Placeholder, assumes matching subdomains)
+            if (isset($post['remove_subdomains'])) {
+                // ... fetch & delete subdomains logic
+            }
+            // 3. Remove Emails
+            if (isset($post['remove_emails'])) {
+                $emails = $this->db->get_where('ab_email_accounts', ['website_id' => $wid])->result();
+                foreach($emails as $e) {
+                    $this->cpanelservice->deleteEmail($e->email_address);
+                }
+                $this->db->where('website_id', $wid)->delete('ab_email_accounts');
+            }
+
+            // 4. Record Only / Final cleanup
+            if (isset($post['remove_record'])) {
+                $this->website->delete_website($wid); // This also handles directories if implemented there
+            }
+
+            $this->session->set_flashdata('success_msg', 'Website cleanup executed successfully.');
+            redirect('admin/website');
+        }
     }
     function theme($page='index'){
         $this->_render('theme/'.$page);
@@ -205,6 +241,49 @@ class Admin extends CI_Controller{
     public function checkDomainExists($domain)
     {
         return $this->db->where('domain', $domain)->count_all_results('websites') > 0;
+    }
+
+    public function check_domain_preflight() {
+        $domain = $this->input->post('domain');
+        if (!$domain) {
+            echo json_encode(['status' => false, 'message' => 'No domain provided']);
+            return;
+        }
+        $domain = strtolower(trim($domain));
+        
+        $this->load->library('DomainService');
+        $this->load->library('CpanelService');
+        
+        $inPanel = $this->db->where('domain', $domain)->count_all_results('ab_websites') > 0;
+        
+        // Is it a subdomain or domain?
+        $parts = explode('.', $domain);
+        $isSubdomain = count($parts) > 2;
+
+        $inCpanel = false;
+        if ($isSubdomain) {
+            $subdomains = $this->cpanelservice->listSubdomains();
+            if ($subdomains['status']) {
+                foreach ($subdomains['data'] as $sub) {
+                    if ($sub['domain'] === $domain) {
+                        $inCpanel = true; break;
+                    }
+                }
+            }
+        } else {
+            $inCpanel = $this->cpanelservice->addonExists($domain);
+        }
+
+        $dnsResult = $this->domainservice->checkDns($domain, $isSubdomain);
+
+        echo json_encode([
+            'status' => true,
+            'data' => [
+                'inPanel' => $inPanel,
+                'inCpanel' => $inCpanel,
+                'dnsConnected' => $dnsResult['status']
+            ]
+        ]);
     }
 
     function copy_website($wid,$nwid){

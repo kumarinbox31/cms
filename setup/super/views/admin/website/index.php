@@ -18,11 +18,11 @@
                     <th>#</th>
                     <th>Action</th>
                     <th>Domain</th>
+                    <th>Health</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Password</th>
                     <th>Mobile</th>
-                    <th>Address</th>
                     <th>Start Date</th>
                     <th>Expiry Date</th>
                     <th>Plan</th>
@@ -68,6 +68,12 @@ foreach($get->result() as $w) {
         $plan_name = '<span class="badge bg-primary text-white">'.ucwords($plan->plan_name).'</span>';
     }
 
+    $healthScore = isset($w->health_score) ? $w->health_score : 0;
+    $healthBadge = $healthScore >= 80 ? 'success' : ($healthScore >= 50 ? 'warning' : 'danger');
+
+    $dnsBadge = ($w->dns_status == 'Connected') ? '<span class="badge bg-success">DNS OK</span>' : '<span class="badge bg-warning">DNS Pending</span>';
+    $addonBadge = ($w->addon_status == 'Added') ? '<span class="badge bg-success">Addon OK</span>' : '<span class="badge bg-danger">Addon Missing</span>';
+
     echo '<tr class="'.$row_class.'">
             <td>'.$i++.'</td>
             <td>
@@ -76,19 +82,26 @@ foreach($get->result() as $w) {
                 <a onclick="return confirm(\'Are you sure ?\');" href="'.base_url('admin/change_status?id=').$w->id.'&new_status='.$new_status.'" class="btn btn-sm btn-'.$status_class.'" title="Toggle Status">
                     <i class="fas fa-toggle-'.$status_icon.'"></i>
                 </a>
+                <a href="'.base_url('admin/delete_wizard?id=').$w->id.'" class="btn btn-sm btn-danger" title="Delete Website">
+                    <i class="fa fa-trash"></i>
+                </a>
             </td>
-            <td><a target="_blank" href="https://'.$w->domain.'">'.$w->domain.'</a></td>
+            <td>
+                <a target="_blank" href="https://'.$w->domain.'">'.$w->domain.'</a>
+                <br><small>'.$dnsBadge.' '.$addonBadge.'</small>
+            </td>
+            <td><span class="badge bg-'.$healthBadge.'">'.$healthScore.'%</span></td>
             <td>'.$w->name.'</td>
             <td>'.$w->_email.'</td>
             <td>'.$w->_pass.'</td>
             <td>'.$w->mobile.'</td>
-            <td>'.$w->address.'</td>
             <td>'.date("d-m-Y", $w->start_time).'</td>
             <td>'.date("d-m-Y", $w->end_time).'</td>
             <td>'.$plan_name.'</td>
             <td>'.$badge.'</td>
         </tr>';
 }
+
 ?>
 
             </tbody>

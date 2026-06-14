@@ -62,9 +62,23 @@
             <div class="col-sm-6">
                 <div class="input-group input-group-primary">
                     <span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-globe"></i></label></span>
-                    <input type="text" class="form-control" name="domain" placeholder="Enter domain"  required value="<?= set_value('domain') ?>">
+                    <input type="text" class="form-control" name="domain" id="domain" placeholder="Enter domain" required value="<?= set_value('domain') ?>">
+                    <button type="button" class="btn btn-info" id="checkDomainBtn">Check</button>
                 </div>
             </div>
+            
+            <div class="col-sm-12" id="preflightResults" style="display:none; margin-top:10px;">
+                <div class="alert alert-secondary">
+                    <h5>Domain Pre-Check Results</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li id="resPanel"><i class="fa fa-spinner fa-spin"></i> Checking Panel Database...</li>
+                        <li id="resCpanel"><i class="fa fa-spinner fa-spin"></i> Checking cPanel...</li>
+                        <li id="resDns"><i class="fa fa-spinner fa-spin"></i> Checking DNS...</li>
+                    </ul>
+                    <button type="submit" class="btn btn-success mt-2" id="continueBtn" style="display:none;">Confirm & Continue Creation</button>
+                </div>
+            </div>
+
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="label-required">Plan</label>
@@ -170,4 +184,39 @@ function generatePass(){
     $('input[name="password"]').val(newPassword);
 }
 generatePass();
+
+$('#checkDomainBtn').click(function() {
+    let domain = $('#domain').val();
+    if(!domain) { alert('Please enter domain first'); return; }
+    
+    $('#preflightResults').show();
+    $('#resPanel, #resCpanel, #resDns').html('<i class="fa fa-spinner fa-spin"></i> Checking...');
+    $('#continueBtn').hide();
+    $('.card-header button[type="submit"]').hide(); // hide the top submit button
+
+    $.post('<?= base_url("admin/check_domain_preflight") ?>', {domain: domain}, function(res) {
+        let result = JSON.parse(res);
+        if(!result.status) {
+            alert(result.message);
+            return;
+        }
+        
+        let data = result.data;
+        let panelHtml = data.inPanel ? '<span class="text-danger"><i class="fa fa-times"></i> Domain exists in Panel</span>' : '<span class="text-success"><i class="fa fa-check"></i> Domain Available in Panel</span>';
+        $('#resPanel').html(panelHtml);
+        
+        let cpanelHtml = data.inCpanel ? '<span class="text-danger"><i class="fa fa-times"></i> Domain/Addon already exists in cPanel</span>' : '<span class="text-success"><i class="fa fa-check"></i> Not in cPanel (Available)</span>';
+        $('#resCpanel').html(cpanelHtml);
+        
+        let dnsHtml = data.dnsConnected ? '<span class="text-success"><i class="fa fa-check"></i> DNS Connected</span>' : '<span class="text-warning"><i class="fa fa-exclamation-triangle"></i> DNS Not Connected/Propagated</span>';
+        $('#resDns').html(dnsHtml);
+        
+        $('#continueBtn').show();
+    });
+});
+
+$('#continueBtn').click(function(e) {
+    e.preventDefault();
+    $(this).closest('form').submit();
+});
 </script>

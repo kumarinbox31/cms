@@ -46,10 +46,46 @@ $get = $this->website->get(['id'=>@$_GET['id'],'rid'=>RID])->row();
                         </select>
                     </div>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer" id="defaultFooter">
                     <button type="submit" name="action" value="update-website" class="btn btn-sm btn-primary">Submit</button>
+                </div>
+                <div class="card-footer" id="warningFooter" style="display:none;">
+                    <div class="alert alert-warning">
+                        <strong>Warning:</strong> Changing the domain may affect:
+                        <ul>
+                            <li>Website URL</li>
+                            <li>Emails</li>
+                            <li>SSL</li>
+                            <li>DNS</li>
+                            <li>Existing addon domain</li>
+                        </ul>
+                        <p>Proceed?</p>
+                        <button type="submit" name="action" value="update-website-only" class="btn btn-sm btn-warning">Update Only</button>
+                        <button type="submit" name="action" value="update-website-addon" class="btn btn-sm btn-danger">Update + Create Addon</button>
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="resetDomain()">Cancel</button>
+                    </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    var originalDomain = "<?php echo $get->domain; ?>";
+    
+    $('input[name="domain"]').on('input', function() {
+        if ($(this).val().trim() !== originalDomain) {
+            $('#defaultFooter').hide();
+            $('#warningFooter').show();
+        } else {
+            $('#defaultFooter').show();
+            $('#warningFooter').hide();
+        }
+    });
+
+    function resetDomain() {
+        $('input[name="domain"]').val(originalDomain);
+        $('#defaultFooter').show();
+        $('#warningFooter').hide();
+    }
+</script>

@@ -11,6 +11,14 @@ if ($all > 0) {
 } else {
     $active = $inactive = $activePer = $inactivePer = 0;
 }
+
+// Hosting Stats
+$totalDomains = $this->db->where('domain_type', 'domain')->count_all_results('ab_websites');
+$totalSubdomains = $this->db->where('domain_type', 'subdomain')->count_all_results('ab_websites');
+$totalEmails = $this->db->count_all_results('ab_email_accounts');
+
+$dnsPending = $this->db->where('dns_status', 'Pending')->count_all_results('ab_websites');
+$addonMissing = $this->db->where('addon_status', 'Missing')->count_all_results('ab_websites');
 ?>
 <div class="container-fluid">
                         <div class="row clearfix">
@@ -79,65 +87,81 @@ if ($all > 0) {
                             </div>
                             
                             
-                            <?/*
                             <div class="col-lg-3 col-md-6 col-sm-12">
                                 <div class="widget">
                                     <div class="widget-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="state">
-                                                <h6>Likes</h6>
-                                                <h2>41,410</h2>
+                                                <h6>Total Emails</h6>
+                                                <h2><?php echo $totalEmails; ?></h2>
                                             </div>
                                             <div class="icon">
-                                                <i class="ik ik-thumbs-up"></i>
+                                                <i class="ik ik-mail"></i>
                                             </div>
                                         </div>
-                                        <small class="text-small mt-10 d-block">61% higher than last month</small>
                                     </div>
                                     <div class="progress progress-sm">
-                                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
+                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-lg-3 col-md-6 col-sm-12">
                                 <div class="widget">
                                     <div class="widget-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="state">
-                                                <h6>Events</h6>
-                                                <h2>410</h2>
+                                                <h6>Total Subdomains</h6>
+                                                <h2><?php echo $totalSubdomains; ?></h2>
                                             </div>
                                             <div class="icon">
-                                                <i class="ik ik-calendar"></i>
+                                                <i class="ik ik-globe"></i>
                                             </div>
                                         </div>
-                                        <small class="text-small mt-10 d-block">Total Events</small>
                                     </div>
                                     <div class="progress progress-sm">
-                                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 31%;"></div>
+                                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-lg-3 col-md-6 col-sm-12">
                                 <div class="widget">
                                     <div class="widget-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="state">
-                                                <h6>Comments</h6>
-                                                <h2>41,410</h2>
+                                                <h6>DNS Pending</h6>
+                                                <h2 class="text-warning"><?php echo $dnsPending; ?></h2>
                                             </div>
                                             <div class="icon">
-                                                <i class="ik ik-message-square"></i>
+                                                <i class="ik ik-alert-triangle text-warning"></i>
                                             </div>
                                         </div>
-                                        <small class="text-small mt-10 d-block">Total Comments</small>
                                     </div>
                                     <div class="progress progress-sm">
-                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
+                                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
                                     </div>
                                 </div>
                             </div>
-                            */?>
+
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <div class="widget">
+                                    <div class="widget-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="state">
+                                                <h6>Addon Missing</h6>
+                                                <h2 class="text-danger"><?php echo $addonMissing; ?></h2>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="ik ik-x-circle text-danger"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-8">

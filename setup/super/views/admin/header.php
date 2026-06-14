@@ -153,6 +153,14 @@
                                     </div>
                                 </div>
                                 
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-server"></i><span>Hosting</span></a>
+                                    <div class="submenu-content">
+                                        <a href="<?php echo base_url('admin/email'); ?>" class="menu-item">Email Accounts</a>
+                                        <a href="<?php echo base_url('admin/cleanup'); ?>" class="menu-item">Cleanup Center</a>
+                                    </div>
+                                </div>
+                                
                                 
                                 <!--<div class="nav-item has-sub">-->
                                 <!--    <a href="#"><i class="ik ik-package"></i><span>Extra</span></a>-->
