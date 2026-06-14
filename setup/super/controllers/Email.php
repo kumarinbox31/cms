@@ -16,7 +16,6 @@ class Email extends CI_Controller {
 
     private function _render($view, $data = []) {
         $this->load->view('admin/header');
-        $this->load->view('admin/menu');
         $this->load->view($view, $data);
         $this->load->view('admin/footer');
     }
