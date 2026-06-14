@@ -15,6 +15,28 @@ class Cron extends CI_Controller {
     }
 
     /**
+     * Run every 1 Minute
+     * Provisions Addon/Subdomains for newly created/updated websites instantly
+     */
+    public function provision_pending() {
+        echo "Starting Pending Provisioning Cron...\n";
+        
+        // Only target newly created or updated websites marked as Pending
+        $this->db->where('addon_status', 'Pending');
+        $this->db->limit(20); // Process in small fast batches
+        $websites = $this->db->get('ab_websites')->result();
+
+        $count = 0;
+        foreach($websites as $w) {
+            echo "Provisioning Website ID: {$w->id} ({$w->domain})...\n";
+            $this->hostingsyncservice->syncWebsiteDomainStatus($w->id);
+            $count++;
+        }
+
+        echo "Completed. Provisioned $count domains.\n";
+    }
+
+    /**
      * Run every 15 Minutes
      * Checks: DNS, Addon status, Missing domains
      */

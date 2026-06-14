@@ -74,7 +74,7 @@
                                     <td><?= date('d-m-Y H:i', strtotime($log->created_at)) ?></td>
                                     <td>
                                         <?php if(isset($log->domain) && $log->domain): ?>
-                                            <span class="badge bg-primary"><?= $log->domain ?></span>
+                                            <span class="badge bg-primary text-white"><?= $log->domain ?></span>
                                         <?php else: ?>
                                             <span class="text-muted">N/A</span>
                                         <?php endif; ?>
