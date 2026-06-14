@@ -134,4 +134,47 @@ class Ai extends CI_Controller {
         $this->load->view('plugins/ai_builder/editor', $data);
         $this->load->view('admin/footer');
     }
+
+    /**
+     * Generate raw HTML directly for VvvebJs canvas
+     */
+    public function generate_html() {
+        $this->load->library('AiGateway');
+
+        $prompt = $this->input->post('prompt', true);
+        if (empty($prompt)) {
+            echo json_encode(['status' => false, 'error' => 'Prompt is required.']);
+            return;
+        }
+
+        // Fetch settings
+        $api_key = $this->AiModel->get_setting('ai_api_key', CLIENT_ID);
+        $model = $this->AiModel->get_setting('ai_model', CLIENT_ID);
+
+        if (empty($api_key)) {
+            echo json_encode(['status' => false, 'error' => 'AI API Key is missing in settings.']);
+            return;
+        }
+
+        $this->aigateway->set_api_key($api_key);
+        if (!empty($model)) {
+            $this->aigateway->set_model($model);
+        }
+
+        $system_prompt = "You are an expert Frontend Web Developer. Your task is to generate ONLY valid Bootstrap 5 HTML code based on the user's prompt. 
+RULES:
+1. Return ONLY a valid JSON object in this exact format: {\"html\": \"<your raw html code here>\"}.
+2. Use modern, beautiful Bootstrap 5 classes (cards, gradients, flex, grid, shadows). Use inline CSS only if absolutely necessary for custom colors or background images.
+3. Use placeholder images from Unsplash (e.g., https://source.unsplash.com/random/800x600/?keyword) if images are needed.
+4. Do NOT wrap the JSON in Markdown backticks or code blocks. Output pure JSON.
+5. Do NOT include any explanations.";
+
+        $response = $this->aigateway->generate_json($system_prompt, $prompt);
+
+        if ($response['status'] && isset($response['data']['html'])) {
+            echo json_encode(['status' => true, 'html' => $response['data']['html']]);
+        } else {
+            echo json_encode(['status' => false, 'error' => 'Failed to generate valid HTML code from AI.', 'raw' => isset($response['raw']) ? $response['raw'] : '']);
+        }
+    }
 }

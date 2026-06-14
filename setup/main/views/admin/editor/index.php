@@ -45,6 +45,10 @@
 										
 					
 					<div class="btn-group me-3" role="group">
+                      <button class="btn btn-light text-success" title="Generate with AI" data-bs-toggle="modal" data-bs-target="#aiGeneratorModal">
+                          <i class="la la-magic"></i> AI
+                      </button>
+
 					  <button class="btn btn-light" title="Designer Mode (Free component dragging)" id="designer-mode-btn" data-bs-toggle="button" aria-pressed="false" data-vvveb-action="setDesignerMode">
 						  <i class="la la-hand-rock"></i>
 					  </button>
@@ -1775,5 +1779,78 @@ $(function() {
 	
 });
 </script>
+
+<!-- AI Generator Modal -->
+<div class="modal fade" id="aiGeneratorModal" tabindex="-1" aria-labelledby="aiGeneratorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="aiGeneratorModalLabel"><i class="la la-magic text-success"></i> AI Content Generator</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="aiPrompt">What would you like to build?</label>
+            <textarea class="form-control mt-2" id="aiPrompt" rows="4" placeholder="e.g. Build a modern pricing section with 3 cards, blue buttons, and an FAQ section below it."></textarea>
+        </div>
+        <div id="aiLoadingIndicator" class="mt-3 text-center" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">The AI is writing your code... This may take 10-20 seconds.</p>
+        </div>
+        <div id="aiErrorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnGenerateAiContent">Generate & Insert</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#btnGenerateAiContent').click(function() {
+        var prompt = $('#aiPrompt').val().trim();
+        if(!prompt) {
+            alert('Please enter a prompt.');
+            return;
+        }
+
+        $('#btnGenerateAiContent').prop('disabled', true);
+        $('#aiLoadingIndicator').show();
+        $('#aiErrorMessage').hide();
+
+        $.ajax({
+            url: '<?php echo base_url("admin/Ai/generate_html"); ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: { prompt: prompt },
+            success: function(response) {
+                $('#btnGenerateAiContent').prop('disabled', false);
+                $('#aiLoadingIndicator').hide();
+                
+                if(response.status && response.html) {
+                    // Inject directly into VvvebJs canvas
+                    $(Vvveb.Builder.iframe.contentDocument.body).append(response.html);
+                    
+                    // Close the modal and reset
+                    $('#aiGeneratorModal').modal('hide');
+                    $('#aiPrompt').val('');
+                } else {
+                    $('#aiErrorMessage').text(response.error || 'Failed to generate content.').show();
+                }
+            },
+            error: function(xhr, status, error) {
+                $('#btnGenerateAiContent').prop('disabled', false);
+                $('#aiLoadingIndicator').hide();
+                $('#aiErrorMessage').text('Server error: ' + error).show();
+            }
+        });
+    });
+});
+</script>
+
 </body>
 </html>
