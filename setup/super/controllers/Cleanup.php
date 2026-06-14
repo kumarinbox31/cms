@@ -10,8 +10,8 @@ class Cleanup extends CI_Controller {
         $this->load->database();
         
         // Basic auth check
-        if(!isset($_SESSION['super_admin'])) {
-            redirect('admin/login');
+        if(!$this->session->has_userdata('super-admin')) {
+            redirect('admin-login');
         }
     }
 
