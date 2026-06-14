@@ -51,12 +51,14 @@ class Cron extends CI_Controller {
         ]);
         $sync_id = $this->db->insert_id();
 
-        $batch_size = env('DOMAIN_CHECK_BATCH_SIZE', 100);
+        $batch_size = env('DOMAIN_CHECK_BATCH_SIZE', 500);
         // Only check domains that haven't been checked in the last 15 mins
         $fifteenMinsAgo = date('Y-m-d H:i:s', strtotime('-15 minutes'));
         
         $this->db->where('last_checked <', $fifteenMinsAgo);
         $this->db->or_where('last_checked IS NULL');
+        // Order by last_checked ASC to ensure fair queueing
+        $this->db->order_by('last_checked', 'ASC');
         $this->db->limit($batch_size);
         $websites = $this->db->get('ab_websites')->result();
 
