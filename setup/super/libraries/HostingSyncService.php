@@ -93,7 +93,7 @@ class HostingSyncService {
 
         $this->recalculateHealthScore($website_id);
         
-        $this->logAction($website_id, 'Domain Sync', "DNS: $dnsStatus, Addon: $addonStatus");
+        $this->logAction($website_id, $domain, 'Domain Sync', "DNS: $dnsStatus, Addon: $addonStatus");
         return true;
     }
 
@@ -197,11 +197,11 @@ class HostingSyncService {
         return $score;
     }
 
-    private function logAction($website_id, $action, $response) {
+    private function logAction($website_id, $domain, $action, $response) {
         $this->CI->db->insert('ab_domain_logs', [
             'user_id' => 0, // System
             'ip_address' => '127.0.0.1',
-            'action' => "Website ID {$website_id}: {$action}",
+            'action' => "Website ID {$website_id} ({$domain}): {$action}",
             'response' => $response
         ]);
     }
