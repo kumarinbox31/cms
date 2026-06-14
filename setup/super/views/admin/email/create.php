@@ -60,6 +60,12 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        if ($.fn.select2) {
+            $('.select2').select2();
+        }
+    });
+
     $('#websiteSelect').change(function() {
         let domain = $(this).find(':selected').data('domain');
         if(domain) {

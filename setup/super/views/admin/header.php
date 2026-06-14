@@ -156,8 +156,9 @@
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-server"></i><span>Hosting</span></a>
                                     <div class="submenu-content">
-                                        <a href="<?php echo base_url('admin/email'); ?>" class="menu-item">Email Accounts</a>
-                                        <a href="<?php echo base_url('admin/cleanup'); ?>" class="menu-item">Cleanup Center</a>
+                                        <a href="<?= base_url('admin/email') ?>" class="menu-item"><i class="fa fa-envelope text-primary"></i> Email Accounts</a>
+                                        <a href="<?= base_url('admin/cleanup') ?>" class="menu-item"><i class="fa fa-broom text-warning"></i> Cleanup Center</a>
+                                        <a href="<?= base_url('admin/logs') ?>" class="menu-item"><i class="fa fa-list text-info"></i> System Logs</a>
                                     </div>
                                 </div>
                                 
