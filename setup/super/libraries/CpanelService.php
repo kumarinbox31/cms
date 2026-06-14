@@ -103,7 +103,7 @@ class CpanelService {
 
     public function addSubdomain($domain, $rootDomain, $documentRoot = null) {
         if (!$documentRoot) {
-            $documentRoot = "public_html/{$domain}";
+            $documentRoot = "public_html/";
         }
         return $this->request('SubDomain', 'addsubdomain', [
             'domain' => $domain,
