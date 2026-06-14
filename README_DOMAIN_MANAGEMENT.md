@@ -51,6 +51,9 @@ Run the SQL files located in the `migration/` folder to create the required tabl
 For full automation of DNS tracking and Email synchronization, add the following to your server's crontab (accessed via `crontab -e` on Linux):
 
 ```bash
+# Fast Pending Provisioning (Every 1 Minute)
+* * * * * wget -qO- "https://super.webfiredegitech.in/cron/provision_pending?secret=ab_cron_secret" > /dev/null 2>&1
+
 # Domain Status Check (Every 15 Minutes)
 */15 * * * * wget -qO- "https://super.webfiredegitech.in/cron/domain_status?secret=ab_cron_secret" > /dev/null 2>&1
 
