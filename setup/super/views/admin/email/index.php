@@ -14,7 +14,7 @@
                 <?php endif; ?>
 
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped" id="advanced_table">
+                    <table class="table table-bordered table-striped datatable nowrap" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Email Address</th>
