@@ -2,8 +2,8 @@
     <div class="container-fluid mt-4">
         <div class="card">
             <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h3 class="card-title mb-0">Design Tokens Management</h3>
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addTokenModal">
+                <h3 class="card-title text-white mb-0">Design Tokens Management</h3>
+                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addTokenModal">
                     <i class="fas fa-plus"></i> Add Token
                 </button>
             </div>
@@ -59,7 +59,9 @@
         <form method="post" action="<?= base_url('Ai/save_token') ?>" class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Add Design Token</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="form-group mb-3">
@@ -72,7 +74,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save Token</button>
             </div>
         </form>
