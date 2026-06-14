@@ -84,6 +84,38 @@ class DomainService {
             }
         }
 
+        // Fallback: If the subdomain itself doesn't have records (e.g. not created yet),
+        // check if the parent domain is pointed to our nameservers or IP.
+        $parts = explode('.', $subdomain);
+        if (count($parts) > 2) {
+            array_shift($parts);
+            $parentDomain = implode('.', $parts);
+            
+            // Check Parent Nameservers
+            $nsRecords = @dns_get_record($parentDomain, DNS_NS);
+            if ($nsRecords) {
+                $matchedNs = 0;
+                foreach ($nsRecords as $record) {
+                    if (in_array($record['target'], $this->nameservers)) {
+                        $matchedNs++;
+                    }
+                }
+                if ($matchedNs >= 2) {
+                    return ['status' => true, 'type' => 'NS_PARENT', 'message' => 'Parent domain nameservers connected successfully. Subdomain will work automatically.'];
+                }
+            }
+            
+            // Check Parent A Record
+            $aRecords = @dns_get_record($parentDomain, DNS_A);
+            if ($aRecords) {
+                foreach ($aRecords as $record) {
+                    if ($record['ip'] === $this->mainIp) {
+                        return ['status' => true, 'type' => 'A_PARENT', 'message' => 'Parent domain A Record connected successfully. Subdomain will work if wildcard is set.'];
+                    }
+                }
+            }
+        }
+
         return ['status' => false, 'message' => 'Subdomain DNS not pointed correctly.'];
     }
 

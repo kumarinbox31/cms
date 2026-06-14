@@ -147,9 +147,16 @@ class Admin extends CI_Controller{
             $address = htmlspecialchars($post['address']);
             $mobile = intval($post['mobile']);
             $wid = intval($post['wid']);
-            $planid = intval($post['planid']);
+            $planid = isset($post['planid']) ? intval($post['planid']) : 0;
             $start_time = time();
-            $plan_years = intval($post['plan_years']);
+            $plan_years = isset($post['plan_years']) ? intval($post['plan_years']) : 0;
+            
+            if ($planid <= 0 || $plan_years <= 0) {
+                $this->session->set_flashdata('error_msg', 'Please select a valid Plan and Plan Duration.');
+                redirect(base_url('admin/website/create'));
+                return;
+            }
+            
             $end_time = strtotime("+$plan_years year", $start_time);
             $data = [
                 'name' => $name,
