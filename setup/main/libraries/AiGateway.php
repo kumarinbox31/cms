@@ -90,4 +90,61 @@ class AiGateway {
         
         return ['status' => false, 'error' => 'Unexpected response format.', 'raw' => $response];
     }
+    /**
+     * Generate raw text content based on a prompt
+     */
+    public function generate_text($system_prompt, $user_prompt) {
+        if (empty($this->api_key)) {
+            return ['status' => false, 'error' => 'API key is missing.'];
+        }
+        
+        $data = [
+            'model' => $this->model,
+            'max_tokens' => 4000,
+            'messages' => [
+                ['role' => 'system', 'content' => $system_prompt],
+                ['role' => 'user', 'content' => $user_prompt]
+            ]
+        ];
+        
+        $ch = curl_init($this->api_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $this->api_key,
+            'Content-Type: application/json',
+            'HTTP-Referer: ' . base_url(),
+            'X-Title: CMS AI Builder Pro'
+        ]);
+        
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curl_error = curl_error($ch);
+        curl_close($ch);
+        
+        if ($curl_error) {
+            return ['status' => false, 'error' => 'cURL Error: ' . $curl_error];
+        }
+        
+        if ($http_code !== 200) {
+            return ['status' => false, 'error' => 'HTTP Error ' . $http_code . ': ' . $response];
+        }
+        
+        $result = json_decode($response, true);
+        
+        if (isset($result['choices'][0]['message']['content'])) {
+            $content = $result['choices'][0]['message']['content'];
+            
+            // Clean markdown wrappers if present (like ```html ... ```)
+            $clean_content = trim($content);
+            if (preg_match('/```(?:html|css)?(.*?)```/is', $clean_content, $matches)) {
+                $clean_content = trim($matches[1]);
+            }
+            
+            return ['status' => true, 'data' => $clean_content, 'raw' => $response];
+        }
+        
+        return ['status' => false, 'error' => 'Unexpected response format.', 'raw' => $response];
+    }
 }

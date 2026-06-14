@@ -161,18 +161,18 @@ class Ai extends CI_Controller {
             $this->aigateway->set_model($model);
         }
 
-        $system_prompt = "You are an expert Frontend Web Developer. Your task is to generate ONLY valid Bootstrap 5 HTML code based on the user's prompt. 
+        $system_prompt = "You are an expert Frontend Web Developer. Your task is to generate ONLY valid Bootstrap HTML code based on the user's prompt. 
 RULES:
-1. Return ONLY a valid JSON object in this exact format: {\"html\": \"<your raw html code here>\"}.
-2. Use modern, beautiful Bootstrap 5 classes (cards, gradients, flex, grid, shadows). Use inline CSS only if absolutely necessary for custom colors or background images.
+1. Output ONLY RAW HTML. Do not wrap the HTML in a JSON object. Do not include markdown codeblocks (no ```html). Just the pure HTML string.
+2. Use modern, beautiful Bootstrap 5 classes (cards, gradients, flex, grid, shadows). Use inline CSS only if absolutely necessary.
 3. Use placeholder images from Unsplash (e.g., https://source.unsplash.com/random/800x600/?keyword) if images are needed.
-4. Do NOT wrap the JSON in Markdown backticks or code blocks. Output pure JSON.
-5. Do NOT include any explanations.";
+4. Do NOT include any explanations, greetings, or commentary. Only output the code.";
 
-        $response = $this->aigateway->generate_json($system_prompt, $prompt);
+        $response = $this->aigateway->generate_text($system_prompt, $prompt);
 
-        if ($response['status'] && isset($response['data']['html'])) {
-            echo json_encode(['status' => true, 'html' => $response['data']['html']]);
+        if ($response['status'] && isset($response['data'])) {
+            // Because the frontend expects JSON with 'html', we wrap it here server-side
+            echo json_encode(['status' => true, 'html' => $response['data']]);
         } else {
             echo json_encode(['status' => false, 'error' => 'Failed to generate valid HTML code from AI.', 'raw' => isset($response['raw']) ? $response['raw'] : '']);
         }
