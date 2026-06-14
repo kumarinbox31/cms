@@ -89,7 +89,8 @@ class Admin extends CI_Controller{
 
             // 4. Record Only / Final cleanup
             if (isset($post['remove_record'])) {
-                $this->website->delete_website($wid); // This also handles directories if implemented there
+                $deleteDir = isset($post['remove_dir']);
+                $this->website->delete_website($wid, $deleteDir);
             }
 
             $this->session->set_flashdata('success_msg', 'Website cleanup executed successfully.');

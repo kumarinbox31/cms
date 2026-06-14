@@ -3,7 +3,7 @@ class Website extends MY_Model{
     protected $table = 'websites';
     
     // permanantly deletation of website
-    function delete_website($wid){
+    function delete_website($wid, $deleteDir = true){
         $arr = ['media','form_data','media','menu','menu_items','others','other_content','pages','page_content','plugin_installed','service','website_data'];
         foreach($arr as $tbl){
             $res = $this->db->where(['admin_id'=>$wid])->delete($tbl);
@@ -15,7 +15,9 @@ class Website extends MY_Model{
         if(!$res){
             print_r($this->db->error());exit;
         }
-        echo $this->deleteFolder(FCPATH.'/public/temp/'.$wid);
+        if ($deleteDir) {
+            echo $this->deleteFolder(FCPATH.'/public/temp/'.$wid);
+        }
     }
     function deleteFolder($folderPath) {
         // Check if the folder exists

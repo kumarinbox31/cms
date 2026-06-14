@@ -56,3 +56,9 @@ $route['translate_uri_dashes'] = TRUE;
 $route['page/(:any)'] = 'web/index/$1';
 $route['admin-login'] = 'web/admin_login';
 
+// Hosting Management Routes
+$route['admin/email'] = 'email/index';
+$route['admin/email/(.*)'] = 'email/$1';
+
+$route['admin/cleanup'] = 'cleanup/index';
+$route['admin/cleanup/(.*)'] = 'cleanup/$1';

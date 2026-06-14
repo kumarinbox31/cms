@@ -54,7 +54,7 @@ $diskUsage = "Calculating...";
                     </div>
                     <div class="form-check">
                         <input class="form-check-input cleanup-option" type="checkbox" name="remove_dir" value="1" id="optDir">
-                        <label class="form-check-label" for="optDir">Remove Home Directory</label>
+                        <label class="form-check-label" for="optDir">Remove Uploads Directory (<code>/public/temp/<?= $w->id ?></code>)</label>
                     </div>
                     
                     <div class="mt-2">
