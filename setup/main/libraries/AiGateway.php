@@ -71,8 +71,15 @@ class AiGateway {
         
         if (isset($result['choices'][0]['message']['content'])) {
             $content = $result['choices'][0]['message']['content'];
+            
+            // Clean markdown wrappers if present
+            $clean_content = trim($content);
+            if (preg_match('/```(?:json)?(.*?)```/is', $clean_content, $matches)) {
+                $clean_content = trim($matches[1]);
+            }
+            
             // Attempt to parse JSON content
-            $json_parsed = json_decode($content, true);
+            $json_parsed = json_decode($clean_content, true);
             if (json_last_error() === JSON_ERROR_NONE) {
                 return ['status' => true, 'data' => $json_parsed, 'raw' => $response];
             } else {

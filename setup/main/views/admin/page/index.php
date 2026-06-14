@@ -59,9 +59,10 @@
                                     <input type="radio" name="default_page" value="'.$page->id.'" '.$chkd.' onclick="setDefault('.$page->id.');" >
                                 </td>
                                 <td>
-                                    <a href="'.base_url('admin/page/setting/'.$page->id).'" class="btn btn-sm btn-primary"><i class="fa fa-cog"></i></a>
-                                    <a href="'.base_url('admin/editor?type=page&pageid=').$page->id.'" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
-                                    <a onclick="return confirm('."'Are you sure?'".');" href="'.base_url('admin/page?action=trash&id=').$page->id.'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a href="'.base_url('admin/page/setting/'.$page->id).'" class="btn btn-sm btn-primary" title="Settings"><i class="fa fa-cog"></i></a>
+                                    <a href="'.base_url('admin/editor?type=page&pageid=').$page->id.'" class="btn btn-info btn-sm" title="Normal Editor"><i class="fa fa-edit"></i></a>
+                                    <a href="'.base_url('Ai/editor/page/').$page->id.'" class="btn btn-success btn-sm" title="AI Builder Pro"><i class="fa fa-magic"></i> AI</a>
+                                    <a onclick="return confirm('."'Are you sure?'".');" href="'.base_url('admin/page?action=trash&id=').$page->id.'" class="btn btn-sm btn-danger" title="Trash"><i class="fa fa-trash"></i></a>
                                 
                                 </td>
                                 
