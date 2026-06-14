@@ -13,45 +13,53 @@
                     <div class="alert alert-danger"><?= $this->session->flashdata('error_msg') ?></div>
                 <?php endif; ?>
 
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped datatable nowrap" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Email Address</th>
-                                <th>Domain</th>
-                                <th>Quota</th>
-                                <th>Used Space</th>
-                                <th>Status</th>
-                                <th>Last Sync</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($emails as $e): ?>
-                            <tr>
-                                <td><?= $e->email_address ?></td>
-                                <td><?= $e->domain ?></td>
-                                <td><?= $e->quota == '0' || $e->quota == 'unlimited' ? 'Unlimited' : $e->quota.' MB' ?></td>
-                                <td><?= $e->used_space ?></td>
-                                <td>
-                                    <?php if($e->status == 'Active'): ?>
-                                        <span class="badge bg-success">Active</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-danger">Suspended</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?= date('d-m-Y H:i', strtotime($e->last_sync)) ?></td>
-                                <td style="white-space: nowrap;">
-                                    <a href="<?= base_url('admin/email/edit?id='.$e->id) ?>" class="btn btn-sm btn-info" title="Edit Password/Quota"><i class="fa fa-edit"></i></a>
-                                    <a href="<?= base_url('admin/email/toggle_status?id='.$e->id) ?>" class="btn btn-sm <?= $e->status == 'Active' ? 'btn-warning' : 'btn-success' ?>" title="<?= $e->status == 'Active' ? 'Suspend' : 'Unsuspend' ?>"><i class="fa <?= $e->status == 'Active' ? 'fa-pause' : 'fa-play' ?>"></i></a>
-                                    <a onclick="return confirm('Are you sure you want to delete this email? This cannot be undone.');" href="<?= base_url('admin/email/delete?id='.$e->id) ?>" class="btn btn-sm btn-danger" title="Delete"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-bordered table-striped nowrap" id="email_table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Email Address</th>
+                            <th>Domain</th>
+                            <th>Quota</th>
+                            <th>Used Space</th>
+                            <th>Status</th>
+                            <th>Last Sync</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($emails as $e): ?>
+                        <tr>
+                            <td><?= $e->email_address ?></td>
+                            <td><?= $e->domain ?></td>
+                            <td><?= $e->quota == '0' || $e->quota == 'unlimited' ? 'Unlimited' : $e->quota.' MB' ?></td>
+                            <td><?= $e->used_space ?></td>
+                            <td>
+                                <?php if($e->status == 'Active'): ?>
+                                    <span class="badge bg-success">Active</span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger">Suspended</span>
+                                <?php endif; ?>
+                            </td>
+                            <td><?= date('d-m-Y H:i', strtotime($e->last_sync)) ?></td>
+                            <td style="white-space: nowrap;">
+                                <a href="<?= base_url('admin/email/edit?id='.$e->id) ?>" class="btn btn-sm btn-info" title="Edit Password/Quota"><i class="fa fa-edit"></i></a>
+                                <a href="<?= base_url('admin/email/toggle_status?id='.$e->id) ?>" class="btn btn-sm <?= $e->status == 'Active' ? 'btn-warning' : 'btn-success' ?>" title="<?= $e->status == 'Active' ? 'Suspend' : 'Unsuspend' ?>"><i class="fa <?= $e->status == 'Active' ? 'fa-pause' : 'fa-play' ?>"></i></a>
+                                <a onclick="return confirm('Are you sure you want to delete this email? This cannot be undone.');" href="<?= base_url('admin/email/delete?id='.$e->id) ?>" class="btn btn-sm btn-danger" title="Delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#email_table').DataTable({
+            responsive: false,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
