@@ -7,6 +7,7 @@ class AiMarketplace extends CI_Controller {
         parent::__construct();
         checkAdminLogin();
         $this->load->database();
+        $this->load->model(['PluginModel', 'MenuModel', 'PageModel']);
     }
 
     /**
@@ -23,6 +24,7 @@ class AiMarketplace extends CI_Controller {
         
         // Fetch unique categories for filtering
         $data['categories'] = $this->db->select('category')->distinct()->get('ab_ai_components')->result();
+        $data['menu'] = $this->MenuModel->getAdminMenu();
 
         $this->load->view('admin/header', $data);
         $this->load->view('plugins/ai_builder/marketplace', $data);

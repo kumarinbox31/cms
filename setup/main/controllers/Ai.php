@@ -8,7 +8,7 @@ class Ai extends CI_Controller {
         // Ensure only admin can access this controller if it's for settings
         // Assuming checkAdminLogin() is a global helper in this CMS
         checkAdminLogin();
-        $this->load->model('AiModel');
+        $this->load->model(['AiModel', 'PluginModel', 'MenuModel', 'PageModel']);
     }
 
     /**
@@ -31,6 +31,7 @@ class Ai extends CI_Controller {
                 'ai_api_key' => $this->AiModel->get_setting('ai_api_key', CLIENT_ID),
                 'image_api_key' => $this->AiModel->get_setting('image_api_key', CLIENT_ID),
             ];
+            $data['menu'] = $this->MenuModel->getAdminMenu();
 
             $this->load->view('admin/header', $data);
             $this->load->view('plugins/ai_builder/settings', $data);
@@ -94,6 +95,7 @@ class Ai extends CI_Controller {
      */
     public function design_tokens() {
         $data['tokens'] = $this->AiModel->get_tokens(CLIENT_ID);
+        $data['menu'] = $this->MenuModel->getAdminMenu();
         
         $this->load->view('admin/header', $data);
         $this->load->view('plugins/ai_builder/design_tokens', $data);
@@ -122,6 +124,7 @@ class Ai extends CI_Controller {
     public function editor($type = 'page', $id = 0) {
         $data['page_type'] = $type;
         $data['page_id'] = $id;
+        $data['menu'] = $this->MenuModel->getAdminMenu();
 
         $this->load->view('admin/header', $data);
         $this->load->view('plugins/ai_builder/editor', $data);
