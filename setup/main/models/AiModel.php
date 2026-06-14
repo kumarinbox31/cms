@@ -2,20 +2,13 @@
 class AiModel extends CI_Model {
     
     /**
-     * Get a setting by key and admin_id
+     * Get a setting by key
      */
-    public function get_setting($key, $admin_id) {
-        $query = $this->db->get_where('ab_settings', ['setting_key' => $key, 'admin_id' => $admin_id]);
+    public function get_setting($key, $admin_id = null) {
+        $query = $this->db->get_where('ab_settings', ['setting_key' => $key]);
         if ($query->num_rows() > 0) {
             return $query->row()->setting_value;
         }
-        
-        // Fallback to global setting (admin_id = 0)
-        $query = $this->db->get_where('ab_settings', ['setting_key' => $key, 'admin_id' => 0]);
-        if ($query->num_rows() > 0) {
-            return $query->row()->setting_value;
-        }
-        
         return null;
     }
 
@@ -23,9 +16,9 @@ class AiModel extends CI_Model {
      * Save or update a setting
      */
     public function save_setting($key, $value, $admin_id) {
-        $chk = $this->db->get_where('ab_settings', ['setting_key' => $key, 'admin_id' => $admin_id]);
+        $chk = $this->db->get_where('ab_settings', ['setting_key' => $key]);
         if ($chk->num_rows()) {
-            $this->db->where(['setting_key' => $key, 'admin_id' => $admin_id])->update('ab_settings', ['setting_value' => $value]);
+            $this->db->where(['setting_key' => $key])->update('ab_settings', ['setting_value' => $value, 'admin_id' => $admin_id]);
         } else {
             $this->db->insert('ab_settings', ['setting_key' => $key, 'setting_value' => $value, 'admin_id' => $admin_id]);
         }
