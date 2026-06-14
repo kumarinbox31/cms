@@ -52,15 +52,15 @@ For full automation of DNS tracking and Email synchronization, add the following
 
 ```bash
 # Domain Status Check (Every 15 Minutes)
-*/15 * * * * php /path/to/cms-tool/index.php cron domain_status
+*/15 * * * * wget -qO- "https://super.webfiredegitech.in/cron/domain_status?secret=ab_cron_secret" > /dev/null 2>&1
 
 # Email Sync (Every 1 Hour)
-0 * * * * php /path/to/cms-tool/index.php cron email_sync
+0 * * * * wget -qO- "https://super.webfiredegitech.in/cron/email_sync?secret=ab_cron_secret" > /dev/null 2>&1
 
 # Full Audit & Orphan Cleanup (Daily at 2 AM)
-0 2 * * * php /path/to/cms-tool/index.php cron full_audit
+0 2 * * * wget -qO- "https://super.webfiredegitech.in/cron/full_audit?secret=ab_cron_secret" > /dev/null 2>&1
 ```
-*(Make sure to replace `/path/to/cms-tool/` with the absolute path to your project).*
+*(Note: We use `wget` to trigger these via HTTP because the system dynamically determines the application routing based on the domain name, which is unavailable in raw CLI mode).*
 
 ## 4. Usage Notes
 - **Delete Wizard**: The old delete button now routes to a Wizard where Super Admins can selectively delete Panel Records, cPanel Addons, Emails, and Subdomains.
