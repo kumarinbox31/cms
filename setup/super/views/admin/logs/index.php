@@ -13,6 +13,7 @@
                     </select>
                 </form>
             </div>
+            <div class="card-body">
                 <div class="table-responsive" style="padding: 0 15px;">
                     <table class="table table-bordered table-striped datatable nowrap" style="width:100%">
                         <thead>
