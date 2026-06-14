@@ -71,7 +71,7 @@ class Ai extends CI_Controller {
             $this->aigateway->set_model($model);
         }
 
-        $system_prompt = "You are a website building assistant. Return only a valid JSON response containing a 'sections' array. Each section should have a 'type' (e.g. hero, pricing, faq) and relevant data fields like 'title', 'subtitle', and an 'image_keyword' for stock photos (e.g. 'office', 'nature', 'team').";
+        $system_prompt = "You are a website building assistant. Return ONLY a valid JSON response containing a 'sections' array. Keep content concise. STRICT LIMIT: Generate a maximum of 3 sections total to prevent response truncation. Each section must have a 'type' (e.g. hero, pricing, faq) and relevant data fields like 'title', 'subtitle', and an 'image_keyword'.";
 
         $response = $this->aigateway->generate_json($system_prompt, $prompt);
 
