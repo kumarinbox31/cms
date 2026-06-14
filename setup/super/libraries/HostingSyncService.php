@@ -33,17 +33,14 @@ class HostingSyncService {
         $dnsStatus = $dnsResult['status'] ? 'Connected' : 'Pending';
         $lastError = $dnsResult['status'] ? null : $dnsResult['message'];
 
-        // 2. Check Addon/Subdomain status in cPanel
+        // 2. Check Addon Domain if not a main reseller domain or subdomain
         $addonStatus = 'Missing';
-        
         if ($isSubdomain) {
             $subdomains = $this->CI->cpanelservice->listSubdomains();
-            $found = false;
             if ($subdomains['status']) {
                 foreach ($subdomains['data'] as $sub) {
                     if ($sub['domain'] === $domain) {
                         $addonStatus = 'Added';
-                        $found = true;
                         break;
                     }
                 }
@@ -51,13 +48,13 @@ class HostingSyncService {
                 $lastError = $subdomains['error'];
             }
             
-            // If not found in subdomains, they might have manually added it as an Addon Domain!
-            if (!$found && $this->CI->cpanelservice->addonExists($domain)) {
+            // Fallback: Check if they manually added this subdomain as an Addon Domain
+            if ($addonStatus === 'Missing' && $this->CI->cpanelservice->addonExists($domain)) {
                 $addonStatus = 'Added';
             }
-            
         } else {
-            // Main domain
+            // Assume if it's the main domain it doesn't need to be an addon,
+            // but for simplicity, we check if it exists in addon list
             if ($this->CI->cpanelservice->addonExists($domain)) {
                 $addonStatus = 'Added';
             }

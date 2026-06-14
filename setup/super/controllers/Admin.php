@@ -166,9 +166,10 @@ class Admin extends CI_Controller{
             if ($domain_type === 'subdomain') {
                 $sub = array_shift($parts);
                 $rootDomain = implode('.', $parts);
-                $cpanelRes = $this->cpanelservice->addSubdomain($sub, $rootDomain);
+                $cpanelRes = $this->cpanelservice->addSubdomain($sub, $rootDomain, 'public_html');
             } else {
-                $cpanelRes = $this->cpanelservice->addAddonDomain($domain);
+                // For addon domain, the second arg is the subdomain prefix
+                $cpanelRes = $this->cpanelservice->addAddonDomain($domain, explode('.', $domain)[0], 'public_html');
             }
             
             if (!$cpanelRes['status']) {
@@ -185,6 +186,7 @@ class Admin extends CI_Controller{
                 '_pass' => $password,
                 'domain' => $domain,
                 'domain_type' => $domain_type,
+                'addon_status' => 'Added',
                 'start_time' => $start_time,
                 'end_time' => $end_time,
                 'rid'=>RID,
@@ -271,6 +273,30 @@ class Admin extends CI_Controller{
         return $this->db->where('domain', $domain)->count_all_results('websites') > 0;
     }
 
+    public function test_sync($id) {
+        $this->load->library('HostingSyncService');
+        $this->load->library('CpanelService');
+        
+        echo "Testing Sync for ID: $id\n";
+        $res = $this->hostingsyncservice->syncWebsiteDomainStatus($id);
+        echo "Sync Result: " . ($res ? 'Success' : 'Failed') . "\n";
+        
+        $website = $this->db->get_where('ab_websites', ['id' => $id])->row_array();
+        print_r($website);
+        
+        echo "\nSubdomains:\n";
+        $sub = $this->cpanelservice->listSubdomains();
+        if ($sub['status']) {
+            foreach ($sub['data'] as $s) echo $s['domain'] . "\n";
+        }
+        
+        echo "\nAddons:\n";
+        $add = $this->cpanelservice->listAddonDomains();
+        if ($add['status']) {
+            foreach ($add['data'] as $a) echo $a['domain'] . "\n";
+        }
+    }
+
     public function check_domain_preflight() {
         $domain = $this->input->post('domain');
         if (!$domain) {
@@ -329,6 +355,47 @@ class Admin extends CI_Controller{
                 case 'update-website':
                     if(isset($_GET['id'])){
                         $id = intval($_GET['id']);
+                        
+                        $old_website = $this->db->get_where('ab_websites', ['id' => $id])->row_array();
+                        if ($old_website) {
+                            $old_domain = $old_website['domain'];
+                            $new_domain = cleanDomain(htmlspecialchars($post['domain']));
+                            $post['domain'] = $new_domain;
+                            
+                            if ($old_domain !== $new_domain) {
+                                $this->load->library('CpanelService');
+                                
+                                // Delete old domain from cPanel
+                                $old_parts = explode('.', $old_domain);
+                                $old_type = (count($old_parts) > 2) ? 'subdomain' : 'domain';
+                                
+                                if ($old_type === 'subdomain') {
+                                    $this->cpanelservice->deleteSubdomain($old_domain);
+                                } else {
+                                    $this->cpanelservice->deleteAddonDomain($old_domain, $old_parts[0]);
+                                }
+                                
+                                // Create new domain in cPanel
+                                $new_parts = explode('.', $new_domain);
+                                $domain_type = (count($new_parts) > 2) ? 'subdomain' : 'domain';
+                                $post['domain_type'] = $domain_type;
+                                
+                                if ($domain_type === 'subdomain') {
+                                    $sub = array_shift($new_parts);
+                                    $rootDomain = implode('.', $new_parts);
+                                    $cpanelRes = $this->cpanelservice->addSubdomain($sub, $rootDomain, 'public_html');
+                                } else {
+                                    $cpanelRes = $this->cpanelservice->addAddonDomain($new_domain, $new_parts[0], 'public_html');
+                                }
+                                
+                                if (!$cpanelRes['status']) {
+                                    $this->session->set_flashdata('error_msg', 'cPanel Error (Domain Change): ' . $cpanelRes['error']);
+                                    redirect('admin/website/edit?id='.$id);
+                                    return;
+                                }
+                            }
+                        }
+                        
                         $this->website->update(['id'=>$id],$post);
                         $this->session->set_flashdata('success_msg','Saved successfully.');
                         redirect('admin/website/edit?id='.$id);
