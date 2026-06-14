@@ -23,7 +23,7 @@ class Email extends CI_Controller {
 
     public function index() {
         $data['emails'] = $this->db->get('ab_email_accounts')->result();
-        $this->_render('email/index', $data);
+        $this->_render('admin/email/index', $data);
     }
 
     public function create() {
@@ -61,7 +61,7 @@ class Email extends CI_Controller {
             }
         } else {
             $data['websites'] = $this->db->get('ab_websites')->result();
-            $this->_render('email/create', $data);
+            $this->_render('admin/email/create', $data);
         }
     }
 
@@ -93,7 +93,7 @@ class Email extends CI_Controller {
             redirect('admin/email/edit?id='.$id);
         } else {
             $data['email'] = $email;
-            $this->_render('email/edit', $data);
+            $this->_render('admin/email/edit', $data);
         }
     }
 

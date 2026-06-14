@@ -22,7 +22,7 @@ class Cleanup extends CI_Controller {
     }
 
     public function index() {
-        $this->_render('cleanup/index');
+        $this->_render('admin/cleanup/index');
     }
 
     // --- Sync Endpoints ---
@@ -51,7 +51,7 @@ class Cleanup extends CI_Controller {
     public function find_orphan_domains() {
         $orphans = $this->hostingsyncservice->findOrphanDomains();
         $data['orphans'] = $orphans;
-        $this->_render('cleanup/orphans', $data);
+        $this->_render('admin/cleanup/orphans', $data);
     }
 
     public function delete_orphan_domain() {
