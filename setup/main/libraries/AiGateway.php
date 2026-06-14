@@ -36,6 +36,7 @@ class AiGateway {
         
         $data = [
             'model' => $this->model,
+            'max_tokens' => 4000,
             'response_format' => ['type' => 'json_object'],
             'messages' => [
                 ['role' => 'system', 'content' => $system_prompt],
