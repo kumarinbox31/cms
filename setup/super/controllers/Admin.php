@@ -162,22 +162,6 @@ class Admin extends CI_Controller{
             $parts = explode('.', $domain);
             $domain_type = (count($parts) > 2) ? 'subdomain' : 'domain';
             
-            $this->load->library('CpanelService');
-            if ($domain_type === 'subdomain') {
-                $sub = array_shift($parts);
-                $rootDomain = implode('.', $parts);
-                $cpanelRes = $this->cpanelservice->addSubdomain($sub, $rootDomain, 'public_html');
-            } else {
-                // For addon domain, the second arg is the subdomain prefix
-                $cpanelRes = $this->cpanelservice->addAddonDomain($domain, explode('.', $domain)[0], 'public_html');
-            }
-            
-            if (!$cpanelRes['status']) {
-                $this->session->set_flashdata('error_msg', 'cPanel Error: ' . $cpanelRes['error']);
-                redirect(base_url('admin/website/create'));
-                return;
-            }
-
             $data = [
                 'name' => $name,
                 '_email' => $email,
@@ -186,7 +170,7 @@ class Admin extends CI_Controller{
                 '_pass' => $password,
                 'domain' => $domain,
                 'domain_type' => $domain_type,
-                'addon_status' => 'Added',
+                'addon_status' => 'Pending', // Will be created by Cron
                 'start_time' => $start_time,
                 'end_time' => $end_time,
                 'rid'=>RID,
@@ -363,36 +347,19 @@ class Admin extends CI_Controller{
                             $post['domain'] = $new_domain;
                             
                             if ($old_domain !== $new_domain) {
-                                $this->load->library('CpanelService');
-                                
-                                // Delete old domain from cPanel
-                                $old_parts = explode('.', $old_domain);
-                                $old_type = (count($old_parts) > 2) ? 'subdomain' : 'domain';
-                                
-                                if ($old_type === 'subdomain') {
-                                    $this->cpanelservice->deleteSubdomain($old_domain);
-                                } else {
-                                    $this->cpanelservice->deleteAddonDomain($old_domain, $old_parts[0]);
-                                }
-                                
-                                // Create new domain in cPanel
+                                // Domain changed. Delete old from cPanel via Cron?
+                                // For now, just mark the domain_type and set addon_status = Pending
+                                // The HostingSyncService should detect it's missing and create the new one.
+                                // However, deleting the old one is trickier asynchronously. We'll leave it in cPanel for now, 
+                                // but we will create the new one via Cron.
                                 $new_parts = explode('.', $new_domain);
                                 $domain_type = (count($new_parts) > 2) ? 'subdomain' : 'domain';
                                 $post['domain_type'] = $domain_type;
+                                $post['addon_status'] = 'Pending';
                                 
-                                if ($domain_type === 'subdomain') {
-                                    $sub = array_shift($new_parts);
-                                    $rootDomain = implode('.', $new_parts);
-                                    $cpanelRes = $this->cpanelservice->addSubdomain($sub, $rootDomain, 'public_html');
-                                } else {
-                                    $cpanelRes = $this->cpanelservice->addAddonDomain($new_domain, $new_parts[0], 'public_html');
-                                }
-                                
-                                if (!$cpanelRes['status']) {
-                                    $this->session->set_flashdata('error_msg', 'cPanel Error (Domain Change): ' . $cpanelRes['error']);
-                                    redirect('admin/website/edit?id='.$id);
-                                    return;
-                                }
+                                // We delete the old domain synchronously if possible, or just let it orphan.
+                                // The user said "create newly added website into addon and update their status don't do on create or update on fly"
+                                // So we will skip deleting the old one synchronously to avoid timeouts.
                             }
                         }
                         

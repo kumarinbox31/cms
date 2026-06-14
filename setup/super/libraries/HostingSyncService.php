@@ -52,11 +52,34 @@ class HostingSyncService {
             if ($addonStatus === 'Missing' && $this->CI->cpanelservice->addonExists($domain)) {
                 $addonStatus = 'Added';
             }
+            
+            // Auto-provision if still missing
+            if ($addonStatus === 'Missing' || $website['addon_status'] === 'Pending') {
+                $parts = explode('.', $domain);
+                $sub = array_shift($parts);
+                $rootDomain = implode('.', $parts);
+                $res = $this->CI->cpanelservice->addSubdomain($sub, $rootDomain, 'public_html/');
+                if ($res['status']) {
+                    $addonStatus = 'Added';
+                } else {
+                    $lastError = 'Auto-Create Failed: ' . $res['error'];
+                }
+            }
         } else {
             // Assume if it's the main domain it doesn't need to be an addon,
             // but for simplicity, we check if it exists in addon list
             if ($this->CI->cpanelservice->addonExists($domain)) {
                 $addonStatus = 'Added';
+            }
+            
+            // Auto-provision if missing
+            if ($addonStatus === 'Missing' || $website['addon_status'] === 'Pending') {
+                $res = $this->CI->cpanelservice->addAddonDomain($domain, explode('.', $domain)[0], 'public_html/');
+                if ($res['status']) {
+                    $addonStatus = 'Added';
+                } else {
+                    $lastError = 'Auto-Create Failed: ' . $res['error'];
+                }
             }
         }
 
