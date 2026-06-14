@@ -78,6 +78,7 @@ $btn_icon = $enable == 'enable' ? 'on' : 'off';
                 <label>Social Links</label>
                 <select class="form-control" name="social_icon_style">
                     <option value="style1" <?= getVal('social_icon_style','style1') == 'style1' ? 'selected' : ''; ?>>Style 1</option>
+                    <option value="style2" <?= getVal('social_icon_style','style2') == 'style2' ? 'selected' : ''; ?>>Style 2</option>
                 </select>
             </div>
             <?php 

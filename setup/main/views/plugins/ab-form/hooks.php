@@ -35,9 +35,13 @@ add_shortcode('ab-form', function($atts, $content){
 	 ob_end_clean();
 	 return $html;
 });
-if(CLIENT_ID == 231){
+if(in_array(CLIENT_ID, [231,569,585])){
     add_action('ab_footer', 'ab_formio_scripts');
 }
+if (!has_action('ab_footer', 'ab_formio_scripts')) {
+        add_action('ab_footer', 'ab_formio_scripts');
+    }
+
 add_action('ab_footer', 'ab_form_scripts',10);
 add_action('ab_head', 'ab_form_styles',10);
     
@@ -125,37 +129,53 @@ function ab_formio_scripts(){
 
           // Handle form submission
           form.on("submit", (submission) => {
-                event.preventDefault(); // ❗ STOP default submit
-            console.log('--submitting--', submission);
-
-            fetch('/web/form_submit/' + form_id, {
+            // Use a relative path to avoid CORS/SSL issues with hardcoded protocols
+            // This works regardless of being on http:// or https://
+            var action_url = '/web/form_submit/' + form_id;
+            
+            fetch(action_url, {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(submission.data)
             })
             .then(response => {
-              if (!response.ok) throw new Error('Network response was not ok');
-              return response.json();
+                if (!response.ok) throw new Error('Server error: ' + response.status);
+                return response.text().then(text => {
+                    try { return JSON.parse(text); } catch (e) { return { status: true }; }
+                });
             })
             .then(data => {
-              console.log('--API Response--', data);
-form.submission = {};
-form.resetValue();
-form.refresh();
-form.setPristine(true);
+              if (data.status || data.success) {
+                  // 1. Signal completion to FormIO
+                  form.emit('submitDone', submission);
+                  
+                  // 2. Clear values without triggering validation redraws
+                  form.submission = {data: {}};
+                  
+                  // 3. Reset the "touched" state and clear all error alerts
+                  form.setPristine(true);
+                  if (typeof form.setAlert === 'function') form.setAlert(false);
 
-// remove any error UI manually
-document.querySelectorAll('.has-error, .is-invalid').forEach(el => {
-    el.classList.remove('has-error', 'is-invalid');
-});
+                  // 4. Manually scrub any leftover red UI markers from the DOM
+                  setTimeout(function() {
+                      el.querySelectorAll('.has-error, .is-invalid, .formio-error-wrapper').forEach(err => {
+                          err.classList.remove('has-error', 'is-invalid', 'formio-error-wrapper');
+                      });
+                      el.querySelectorAll('.formio-errors, .alert-danger, .help-block, .error').forEach(err => {
+                          err.style.display = 'none';
+                      });
+                  }, 50);
 
-              alert('Form submitted successfully!');
+                  alert('Form submitted successfully!');
+                  window.location.reload();
+              } else {
+                  form.emit('submitError', data.msg);
+                  alert(data.msg || 'Form validation failed.');
+              }
             })
             .catch(error => {
-              console.error('Error submitting form:', error);
-              alert('There was an error submitting the form.');
+              form.emit('submitError', error.message);
+              alert('Submission Error: ' + error.message);
             });
           });
         });
@@ -165,7 +185,6 @@ document.querySelectorAll('.has-error, .is-invalid').forEach(el => {
     });
   });
 </script>
-
 <?php
 }
 function ab_form_scripts(){
@@ -186,6 +205,13 @@ function ab_form_scripts(){
                 }
             }
                 $(".form_render").each(function(index, element){
+
+                    var formType = $(element).closest("form").data("desc");
+                
+                    // Skip FormIO forms
+                    if(formType == "formio"){
+                        return;
+                    }
                     var content = $(element).data("content");
                     convertStringToBoolean(content);
                     console.log(content);

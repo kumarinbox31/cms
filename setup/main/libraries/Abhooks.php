@@ -15,6 +15,26 @@ class Abhooks {
             'priority' => $priority,
         );
     }
+    
+    public function has_action($hook, $function = null) {
+
+        if (!isset($this->hooks[$hook])) {
+            return false;
+        }
+
+        // Check only hook existence
+        if ($function === null) {
+            return true;
+        }
+
+        foreach ($this->hooks[$hook] as $action) {
+            if ($action['function'] === $function) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public function do_action($hook) {
         $output = '';
