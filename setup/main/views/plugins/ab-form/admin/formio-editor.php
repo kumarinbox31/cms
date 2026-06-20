@@ -25,7 +25,11 @@
       $get = $ci->ServiceModel->getServiceById($formId)->row();
       $desc = @$get->desc;
       $content = @$get->content;
-        if($desc == 'formio' || $content == ''){
+      
+      $desc_data = json_decode($desc, true);
+      $form_type = (is_array($desc_data) && isset($desc_data['type'])) ? $desc_data['type'] : $desc;
+      
+      if($form_type == 'formio' || $content == ''){
     ?>
     
       <ul class="nav nav-tabs mt-3" id="formioTabs" role="tablist">
