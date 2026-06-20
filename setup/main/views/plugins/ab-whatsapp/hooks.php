@@ -282,23 +282,35 @@ function popupScript()
         </div>
         <script>
             function AbShowPopup(divId){
-                var divElement = document.getElementById(divId);
-                if (divElement) {
-                    divElement.style.visibility = "visible";
-                    divElement.style.opacity = "1";
+                var divElements = document.querySelectorAll("[id=\'" + divId + "\']");
+                if (divElements.length > 0) {
+                    divElements.forEach(function(divElement) {
+                        divElement.style.visibility = "visible";
+                        divElement.style.opacity = "1";
+                    });
                 } else {
                     console.error("POPUP DIV " + divId + " not found.");
                 }
             }
             function AbHidePopup(divId){
-                var divElement = document.getElementById(divId);
-                if (divElement) {
-                    divElement.style.visibility = "hidden";
-                    divElement.style.opacity = "0";
+                var divElements = document.querySelectorAll("[id=\'" + divId + "\']");
+                if (divElements.length > 0) {
+                    divElements.forEach(function(divElement) {
+                        divElement.style.visibility = "hidden";
+                        divElement.style.opacity = "0";
+                    });
                 } else {
                     console.error("POPUP DIV " + divId + " not found.");
                 }
             }
+            document.addEventListener("click", function(e) {
+                var closeBtn = e.target.closest(".ab-popup .close");
+                if (closeBtn) {
+                    e.preventDefault();
+                    // If it has no inline onclick or we want to be sure, hide it
+                    AbHidePopup("ab-popup1");
+                }
+            });
             AbShowPopup("ab-popup1");
         </script>';
 }
