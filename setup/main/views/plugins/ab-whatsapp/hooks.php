@@ -274,7 +274,7 @@ function popupScript()
 {
   echo '<div id="ab-popup1" class="ab-overlay">
         	<div class="ab-popup">
-        		<a class="close" href="#" onclick=\'AbHidePopup("ab-popup1")\'>&times;</a>
+        		<a class="close" href="javascript:void(0);" onclick=\'AbHidePopup("ab-popup1"); return false;\'>&times;</a>
         		<div class="content">
         			' . str_replace('table table-bordered table-striped datatable', '', do_shortcode(getVal('ab-popup-content'))) . '
         		</div>
