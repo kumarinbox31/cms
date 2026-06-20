@@ -1,10 +1,26 @@
 <?php
 class Web extends CI_Controller{
     
-    function __construct(){
+    public function __construct() {
         parent::__construct();
         $this->load->model(['mail','PageModel','WebsiteData','MenuModel','MenuItemModel','GalleryModel','FileServiceModel']);
+        $this->load->database();
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
+        header('Access-Control-Allow-Headers: Content-Type, Authorization');
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            exit(0);
+        }
     }
+
+    public function test_form_db($id) {
+        $this->load->model('ServiceModel');
+        $get = $this->ServiceModel->getServiceById($id)->row_array();
+        header('Content-Type: application/json');
+        echo json_encode($get);
+        exit;
+    }
+
     public function sitemap_xml() {
     $pages = $this->db->get_where('ab_pages', [
         'admin_id' => CLIENT_ID,

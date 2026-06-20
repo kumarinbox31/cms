@@ -144,9 +144,12 @@
         });
       });
     </script>
-    <?php } else{ 
-        echo '<div class="alert alert-danger">Something went wrong</div>';
-    
+    <?php } else { 
+        echo '<div class="alert alert-danger">Something went wrong. Debug Info:<br>';
+        echo 'Desc: ' . htmlspecialchars((string)$desc) . '<br>';
+        echo 'Form Type: ' . htmlspecialchars((string)$form_type) . '<br>';
+        echo 'Content Length: ' . strlen((string)$content) . '<br>';
+        echo '</div>';
     } ?>
     
     </div>
