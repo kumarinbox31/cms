@@ -272,15 +272,18 @@ function custom_css()
 }
 function popupScript()
 {
-  echo '<div id="ab-popup1" class="ab-overlay">
+  $popup_content = trim(getVal('ab-popup-content'));
+  if (!empty($popup_content)) {
+      echo '<div id="ab-popup1" class="ab-overlay">
         	<div class="ab-popup">
         		<a class="close" href="javascript:void(0);" onclick=\'AbHidePopup("ab-popup1"); return false;\'>&times;</a>
         		<div class="content">
-        			' . str_replace('table table-bordered table-striped datatable', '', do_shortcode(getVal('ab-popup-content'))) . '
+        			' . str_replace('table table-bordered table-striped datatable', '', do_shortcode($popup_content)) . '
         		</div>
         	</div>
-        </div>
-        <script>
+        </div>';
+  }
+  echo '<script>
             function AbShowPopup(divId){
                 var divElements = document.querySelectorAll("[id=\'" + divId + "\']");
                 if (divElements.length > 0) {
