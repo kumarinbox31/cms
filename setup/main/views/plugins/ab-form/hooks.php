@@ -6,7 +6,13 @@ add_shortcode('ab-form', function($atts, $content){
     $get = $ci->ServiceModel->getServiceById($formId)->row();;
     $content = @$get->content;
     $desc = @$get->desc;
-    if($desc == 'formio'){
+    $desc_data = json_decode($desc, true);
+    $form_type = (is_array($desc_data) && isset($desc_data['type'])) ? $desc_data['type'] : $desc;
+    
+    $enable_recaptcha = (is_array($desc_data) && !empty($desc_data['enable_recaptcha']) && !empty($desc_data['recaptcha_site_key'])) ? 1 : 0;
+    $recaptcha_site_key = $enable_recaptcha ? $desc_data['recaptcha_site_key'] : '';
+
+    if($form_type == 'formio'){
         add_action('ab_footer', 'ab_formio_scripts');
     }else{
         add_action('ab_footer', 'ab_form_scripts');
@@ -14,7 +20,10 @@ add_shortcode('ab-form', function($atts, $content){
     }
     
      ob_start();
-        echo '<form data-desc="'.$desc.'" method="POST" action="/web/ajax" class="ajax-form-submit" onsubmit="javascript:;" novalidate enctype="multipart/form-data">
+        if ($enable_recaptcha) {
+            echo '<script src="https://www.google.com/recaptcha/api.js?render='.$recaptcha_site_key.'"></script>';
+        }
+        echo '<form data-desc="'.$form_type.'" data-recaptcha="'.$enable_recaptcha.'" data-sitekey="'.$recaptcha_site_key.'" method="POST" action="/web/ajax" class="ajax-form-submit" onsubmit="javascript:;" novalidate enctype="multipart/form-data">
                 <input type="hidden" name="form_id" value="'.$formId.'">
                 <input type="hidden" name="action" value="form-submit">
                 <div class="msg"></div>   
@@ -132,18 +141,22 @@ function ab_formio_scripts(){
             // Use a relative path to avoid CORS/SSL issues with hardcoded protocols
             // This works regardless of being on http:// or https://
             var action_url = '/web/form_submit/' + form_id;
-            
-            fetch(action_url, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(submission.data)
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Server error: ' + response.status);
-                return response.text().then(text => {
-                    try { return JSON.parse(text); } catch (e) { return { status: true }; }
-                });
-            })
+            var formWrapper = el.closest('form');
+            var isRecaptchaEnabled = formWrapper ? formWrapper.getAttribute('data-recaptcha') === '1' : false;
+            var siteKey = formWrapper ? formWrapper.getAttribute('data-sitekey') : '';
+
+            function performSubmit(submitData) {
+                fetch(action_url, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(submitData)
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Server error: ' + response.status);
+                    return response.text().then(text => {
+                        try { return JSON.parse(text); } catch (e) { return { status: true }; }
+                    });
+                })
             .then(data => {
               if (data.status || data.success) {
                   // 1. Signal completion to FormIO
@@ -166,8 +179,11 @@ function ab_formio_scripts(){
                       });
                   }, 50);
 
-                  alert('Form submitted successfully!');
-                  window.location.reload();
+                  if (data.redirect_url) {
+                      window.location.href = data.redirect_url;
+                  } else {
+                      alert('Form submitted successfully!');
+                  }
               } else {
                   form.emit('submitError', data.msg);
                   alert(data.msg || 'Form validation failed.');
@@ -177,6 +193,18 @@ function ab_formio_scripts(){
               form.emit('submitError', error.message);
               alert('Submission Error: ' + error.message);
             });
+            } // End performSubmit function
+            
+            if (isRecaptchaEnabled && typeof grecaptcha !== 'undefined') {
+                grecaptcha.ready(function() {
+                    grecaptcha.execute(siteKey, {action: 'submit'}).then(function(token) {
+                        submission.data.g_recaptcha_response = token;
+                        performSubmit(submission.data);
+                    });
+                });
+            } else {
+                performSubmit(submission.data);
+            }
           });
         });
       } catch (error) {

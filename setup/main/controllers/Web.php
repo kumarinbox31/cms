@@ -100,6 +100,29 @@ public function sitemap_html() {
         }
     }
     // print_r($post);exit;
+    
+    // Fetch Form Settings to verify reCAPTCHA before saving
+    $this->load->model('ServiceModel');
+    $formService = $this->ServiceModel->getServiceById($form_id)->row();
+    $settings = $formService ? json_decode($formService->desc, true) : null;
+    
+    if (is_array($settings) && !empty($settings['enable_recaptcha']) && !empty($settings['recaptcha_secret_key'])) {
+        $recaptcha_response = isset($post['g_recaptcha_response']) ? $post['g_recaptcha_response'] : '';
+        if (empty($recaptcha_response)) {
+            http_response_code(400);
+            echo json_encode(['status' => false, 'msg' => 'reCAPTCHA verification failed. Token missing.']);
+            exit;
+        }
+        $verify_response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($settings['recaptcha_secret_key']) . '&response=' . urlencode($recaptcha_response));
+        $responseData = json_decode($verify_response);
+        if (!$responseData || !$responseData->success) {
+            http_response_code(400);
+            echo json_encode(['status' => false, 'msg' => 'Spam protection triggered. reCAPTCHA failed.']);
+            exit;
+        }
+        unset($post['g_recaptcha_response']);
+    }
+
     // Insert data into the database
     $ins = $this->db->insert('ab_form_data', [
         'form_id' => $form_id,
@@ -109,8 +132,34 @@ public function sitemap_html() {
 
     // Return appropriate response
     if ($ins) {
+        $response = ['status' => true, 'msg' => 'Form submitted successfully.', 'data' => $post];
+        
+        // Fetch Form Settings
+        $this->load->model('ServiceModel');
+        $formService = $this->ServiceModel->getServiceById($form_id)->row();
+        if ($formService) {
+            $settings = json_decode($formService->desc, true);
+            if (is_array($settings)) {
+                // Email Notification
+                if (!empty($settings['email_to'])) {
+                    $email_html = "<h2>New Form Submission</h2><br>";
+                    foreach ($post as $k => $v) {
+                        if (is_string($v)) {
+                            $email_html .= "<b>" . ucfirst(str_replace('_', ' ', $k)) . ":</b> " . htmlspecialchars($v) . "<br>";
+                        }
+                    }
+                    $this->mail->send($settings['email_to'], $email_html, "New Form Submission");
+                }
+                
+                // Redirection URL
+                if (!empty($settings['redirect_url'])) {
+                    $response['redirect_url'] = $settings['redirect_url'];
+                }
+            }
+        }
+
         http_response_code(200); // Success
-        echo json_encode(['status' => true, 'msg' => 'Form submitted successfully.','data'=>$post]);
+        echo json_encode($response);
     } else {
         http_response_code(500); // Internal Server Error
         echo json_encode(['status' => false, 'msg' => $this->db->error()['message']]);
@@ -192,8 +241,34 @@ function index($uri=''){
                 ]);
 
                 if ($ins) {
+                    $response = ['status' => true, 'msg' => 'Form submitted successfully.'];
+                    
+                    // Fetch Form Settings
+                    $this->load->model('ServiceModel');
+                    $formService = $this->ServiceModel->getServiceById($form_id)->row();
+                    if ($formService) {
+                        $settings = json_decode($formService->desc, true);
+                        if (is_array($settings)) {
+                            // Email Notification
+                            if (!empty($settings['email_to'])) {
+                                $email_html = "<h2>New Form Submission</h2><br>";
+                                foreach ($post as $k => $v) {
+                                    if (is_string($v)) {
+                                        $email_html .= "<b>" . ucfirst(str_replace('_', ' ', $k)) . ":</b> " . htmlspecialchars($v) . "<br>";
+                                    }
+                                }
+                                $this->mail->send($settings['email_to'], $email_html, "New Form Submission");
+                            }
+                            
+                            // Redirection URL
+                            if (!empty($settings['redirect_url'])) {
+                                $response['redirect_url'] = $settings['redirect_url'];
+                            }
+                        }
+                    }
+
                     http_response_code(200); // Success
-                    echo json_encode(['status' => true, 'msg' => 'Form submitted successfully.']);
+                    echo json_encode($response);
                 } else {
                     http_response_code(500); // Internal Server Error
                     echo json_encode(['status' => false, 'msg' => $this->db->error()['message']]);
