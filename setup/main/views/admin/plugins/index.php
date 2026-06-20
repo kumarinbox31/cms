@@ -12,7 +12,14 @@
                             <img src="<?=base_url('public/admin/Gear.gif');?>">
                         </div>
                         <div class="card-footer text-center">
-                            <a href="<?php echo base_url('admin/install-plugin/'.$row->id); ?>" class="btn btn-sm btn-primary">Install</a>
+                            <?php 
+                                $installed = $this->db->get_where('ab_plugin_installed', ['plugin_id' => $row->id, 'admin_id' => CLIENT_ID])->row();
+                                if ($installed && $installed->status == 1): 
+                            ?>
+                                <span class="badge badge-success p-2" style="font-size: 14px;">Active</span>
+                            <?php else: ?>
+                                <a href="<?php echo base_url('admin/install-plugin/'.$row->id); ?>" class="btn btn-sm btn-primary">Install</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
