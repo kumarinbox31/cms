@@ -126,6 +126,8 @@ function ab_formio_scripts(){
       }
 
       try {
+        // Force submit buttons to not be disabled on invalid so users can click them and see error messages
+        content = content.replace(/"disableOnInvalid":true/g, '"disableOnInvalid":false');
         var formContent = JSON.parse(content);
         Formio.createForm(el, formContent).then(function (form) {
           console.log('-- formio init--');
