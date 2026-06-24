@@ -46,6 +46,9 @@ add_action('ab_footer', 'ab_form_scripts',10);
 add_action('ab_head', 'ab_form_styles',10);
     
 function ab_formio_scripts(){
+    static $run = false;
+    if($run) return;
+    $run = true;
     /*
     ?>
     <script src="https://cdn.form.io/js/formio.embed.js"></script>
@@ -188,6 +191,9 @@ function ab_formio_scripts(){
 <?php
 }
 function ab_form_scripts(){
+    static $run = false;
+    if($run) return;
+    $run = true;
     echo '<script src="'.base_url('public/plugins/ab-form/script.js').'"></script>
     <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
           
