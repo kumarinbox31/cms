@@ -120,7 +120,7 @@ public function sitemap_html() {
     // Fetch Form Settings to verify reCAPTCHA before saving
     $this->load->model('ServiceModel');
     $formService = $this->ServiceModel->getServiceById($form_id)->row();
-    $settings = $formService ? json_decode($formService->desc, true) : null;
+    $settings = $formService ? json_decode($formService->settings, true) : null;
     
     if (is_array($settings) && !empty($settings['enable_recaptcha']) && !empty($settings['recaptcha_secret_key'])) {
         $recaptcha_response = isset($post['g_recaptcha_response']) ? $post['g_recaptcha_response'] : '';
@@ -154,7 +154,7 @@ public function sitemap_html() {
         $this->load->model('ServiceModel');
         $formService = $this->ServiceModel->getServiceById($form_id)->row();
         if ($formService) {
-            $settings = json_decode($formService->desc, true);
+            $settings = json_decode($formService->settings, true);
             if (is_array($settings)) {
                 // Email Notification
                 if (!empty($settings['email_to'])) {
@@ -263,7 +263,7 @@ function index($uri=''){
                     $this->load->model('ServiceModel');
                     $formService = $this->ServiceModel->getServiceById($form_id)->row();
                     if ($formService) {
-                        $settings = json_decode($formService->desc, true);
+                        $settings = json_decode($formService->settings, true);
                         if (is_array($settings)) {
                             // Email Notification
                             if (!empty($settings['email_to'])) {

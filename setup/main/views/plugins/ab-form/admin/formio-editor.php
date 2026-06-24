@@ -29,6 +29,11 @@
       $desc_data = json_decode($desc, true);
       $form_type = (is_array($desc_data) && isset($desc_data['type'])) ? $desc_data['type'] : $desc;
       
+      // Fallback if the database truncated the JSON string
+      if (strpos($desc, '{"type":"formio"') === 0) {
+          $form_type = 'formio';
+      }
+      
       if($form_type == 'formio' || $content == ''){
     ?>
     
