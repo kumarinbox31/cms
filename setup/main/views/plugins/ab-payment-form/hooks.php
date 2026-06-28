@@ -20,6 +20,23 @@ add_shortcode('ab-payment-form', function ($atts) {
             <input type="number" min="100" name="amount" class="form-control" placeholder="Enter amount" value="" required>
         </div>
         <div class="msg"></div>
+        <div class="form-group gateway-selector" style="margin-top: 15px;">
+            <label class="required">Select Payment Method</label>
+            <div>
+                <?php if(!empty(getVal('pg-razorpay-val1'))): ?>
+                <label style="margin-right:15px;"><input type="radio" name="gateway" value="razorpay" checked> Razorpay</label>
+                <?php endif; ?>
+                <?php if(!empty(getVal('pg-stripe-val1'))): ?>
+                <label style="margin-right:15px;"><input type="radio" name="gateway" value="stripe"> Stripe</label>
+                <?php endif; ?>
+                <?php if(!empty(getVal('pg-swipe-val1'))): ?>
+                <label style="margin-right:15px;"><input type="radio" name="gateway" value="swipe"> Swipe</label>
+                <?php endif; ?>
+                <?php if(!empty(getVal('pg-payumoney-val1'))): ?>
+                <label style="margin-right:15px;"><input type="radio" name="gateway" value="payu"> PayU</label>
+                <?php endif; ?>
+            </div>
+        </div>
         <div style="display:flex;flex-wrap:wrap" class="row">
             <div class="payment_form_render" data-form-id="<?php echo htmlspecialchars($pgformId); ?>"></div>
         </div>
@@ -46,6 +63,20 @@ $payuSalt = getVal('pg-payumoney-val2');      // PayU Salt (keep server-side onl
 
     <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>var payment_base_url = "<?php echo base_url(); ?>";</script>
+    <?php if(!empty(getVal('pg-stripe-val1')) || !empty(getVal('pg-swipe-val1')) || !empty(getVal('pg-payumoney-val1'))): ?>
+    <script src="<?php echo base_url(); ?>setup/main/views/plugins/ab-payment-form/assets/js/payment-modern.js"></script>
+    <?php endif; ?>
+    <?php if(!empty(getVal('pg-stripe-val1'))): ?>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="<?php echo base_url(); ?>setup/main/views/plugins/ab-payment-form/assets/js/stripe.js"></script>
+    <?php endif; ?>
+    <?php if(!empty(getVal('pg-swipe-val1'))): ?>
+    <script src="<?php echo base_url(); ?>setup/main/views/plugins/ab-payment-form/assets/js/swipe.js"></script>
+    <?php endif; ?>
+    <?php if(!empty(getVal('pg-payumoney-val1'))): ?>
+    <script src="<?php echo base_url(); ?>setup/main/views/plugins/ab-payment-form/assets/js/payu.js"></script>
+    <?php endif; ?>
 
     <script>
         $(document).ready(function () {
