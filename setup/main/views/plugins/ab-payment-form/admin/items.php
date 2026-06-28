@@ -20,11 +20,19 @@
                     <input type="text" name="title" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label>Payment Gateway</label>
-                    <select class="form-control" name="desc[pg]" required>
-                        <option value="">Select Payment Gateway</option>
-                        <option value="pg-razorpay">Razorpay</option>
-                        <option value="pg-payumoney">PayUMoney</option>
+                    <label>Allowed Gateways</label><br>
+                    <label style="margin-right:10px"><input type="checkbox" name="desc[allowed_gateways][]" value="razorpay" checked> Razorpay</label>
+                    <label style="margin-right:10px"><input type="checkbox" name="desc[allowed_gateways][]" value="stripe"> Stripe</label>
+                    <label style="margin-right:10px"><input type="checkbox" name="desc[allowed_gateways][]" value="swipe"> Swipe</label>
+                    <label style="margin-right:10px"><input type="checkbox" name="desc[allowed_gateways][]" value="payu"> PayU</label>
+                </div>
+                <div class="form-group">
+                    <label>Default Gateway (Fallback)</label>
+                    <select class="form-control" name="desc[default_gateway]">
+                        <option value="razorpay">Razorpay</option>
+                        <option value="stripe">Stripe</option>
+                        <option value="swipe">Swipe</option>
+                        <option value="payu">PayU (Modern)</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -60,6 +68,7 @@
                     <tr>
                         <th>#</th>
                         <th>Name</th>
+                        <th>Gateways</th>
                         <th>Short-Code</th>
                         <th>Data</th>
                         <th>Statics</th>
@@ -95,9 +104,22 @@
                             $f_ttl = $f->ttl ?? 0;
                             $f_cnt = $f->cn ?? 0;
 
+                             $descData = json_decode($row->desc ?? '{}', true);
+                             $badges = '';
+                             if (!empty($descData['allowed_gateways']) && is_array($descData['allowed_gateways'])) {
+                                 foreach($descData['allowed_gateways'] as $gw) {
+                                     $badges .= '<span class="badge badge-info" style="margin-right:4px;">'.ucfirst($gw).'</span>';
+                                 }
+                             } else {
+                                 $legacyGw = str_replace('pg-', '', $descData['pg'] ?? 'razorpay');
+                                 if ($legacyGw === 'payumoney') $legacyGw = 'PayU (Legacy)';
+                                 $badges .= '<span class="badge badge-secondary">'.ucfirst($legacyGw).'</span>';
+                             }
+
                              echo '<tr>
                                         <td>'.$i++.'</td>
                                         <td>'.$row->title.'</td>
+                                        <td>'.$badges.'</td>
                                         <td>[ab-payment-form id='.$row->id.']</td>
                                         <td>
                                             <a href="'.base_url('admin/plugin/ab-payment-form?page=show-data&id=').$row->id.'" class="btn btn-sm btn-primary"><i class="fa fa-list"></i></a>

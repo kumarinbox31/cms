@@ -23,12 +23,16 @@ class PaymentManager {
         $this->logger->logRequest($gatewayName, $requestId, ['action' => 'createOrder', 'request' => $request]);
 
         try {
-            $gateway = $this->gatewayFactory->create($gatewayName);
-            
-            // Validate config
-            if (!$gateway->validateConfiguration()) {
-                throw new \Exception("Gateway configuration is invalid.");
+            // Server-side strict configuration validation
+            $configService = new ConfigService();
+            $validation = $configService->validateGatewayConfiguration($gatewayName);
+            if (!$validation['valid']) {
+                $errorMsg = "Configuration Incomplete: " . implode(" ", $validation['errors']) . " Please contact administrator.";
+                $this->logger->logException($gatewayName, 'createOrder', new \Exception($errorMsg));
+                return new PaymentResponse(false, null, [], $errorMsg);
             }
+
+            $gateway = $this->gatewayFactory->create($gatewayName);
 
             // Create Pending Transaction in DB
             $txnId = uniqid('TXN_');

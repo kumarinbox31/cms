@@ -20,20 +20,52 @@ add_shortcode('ab-payment-form', function ($atts) {
             <input type="number" min="100" name="amount" class="form-control" placeholder="Enter amount" value="" required>
         </div>
         <div class="msg"></div>
-        <div class="form-group gateway-selector" style="margin-top: 15px;">
+        <?php
+        $ci = &get_instance();
+        // Fetch specific form configuration
+        $formRow = $ci->db->where('id', $pgformId)->get('ab_others')->row();
+        $allowed = [];
+        $default_gw = getVal('payment_default_gateway') ?: 'razorpay';
+
+        if ($formRow) {
+            $descData = json_decode($formRow->desc ?? '{}', true);
+            if (!empty($descData['allowed_gateways']) && is_array($descData['allowed_gateways'])) {
+                $allowed = $descData['allowed_gateways'];
+            } else {
+                $legacyGw = str_replace('pg-', '', $descData['pg'] ?? 'razorpay');
+                if ($legacyGw === 'payumoney') $legacyGw = 'payu';
+                $allowed = [$legacyGw];
+            }
+            if (!empty($descData['default_gateway'])) {
+                $default_gw = $descData['default_gateway'];
+            }
+        }
+        if (empty($allowed)) $allowed = ['razorpay'];
+        
+        $hideSelector = (count($allowed) <= 1 || getVal('payment_allow_gateway_selection') === 'No');
+        
+        $check = function($gw) use ($allowed, $default_gw) {
+            if (count($allowed) === 1 && $allowed[0] === $gw) return 'checked';
+            return $default_gw === $gw ? 'checked' : '';
+        };
+        ?>
+        <div class="form-group gateway-selector" style="margin-top: 15px; <?php echo $hideSelector ? 'display:none;' : ''; ?>">
             <label class="required">Select Payment Method</label>
             <div>
-                <?php if(!empty(getVal('pg-razorpay-val1'))): ?>
-                <label style="margin-right:15px;"><input type="radio" name="gateway" value="razorpay" checked> Razorpay</label>
+                <?php if(in_array('razorpay', $allowed) && !empty(getVal('pg-razorpay-val1'))): ?>
+                <label style="margin-right:15px;"><input type="radio" name="gateway" value="razorpay" <?php echo $check('razorpay'); ?>> Razorpay</label>
                 <?php endif; ?>
-                <?php if(!empty(getVal('pg-stripe-val1'))): ?>
-                <label style="margin-right:15px;"><input type="radio" name="gateway" value="stripe"> Stripe</label>
+                
+                <?php if(in_array('stripe', $allowed) && getVal('pg-stripe-enabled') == '1'): ?>
+                <label style="margin-right:15px;"><input type="radio" name="gateway" value="stripe" <?php echo $check('stripe'); ?>> Stripe</label>
                 <?php endif; ?>
-                <?php if(!empty(getVal('pg-swipe-val1'))): ?>
-                <label style="margin-right:15px;"><input type="radio" name="gateway" value="swipe"> Swipe</label>
+                
+                <?php if(in_array('swipe', $allowed) && getVal('pg-swipe-enabled') == '1'): ?>
+                <label style="margin-right:15px;"><input type="radio" name="gateway" value="swipe" <?php echo $check('swipe'); ?>> Swipe</label>
                 <?php endif; ?>
-                <?php if(!empty(getVal('pg-payumoney-val1'))): ?>
-                <label style="margin-right:15px;"><input type="radio" name="gateway" value="payu"> PayU</label>
+                
+                <?php if(in_array('payu', $allowed) && (getVal('pg-payu-enabled') == '1' || !empty(getVal('pg-payumoney-val1')))): ?>
+                <label style="margin-right:15px;"><input type="radio" name="gateway" value="payu" <?php echo $check('payu'); ?>> PayU</label>
                 <?php endif; ?>
             </div>
         </div>
