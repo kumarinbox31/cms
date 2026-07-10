@@ -125,6 +125,65 @@ $payuSalt = getVal('pg-payumoney-val2');      // PayU Salt (keep server-side onl
                 }
             }
 
+            function convertFormioToFormBuilder(components) {
+                var fbFields = [];
+                components.forEach(function(comp) {
+                    if (!comp || !comp.type) return;
+                    var field = {
+                        label: comp.label || comp.key || "",
+                        name: comp.key || comp.label || "",
+                        required: comp.validate && comp.validate.required ? true : false,
+                        className: "form-control"
+                    };
+                    switch (comp.type) {
+                        case "textfield":
+                            field.type = "text";
+                            break;
+                        case "number":
+                            field.type = "number";
+                            break;
+                        case "email":
+                            field.type = "text";
+                            field.subtype = "email";
+                            break;
+                        case "phoneNumber":
+                            field.type = "text";
+                            field.subtype = "tel";
+                            break;
+                        case "textarea":
+                            field.type = "textarea";
+                            break;
+                        case "select":
+                            field.type = "select";
+                            if (comp.data && comp.data.values) {
+                                field.values = comp.data.values.map(function(v) {
+                                    return { label: v.label, value: v.value };
+                                });
+                            }
+                            break;
+                        case "checkbox":
+                            field.type = "checkbox-group";
+                            field.values = [{ label: comp.label, value: 1 }];
+                            break;
+                        case "radio":
+                            field.type = "radio-group";
+                            field.values = comp.values || [];
+                            break;
+                        case "button":
+                            field.type = "button";
+                            field.subtype = "submit";
+                            field.label = comp.label || "Submit";
+                            field.className = "btn btn-primary";
+                            break;
+                        default:
+                            field.type = "text";
+                            break;
+                    }
+                    fbFields.push(field);
+                });
+                return fbFields;
+            }
+
             // Fetch the form content via AJAX
             $(".payment_form_render").each(function () {
                 var formId = $(this).data("form-id");
@@ -139,8 +198,20 @@ $payuSalt = getVal('pg-payumoney-val2');      // PayU Salt (keep server-side onl
                             // Process the fetched content
                             var formContent = data.data.form_content;
 
+                            if (typeof formContent === "string") {
+                                try {
+                                    formContent = JSON.parse(formContent);
+                                } catch(e) {}
+                            }
+
+                            if (formContent && Array.isArray(formContent.components)) {
+                                formContent = convertFormioToFormBuilder(formContent.components);
+                            }
+
                             // Convert and store the content
-                            convertStringToBoolean(formContent);
+                            if (typeof formContent === "object" && formContent !== null) {
+                                convertStringToBoolean(formContent);
+                            }
                             $(this).data("content", formContent); // Store content for future use
 
                             var formRenderOpts = {
