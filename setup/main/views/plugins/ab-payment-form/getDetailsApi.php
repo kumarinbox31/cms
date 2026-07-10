@@ -24,13 +24,23 @@ if (empty($data)) {
 // Decode the JSON object from the retrieved data
 $obj = json_decode($data);
 
-// Check if the 'pg' and 'form' properties exist in the decoded object
-$pg = isset($obj->pg) ? $obj->pg : null;
+// Extract form ID and gateway info (supports both legacy 'pg' and modern format)
 $formId = isset($obj->form) ? $obj->form : null;
 
-if (!$pg || !$formId) {
+if (!$formId) {
     echo json_encode(['status' => false, 'msg' => 'Payment: Invalid form data.']);
     return;
+}
+
+$pg = null;
+if (isset($obj->pg) && !empty($obj->pg)) {
+    $pg = $obj->pg;
+} elseif (isset($obj->default_gateway) && !empty($obj->default_gateway)) {
+    $pg = $obj->default_gateway;
+} elseif (isset($obj->allowed_gateways) && is_array($obj->allowed_gateways) && !empty($obj->allowed_gateways)) {
+    $pg = $obj->allowed_gateways[0];
+} else {
+    $pg = 'razorpay';
 }
 
 // Payment Gateway processing logic (Example: Razorpay)

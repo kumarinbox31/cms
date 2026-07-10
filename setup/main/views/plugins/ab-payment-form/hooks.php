@@ -56,11 +56,11 @@ add_shortcode('ab-payment-form', function ($atts) {
                 <label style="margin-right:15px;"><input type="radio" name="gateway" value="razorpay" <?php echo $check('razorpay'); ?>> Razorpay</label>
                 <?php endif; ?>
                 
-                <?php if(in_array('stripe', $allowed) && getVal('pg-stripe-enabled') == '1'): ?>
+                <?php if(in_array('stripe', $allowed) && (getVal('pg-stripe-enabled') == '1' || !empty(getVal('pg-stripe-public-key')))): ?>
                 <label style="margin-right:15px;"><input type="radio" name="gateway" value="stripe" <?php echo $check('stripe'); ?>> Stripe</label>
                 <?php endif; ?>
                 
-                <?php if(in_array('swipe', $allowed) && getVal('pg-swipe-enabled') == '1'): ?>
+                <?php if(in_array('swipe', $allowed) && (getVal('pg-swipe-enabled') == '1' || !empty(getVal('pg-swipe-val1')))): ?>
                 <label style="margin-right:15px;"><input type="radio" name="gateway" value="swipe" <?php echo $check('swipe'); ?>> Swipe</label>
                 <?php endif; ?>
                 
@@ -96,17 +96,17 @@ $payuSalt = getVal('pg-payumoney-val2');      // PayU Salt (keep server-side onl
     <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>var payment_base_url = "<?php echo base_url(); ?>";</script>
-    <?php if(!empty(getVal('pg-stripe-val1')) || !empty(getVal('pg-swipe-val1')) || !empty(getVal('pg-payumoney-val1'))): ?>
+    <?php if(getVal('pg-stripe-enabled') == '1' || !empty(getVal('pg-stripe-public-key')) || !empty(getVal('pg-stripe-val1')) || getVal('pg-swipe-enabled') == '1' || !empty(getVal('pg-swipe-val1')) || getVal('pg-payu-enabled') == '1' || !empty(getVal('pg-payumoney-val1'))): ?>
     <script src="<?php echo base_url(); ?>setup/main/views/plugins/ab-payment-form/assets/js/payment-modern.js"></script>
     <?php endif; ?>
-    <?php if(!empty(getVal('pg-stripe-val1'))): ?>
+    <?php if(getVal('pg-stripe-enabled') == '1' || !empty(getVal('pg-stripe-public-key')) || !empty(getVal('pg-stripe-val1'))): ?>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="<?php echo base_url(); ?>setup/main/views/plugins/ab-payment-form/assets/js/stripe.js"></script>
     <?php endif; ?>
-    <?php if(!empty(getVal('pg-swipe-val1'))): ?>
+    <?php if(getVal('pg-swipe-enabled') == '1' || !empty(getVal('pg-swipe-val1'))): ?>
     <script src="<?php echo base_url(); ?>setup/main/views/plugins/ab-payment-form/assets/js/swipe.js"></script>
     <?php endif; ?>
-    <?php if(!empty(getVal('pg-payumoney-val1'))): ?>
+    <?php if(getVal('pg-payu-enabled') == '1' || !empty(getVal('pg-payumoney-val1'))): ?>
     <script src="<?php echo base_url(); ?>setup/main/views/plugins/ab-payment-form/assets/js/payu.js"></script>
     <?php endif; ?>
 
